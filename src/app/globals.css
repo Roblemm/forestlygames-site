@@ -1,0 +1,86 @@
+@import "tailwindcss";
+
+:root {
+  --bg-950: #050b08;
+  --bg-900: #09120e;
+  --bg-850: #0e1713;
+  --mist-50: #f4f8f6;
+  --mist-100: #dde8e2;
+  --mist-200: #b6c8be;
+  --mist-300: #91a79b;
+  --emerald-100: #ccf1de;
+  --emerald-200: #9cdab8;
+  --emerald-300: #55be88;
+  --emerald-400: #2f9465;
+  --gold-100: #f9e6c6;
+  --gold-300: #deba78;
+  --gold-400: #c99545;
+}
+
+@theme inline {
+  --font-sans: var(--font-body);
+  --font-display: var(--font-heading);
+  --color-bg-950: var(--bg-950);
+  --color-bg-900: var(--bg-900);
+  --color-bg-850: var(--bg-850);
+  --color-mist-50: var(--mist-50);
+  --color-mist-100: var(--mist-100);
+  --color-mist-200: var(--mist-200);
+  --color-mist-300: var(--mist-300);
+  --color-emerald-100: var(--emerald-100);
+  --color-emerald-200: var(--emerald-200);
+  --color-emerald-300: var(--emerald-300);
+  --color-emerald-400: var(--emerald-400);
+  --color-gold-100: var(--gold-100);
+  --color-gold-300: var(--gold-300);
+  --color-gold-400: var(--gold-400);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+  overflow-x: clip;
+}
+
+body {
+  background: var(--bg-950);
+  color: var(--mist-100);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+::selection {
+  background: rgba(86, 199, 143, 0.38);
+  color: #041109;
+}
+
+@keyframes sceneDrift {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(14px, -12px, 0);
+  }
+}
+
+@keyframes sceneFloat {
+  0%,
+  100% {
+    transform: translate3d(0, 0, 0);
+  }
+  50% {
+    transform: translate3d(-16px, 10px, 0);
+  }
+}
+
+.text-balance {
+  text-wrap: balance;
+}
