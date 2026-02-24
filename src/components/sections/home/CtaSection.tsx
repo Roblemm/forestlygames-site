@@ -14,11 +14,10 @@ export function CtaSection() {
             data-cta-title
             className="mx-auto mt-4 max-w-[16ch] font-display text-[clamp(2rem,6vw,4.8rem)] leading-[0.94] tracking-[-0.01em] text-mist-50"
           >
-            Ready to build with a quality-focused game studio?
+            Want to build or back the next ForestlyGames release?
           </h2>
           <p data-cta-copy className="mx-auto mt-6 max-w-3xl text-base leading-7 text-mist-100/84 sm:text-lg">
-            Reach out for collaboration, hiring conversations, or partner opportunities. Communication stays direct,
-            scoped, and execution-focused.
+            We are looking for developers, collaborators, and investors who want to help us ship more Roblox games.
           </p>
           <div data-cta-actions className="mt-10 flex flex-wrap items-center justify-center gap-3">
             <LinkButton href={siteConfig.ctaHref}>{siteConfig.ctaLabel}</LinkButton>

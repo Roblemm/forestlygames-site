@@ -9,10 +9,10 @@ export function ProofStripSection() {
           <div data-proof-heading className="max-w-4xl">
             <p className="font-semibold uppercase tracking-[0.22em] text-[#3a5a45]/80">Studio Proof</p>
             <h2 className="mt-3 font-display text-[clamp(1.8rem,5.2vw,3.6rem)] leading-[0.95] tracking-[-0.01em] text-[#0f120c]">
-              Credibility without noise.
+              ForestlyGames by the numbers.
             </h2>
             <p className="mt-4 text-base leading-7 text-[#243026]/80 sm:text-lg">
-              A cooldown scene with high contrast readability before the next motion-heavy sequence.
+              Core performance metrics from the live portfolio and audience footprint.
             </p>
           </div>
 

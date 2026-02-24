@@ -20,3 +20,8 @@ export interface StudioPillar {
   title: string;
   description: string;
 }
+
+export interface Testimonial {
+  quote: string;
+  attribution: string;
+}

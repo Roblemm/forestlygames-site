@@ -1,6 +1,6 @@
-export type GameAccent = "moss" | "emerald" | "gold";
+export type GameAccent = "moss" | "emerald" | "gold" | "azure";
 
-export type GameStage = "Prototype" | "In Development" | "Vertical Slice";
+export type GameStage = "Released" | "Live" | "In Development" | "Alpha";
 
 export interface Game {
   slug: string;
@@ -12,4 +12,13 @@ export interface Game {
   platformFocus: string;
   accent: GameAccent;
   featured: boolean;
+  media: {
+    src: string;
+    alt: string;
+    objectPosition?: string;
+  };
+  mark?: {
+    src: string;
+    alt: string;
+  };
 }

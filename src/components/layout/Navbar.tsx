@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 import { LinkButton } from "@/components/ui/LinkButton";
 import { Container } from "@/components/ui/Container";
@@ -11,8 +12,8 @@ export function Navbar() {
   return (
     <header className="sticky top-0 z-50 border-b border-emerald-300/10 bg-bg-950/80 backdrop-blur-xl">
       <Container className="flex h-16 items-center justify-between gap-6">
-        <Link href="/" className="font-display text-xl tracking-wide text-mist-50">
-          {siteConfig.name}
+        <Link href="/" aria-label={siteConfig.name} className="inline-flex items-center">
+          <Image src="/brand/fg-logo.png" alt="ForestlyGames logo" width={220} height={220} className="h-9 w-auto" priority />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">
@@ -25,7 +26,7 @@ export function Navbar() {
               {item.label}
             </Link>
           ))}
-          <LinkButton href="/contact" variant="secondary">
+          <LinkButton href="/contact" variant="secondary" className="border-azure-300/30 hover:border-azure-300/55">
             Let&apos;s Talk
           </LinkButton>
         </nav>

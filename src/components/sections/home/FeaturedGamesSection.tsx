@@ -1,19 +1,271 @@
 import { GamesShowcaseScene } from "@/components/motion/scenes/GamesShowcaseScene";
 import { featuredGames } from "@/data/games";
+import { cn } from "@/lib/utils/cn";
+import Image from "next/image";
+
+const gamesBackdropAssets = [
+  {
+    id: "encaved-hub",
+    src: "/games/encaved/mining-station-1.png",
+    className:
+      "-left-24 top-12 h-48 w-[20rem] -rotate-[8deg] opacity-0 sm:-left-16 sm:top-14 sm:h-52 sm:w-[24rem] lg:-left-24 lg:h-64 lg:w-[30rem]",
+    objectPosition: "center center",
+    depth: 4,
+  },
+  {
+    id: "encaved-entrance",
+    src: "/games/encaved/cave-entrance-3.png",
+    className:
+      "left-[36%] top-[8%] hidden h-36 w-[13rem] -rotate-[4deg] opacity-0 sm:block md:h-44 md:w-[16rem] lg:h-52 lg:w-[19rem]",
+    objectPosition: "center center",
+    depth: 3,
+  },
+  {
+    id: "encaved-cave",
+    src: "/games/encaved/cave-interior.png",
+    className:
+      "left-[14%] top-[44%] hidden h-44 w-[20rem] rotate-[5deg] opacity-0 md:block lg:top-[46%] lg:h-52 lg:w-[24rem]",
+    objectPosition: "center center",
+    depth: 3,
+  },
+  {
+    id: "encaved-wide",
+    src: "/games/encaved/cave-wide.png",
+    className:
+      "right-[6%] top-[-16%] hidden h-44 w-[22rem] -rotate-[7deg] opacity-0 md:block lg:h-56 lg:w-[28rem]",
+    objectPosition: "center center",
+    depth: 4,
+  },
+  {
+    id: "encaved-logo-mark",
+    src: "/games/encaved/logo.png",
+    className:
+      "left-[3%] top-[30%] hidden h-20 w-20 rotate-[10deg] opacity-0 lg:block lg:h-24 lg:w-24",
+    objectPosition: "center center",
+    depth: 1,
+  },
+  {
+    id: "encaved-house",
+    src: "/games/encaved/mining-station-house-2.png",
+    className:
+      "right-[38%] top-[62%] hidden h-32 w-[16rem] rotate-[6deg] opacity-0 md:block lg:h-40 lg:w-[20rem]",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "encaved-track",
+    src: "/games/encaved/minecart-straight.png",
+    className:
+      "left-[8%] top-[84%] hidden h-36 w-[15rem] -rotate-[11deg] opacity-0 md:block lg:h-44 lg:w-[19rem]",
+    objectPosition: "center center",
+    depth: 3,
+  },
+  {
+    id: "boss-battles-main",
+    src: "/games/boss-battles/thumbnail.png",
+    className:
+      "right-[-10rem] top-[-2rem] hidden h-56 w-[24rem] rotate-[7deg] opacity-0 sm:block lg:right-[-8rem] lg:h-72 lg:w-[32rem]",
+    objectPosition: "center 44%",
+    depth: 4,
+  },
+  {
+    id: "boss-battles-mirabel",
+    src: "/games/boss-battles/mirabel.png",
+    className:
+      "right-[28%] top-[-2rem] hidden h-24 w-24 rotate-[9deg] opacity-0 sm:block sm:h-28 sm:w-28 lg:right-[24%] lg:h-32 lg:w-32",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "boss-battles-side",
+    src: "/games/boss-battles/noob-throw.png",
+    className:
+      "right-[8%] top-[48%] hidden h-36 w-36 -rotate-[9deg] opacity-0 md:block lg:top-[52%] lg:h-44 lg:w-44",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "boss-battles-portal",
+    src: "/games/boss-battles/dungeon-portal-screenshot.png",
+    className:
+      "left-[58%] top-[58%] hidden h-36 w-[13rem] rotate-[12deg] opacity-0 md:block lg:h-44 lg:w-[16rem]",
+    objectPosition: "center center",
+    depth: 3,
+  },
+  {
+    id: "boss-battles-thumb-2",
+    src: "/games/boss-battles/thumbnail-2.png",
+    className:
+      "left-[74%] top-[34%] hidden h-24 w-[10rem] -rotate-[6deg] opacity-0 lg:block lg:h-28 lg:w-[12rem]",
+    objectPosition: "center center",
+    depth: 1,
+  },
+  {
+    id: "roempires-76-top",
+    src: "/games/roempires/screenshot-76.png",
+    className:
+      "right-[2%] top-[90%] hidden h-40 w-[17rem] rotate-[8deg] opacity-0 md:block lg:h-52 lg:w-[22rem]",
+    objectPosition: "center center",
+    depth: 3,
+  },
+  {
+    id: "encaved-route-mid",
+    src: "/games/encaved/cave-entrance-3.png",
+    className:
+      "left-[68%] top-[94%] hidden h-32 w-[15rem] -rotate-[10deg] opacity-0 lg:block lg:h-40 lg:w-[19rem]",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "roempires-character",
+    src: "/games/roempires/screenshot-79.png",
+    className:
+      "-right-16 bottom-[-5.5rem] h-48 w-[15rem] -rotate-[12deg] opacity-0 sm:-right-12 sm:h-56 sm:w-[18rem] lg:-right-10 lg:h-64 lg:w-[20rem]",
+    objectPosition: "center center",
+    depth: 3,
+  },
+  {
+    id: "roempires-secondary",
+    src: "/games/roempires/screenshot-90.png",
+    className:
+      "left-[26%] bottom-[-8rem] hidden h-56 w-[18rem] rotate-[8deg] opacity-0 sm:block lg:left-[30%] lg:h-72 lg:w-[23rem]",
+    objectPosition: "center center",
+    depth: 4,
+  },
+  {
+    id: "roempires-mark",
+    src: "/games/roempires/king.png",
+    className:
+      "-left-9 bottom-[4%] h-28 w-28 rotate-[11deg] opacity-0 sm:-left-6 sm:h-36 sm:w-36 lg:bottom-[8%] lg:h-44 lg:w-44",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "roempires-crop",
+    src: "/games/roempires/screenshot-79.png",
+    className:
+      "right-[32%] bottom-[8%] hidden h-28 w-[9rem] -rotate-[7deg] opacity-0 md:block lg:h-36 lg:w-[12rem]",
+    objectPosition: "center center",
+    depth: 1,
+  },
+  {
+    id: "roempires-thumb-lower",
+    src: "/games/roempires/thumbnail.png",
+    className:
+      "left-[8%] top-[112%] hidden h-52 w-[22rem] -rotate-[9deg] opacity-0 md:block lg:h-64 lg:w-[30rem]",
+    objectPosition: "center center",
+    depth: 4,
+  },
+  {
+    id: "roempires-banner-lower",
+    src: "/games/roempires/banner-1.png",
+    className:
+      "right-[42%] top-[118%] hidden h-28 w-[15rem] rotate-[8deg] opacity-0 lg:block lg:h-36 lg:w-[18rem]",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "encaved-lower-cave",
+    src: "/games/encaved/cave-wide.png",
+    className:
+      "left-[54%] top-[126%] hidden h-44 w-[20rem] -rotate-[8deg] opacity-0 md:block lg:h-52 lg:w-[24rem]",
+    objectPosition: "center center",
+    depth: 3,
+  },
+  {
+    id: "boss-lower-main",
+    src: "/games/boss-battles/thumbnail.png",
+    className:
+      "right-[8%] top-[130%] hidden h-48 w-[22rem] rotate-[11deg] opacity-0 md:block lg:h-56 lg:w-[28rem]",
+    objectPosition: "center 44%",
+    depth: 3,
+  },
+  {
+    id: "boss-missions-lower",
+    src: "/games/boss-battles/missions-screenshot.png",
+    className:
+      "left-[2%] top-[132%] hidden h-40 w-[18rem] rotate-[7deg] opacity-0 md:block lg:h-52 lg:w-[24rem]",
+    objectPosition: "center center",
+    depth: 3,
+  },
+  {
+    id: "roempires-77-lower",
+    src: "/games/roempires/screenshot-77.png",
+    className:
+      "left-[42%] top-[146%] hidden h-32 w-[15rem] rotate-[9deg] opacity-0 lg:block lg:h-40 lg:w-[19rem]",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "boss-dungeon-lower",
+    src: "/games/boss-battles/dungeon-portal-screenshot.png",
+    className:
+      "right-[24%] top-[146%] hidden h-36 w-[18rem] -rotate-[12deg] opacity-0 md:block lg:h-44 lg:w-[22rem]",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "roempires-90-lower",
+    src: "/games/roempires/screenshot-90.png",
+    className:
+      "right-[-4%] top-[162%] hidden h-48 w-[20rem] -rotate-[9deg] opacity-0 lg:block lg:h-56 lg:w-[25rem]",
+    objectPosition: "center center",
+    depth: 4,
+  },
+  {
+    id: "encaved-cart-lower",
+    src: "/games/encaved/minecart-straight.png",
+    className:
+      "left-[22%] top-[166%] hidden h-32 w-[14rem] -rotate-[8deg] opacity-0 md:block lg:h-40 lg:w-[17rem]",
+    objectPosition: "center center",
+    depth: 2,
+  },
+  {
+    id: "boss-thumb-lower-2",
+    src: "/games/boss-battles/thumbnail-2.png",
+    className:
+      "left-[72%] top-[164%] hidden h-24 w-[11rem] rotate-[10deg] opacity-0 lg:block lg:h-32 lg:w-[14rem]",
+    objectPosition: "center center",
+    depth: 1,
+  },
+];
 
 export function FeaturedGamesSection() {
   return (
-    <section id="featured-games" className="relative bg-bg-900">
+    <section id="featured-games" className="relative overflow-hidden bg-bg-900">
       <GamesShowcaseScene>
-        <div className="mx-auto max-w-[90rem] px-5 pb-16 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
+        <div aria-hidden data-games-float-field className="pointer-events-none absolute inset-x-0 -top-[44%] h-[188%]">
+          {gamesBackdropAssets.map((asset) => (
+            <div
+              key={asset.id}
+              data-games-float
+              data-games-float-depth={asset.depth}
+              className={cn("absolute overflow-hidden border border-mist-50/12 bg-bg-950/24", asset.className)}
+            >
+              <Image
+                src={asset.src}
+                alt=""
+                fill
+                sizes="(min-width: 1024px) 26vw, 40vw"
+                className="object-cover"
+                style={{ objectPosition: asset.objectPosition }}
+              />
+            </div>
+          ))}
+        </div>
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(5,11,8,0.76)_0%,rgba(5,11,8,0.44)_34%,rgba(5,11,8,0.62)_70%,rgba(5,11,8,0.82)_100%)]"
+        />
+
+        <div className="relative z-10 mx-auto max-w-[90rem] px-5 pb-16 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
           <div data-games-heading className="max-w-5xl">
             <p className="font-semibold uppercase tracking-[0.22em] text-emerald-200/90">Featured Games</p>
             <h2 className="mt-4 max-w-[14ch] font-display text-[clamp(2.2rem,6.8vw,5.2rem)] leading-[0.92] tracking-[-0.01em] text-mist-50">
-              Proof Through Playable Concepts
+              Real ForestlyGames Titles
             </h2>
             <p className="mt-5 max-w-3xl text-lg leading-relaxed text-mist-100/82 sm:text-xl">
-              Scroll through active projects and concepts. Presentation and motion are designed to reflect gameplay
-              ambition and production clarity.
+              A live portfolio spanning strategy, horror survival, dungeon combat, and viral obstacle experiences.
             </p>
           </div>
 
@@ -23,6 +275,14 @@ export function FeaturedGamesSection() {
                 data-games-media
                 className="relative aspect-[16/10] w-full overflow-hidden border border-mist-50/18 bg-[linear-gradient(125deg,#0f2c20_4%,#07110d_40%,#1a150a_96%)]"
               >
+                <Image
+                  src="/games/boss-battles/thumbnail.png"
+                  alt=""
+                  fill
+                  sizes="(min-width: 1024px) 52vw, 92vw"
+                  data-games-media-image
+                  className="object-cover opacity-[0.72]"
+                />
                 <div
                   aria-hidden
                   data-games-media-layer="far"
@@ -35,9 +295,9 @@ export function FeaturedGamesSection() {
                 />
                 <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
                   <p className="font-display text-[clamp(1.35rem,3vw,2.5rem)] uppercase tracking-[0.16em] text-mist-50/92">
-                    Project Slate
+                    Live Portfolio
                   </p>
-                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-emerald-200/90">Current Experiments</p>
+                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-emerald-200/90">Roblox Game Releases</p>
                 </div>
               </div>
             </div>
@@ -66,7 +326,7 @@ export function FeaturedGamesSection() {
 
           <div data-games-footer className="mt-8 border-t border-emerald-200/18 pt-5">
             <p className="max-w-4xl text-sm uppercase tracking-[0.16em] text-mist-200/76">
-              Motion-led discovery with clear readability, paced transitions, and scene-level choreography.
+              Escape Bruno creator coverage includes FGTeeV, LankyBox, DenisDaily, and GravyCatMan features.
             </p>
           </div>
         </div>

@@ -3,6 +3,7 @@ import { FeaturedGamesSection } from "@/components/sections/home/FeaturedGamesSe
 import { HeroSection } from "@/components/sections/home/HeroSection";
 import { ProofStripSection } from "@/components/sections/home/ProofStripSection";
 import { StudioStorySection } from "@/components/sections/home/StudioStorySection";
+import { TestimonialsSection } from "@/components/sections/home/TestimonialsSection";
 
 export default function HomePage() {
   return (
@@ -11,6 +12,7 @@ export default function HomePage() {
       <FeaturedGamesSection />
       <ProofStripSection />
       <StudioStorySection />
+      <TestimonialsSection />
       <CtaSection />
     </>
   );
