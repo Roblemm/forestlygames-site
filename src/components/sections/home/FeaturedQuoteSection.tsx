@@ -1,3 +1,4 @@
+import React from "react";
 import { Fireflies } from "@/components/ui/Fireflies";
 
 const QUOTE =
@@ -10,7 +11,7 @@ const HIGHLIGHTS: { text: string; cls: string }[] = [
 ];
 
 function renderQuote(text: string) {
-  const parts: (string | JSX.Element)[] = [];
+  const parts: (string | React.ReactNode)[] = [];
   let remaining = text;
   let key = 0;
 
