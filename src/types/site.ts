@@ -21,7 +21,13 @@ export interface StudioPillar {
   description: string;
 }
 
+export interface TestimonialHighlight {
+  text: string;
+  color: "emerald" | "gold" | "azure";
+}
+
 export interface Testimonial {
   quote: string;
   attribution: string;
+  highlights?: TestimonialHighlight[];
 }

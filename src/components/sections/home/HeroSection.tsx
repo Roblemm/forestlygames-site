@@ -1,9 +1,32 @@
 import { HeroScene } from "@/components/motion/scenes/HeroScene";
 import { LinkButton } from "@/components/ui/LinkButton";
 import { ReelVideo } from "@/components/ui/ReelVideo";
+import { TypewriterHeadline, type TypewriterSequence } from "@/components/ui/TypewriterHeadline";
 import { heroProofChips } from "@/data/site";
 import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
+
+const heroSequences: TypewriterSequence[] = [
+  {
+    prefix: "We build Roblox games that",
+    phrases: [
+      { text: "go viral.", color: "emerald" },
+      { text: "hook millions.", color: "gold" },
+      { text: "break records.", color: "azure" },
+      { text: "players never forget.", color: "emerald" },
+      { text: "dominate the platform.", color: "gold" },
+    ],
+  },
+  {
+    prefix: "Let's",
+    phrases: [
+      { text: "grow together.", color: "emerald" },
+      { text: "build something legendary.", color: "gold" },
+      { text: "ship the next big hit.", color: "azure" },
+      { text: "scale to millions.", color: "emerald" },
+    ],
+  },
+];
 
 export function HeroSection() {
   return (
@@ -18,12 +41,11 @@ export function HeroSection() {
               ForestlyGames Studio
             </p>
 
-            <h1
+            <TypewriterHeadline
               data-hero-title
+              sequences={heroSequences}
               className="mt-5 font-display text-[clamp(2.6rem,6.5vw,5rem)] leading-[0.9] tracking-[-0.02em] text-mist-50"
-            >
-              Roblox games built with polish, scale, and replay depth.
-            </h1>
+            />
 
             <p
               data-hero-copy
@@ -104,7 +126,7 @@ export function HeroSection() {
                 alt="Forestly mascot"
                 width={120}
                 height={120}
-                className="pointer-events-none absolute -right-4 -top-6 h-20 w-20 object-contain opacity-90 drop-shadow-[0_8px_22px_rgba(89,107,255,0.35)] sm:-right-5 sm:-top-8 sm:h-24 sm:w-24"
+                className="pointer-events-none absolute right-3 top-3 h-16 w-16 object-contain opacity-90 drop-shadow-[0_8px_22px_rgba(89,107,255,0.35)] sm:right-4 sm:top-4 sm:h-20 sm:w-20"
               />
             </div>
           </div>

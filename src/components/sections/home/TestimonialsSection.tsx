@@ -4,7 +4,7 @@ import { TestimonialsRail } from "@/components/ui/TestimonialsRail";
 export function TestimonialsSection() {
   return (
     <section className="relative border-y border-emerald-200/10 bg-bg-900/85">
-      <div className="mx-auto max-w-[96rem] px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
+      <div className="mx-auto max-w-384 px-5 py-20 sm:px-8 sm:py-24 lg:px-12 lg:py-28">
         <div className="max-w-4xl">
           <p className="inline-block rounded-full border border-emerald-200/20 bg-emerald-300/6 px-4 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-200/90">
             Testimonials
