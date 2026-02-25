@@ -1,8 +1,22 @@
+"use client";
+
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 
 import { primaryNavItems } from "@/data/nav";
+import { cn } from "@/lib/utils/cn";
+
+function isActivePath(pathname: string, href: string): boolean {
+  if (href === "/") {
+    return pathname === "/";
+  }
+
+  return pathname === href || pathname.startsWith(`${href}/`);
+}
 
 export function MobileMenu() {
+  const pathname = usePathname();
+
   return (
     <details className="group relative">
       <summary className="inline-flex min-h-10 cursor-pointer items-center justify-center rounded-xl border border-emerald-200/20 px-4 text-sm font-semibold text-mist-100 transition hover:border-emerald-200/45 hover:bg-emerald-950/45">
@@ -14,7 +28,13 @@ export function MobileMenu() {
             <Link
               key={item.href}
               href={item.href}
-              className="rounded-lg px-3 py-2 text-sm font-medium text-mist-200 transition hover:bg-emerald-950/70 hover:text-mist-50"
+              aria-current={isActivePath(pathname, item.href) ? "page" : undefined}
+              className={cn(
+                "rounded-lg px-3 py-2 text-sm font-medium transition",
+                isActivePath(pathname, item.href)
+                  ? "bg-emerald-950/80 text-emerald-100"
+                  : "text-mist-200 hover:bg-emerald-950/70 hover:text-mist-50",
+              )}
             >
               {item.label}
             </Link>

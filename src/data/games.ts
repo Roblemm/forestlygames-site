@@ -81,6 +81,56 @@ export const games: Game[] = [
       alt: "Escape Bruno character art.",
     },
   },
+  {
+    slug: "evil-pets",
+    title: "Evil Pets",
+    subtitle: "Pet-Powered Tycoon",
+    description: "Employ pet allies to build your tycoon faster and defend against enemy waves across themed stages.",
+    stage: "Live",
+    genre: "Tycoon / Action",
+    platformFocus: "Roblox",
+    accent: "moss",
+    featured: false,
+    media: {
+      src: "/games/evil-pets/thumbnail.png",
+      alt: "Evil Pets gameplay thumbnail from ForestlyGames.",
+      objectPosition: "center center",
+    },
+  },
+  {
+    slug: "turning-red-tycoon",
+    title: "Turning Red Tycoon",
+    subtitle: "Themed Tycoon Event",
+    description:
+      "A themed tycoon world with progression loops, upgrade chains, and high-volume media captures across multiple builds.",
+    stage: "Live",
+    genre: "Tycoon",
+    platformFocus: "Roblox",
+    accent: "gold",
+    featured: false,
+    media: {
+      src: "/games/turning-red-tycoon/shot-1.png",
+      alt: "Turning Red Tycoon gameplay screenshot from ForestlyGames.",
+      objectPosition: "center center",
+    },
+  },
+  {
+    slug: "raise-a-brainrot",
+    title: "Raise a Brainrot",
+    subtitle: "Meme-Horror Challenge",
+    description:
+      "A fast-paced challenge game focused on repeat sessions, creator-friendly moments, and short-form clip highlights.",
+    stage: "Live",
+    genre: "Horror / Challenge",
+    platformFocus: "Roblox",
+    accent: "azure",
+    featured: false,
+    media: {
+      src: "/games/raise-a-brainrot/thumbnail.png",
+      alt: "Raise a Brainrot game thumbnail.",
+      objectPosition: "center center",
+    },
+  },
 ];
 
 export const featuredGames: Game[] = games.filter((game) => game.featured);
@@ -92,15 +142,6 @@ export const archiveHighlights = [
     image: {
       src: "/games/archive/fnaf-fighting-thumbnail.png",
       alt: "FNAF Fighting gameplay image from ForestlyGames archives.",
-      objectPosition: "center center",
-    },
-  },
-  {
-    title: "Evil Pets",
-    note: "Archive media",
-    image: {
-      src: "/games/archive/evil-pets-icon.png",
-      alt: "Evil Pets icon from ForestlyGames archives.",
       objectPosition: "center center",
     },
   },
