@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 
 import { cn } from "@/lib/utils/cn";
 import type { Testimonial } from "@/types/site";
@@ -10,11 +10,39 @@ type TestimonialsRailProps = {
   className?: string;
 };
 
-const AUTO_SCROLL_SPEED = 0.48;
-const RESUME_DELAY_MS = 2600;
+const AUTO_SCROLL_SPEED = 0.4;
+const RESUME_DELAY_MS = 3000;
+const TRUNCATE_LENGTH = 180;
 
-function isLongTestimonial(testimonial: Testimonial) {
-  return testimonial.quote.length > 340;
+function TestimonialCard({ testimonial }: { testimonial: Testimonial }) {
+  const [expanded, setExpanded] = useState(false);
+  const isLong = testimonial.quote.length > TRUNCATE_LENGTH;
+
+  const displayQuote = !isLong || expanded
+    ? testimonial.quote
+    : testimonial.quote.slice(0, TRUNCATE_LENGTH).replace(/\s+\S*$/, "") + "…";
+
+  return (
+    <article className="flex h-full flex-col justify-between rounded-xl border border-emerald-200/14 bg-bg-950/55 p-4 backdrop-blur-[2px] sm:p-5">
+      <div>
+        <p className="whitespace-pre-line text-[0.8rem] leading-6 text-mist-100/86 sm:text-sm sm:leading-7">
+          &ldquo;{displayQuote}&rdquo;
+        </p>
+        {isLong && (
+          <button
+            type="button"
+            onClick={() => setExpanded((prev) => !prev)}
+            className="mt-2 text-[0.7rem] font-semibold uppercase tracking-[0.14em] text-emerald-300/80 transition-colors hover:text-emerald-200"
+          >
+            {expanded ? "Show less" : "Read more"}
+          </button>
+        )}
+      </div>
+      <p className="mt-3 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-emerald-200/70 sm:text-xs">
+        — {testimonial.attribution}
+      </p>
+    </article>
+  );
 }
 
 export function TestimonialsRail({ testimonials, className }: TestimonialsRailProps) {
@@ -65,7 +93,7 @@ export function TestimonialsRail({ testimonials, className }: TestimonialsRailPr
     };
   }, []);
 
-  const pauseThenResume = () => {
+  const pauseThenResume = useCallback(() => {
     setIsPaused(true);
 
     if (resumeTimerRef.current) {
@@ -75,33 +103,36 @@ export function TestimonialsRail({ testimonials, className }: TestimonialsRailPr
     resumeTimerRef.current = setTimeout(() => {
       setIsPaused(false);
     }, RESUME_DELAY_MS);
-  };
+  }, []);
 
-  const moveRail = (direction: 1 | -1) => {
-    const scroller = scrollerRef.current;
+  const moveRail = useCallback(
+    (direction: 1 | -1) => {
+      const scroller = scrollerRef.current;
 
-    if (!scroller) {
-      return;
-    }
+      if (!scroller) {
+        return;
+      }
 
-    pauseThenResume();
-    scroller.scrollBy({ left: direction * scroller.clientWidth * 0.82, behavior: "smooth" });
-  };
+      pauseThenResume();
+      scroller.scrollBy({ left: direction * scroller.clientWidth * 0.75, behavior: "smooth" });
+    },
+    [pauseThenResume],
+  );
 
   return (
     <div className={cn("relative", className)}>
-      <div className="mb-5 flex items-center justify-end gap-2 sm:mb-6">
+      <div className="mb-4 flex items-center justify-end gap-2">
         <button
           type="button"
           onClick={() => moveRail(-1)}
-          className="rounded-lg border border-emerald-200/20 bg-bg-950/65 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-mist-100 transition-colors hover:border-emerald-200/40 hover:text-emerald-100"
+          className="rounded-lg border border-emerald-200/20 bg-bg-950/65 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-mist-100 transition-colors hover:border-emerald-200/40 hover:text-emerald-100"
         >
           Prev
         </button>
         <button
           type="button"
           onClick={() => moveRail(1)}
-          className="rounded-lg border border-emerald-200/20 bg-bg-950/65 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-mist-100 transition-colors hover:border-emerald-200/40 hover:text-emerald-100"
+          className="rounded-lg border border-emerald-200/20 bg-bg-950/65 px-3 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.12em] text-mist-100 transition-colors hover:border-emerald-200/40 hover:text-emerald-100"
         >
           Next
         </button>
@@ -109,31 +140,21 @@ export function TestimonialsRail({ testimonials, className }: TestimonialsRailPr
 
       <div
         ref={scrollerRef}
-        className="themed-scrollbar overflow-x-auto pb-3"
+        className="themed-scrollbar overflow-x-auto pb-2"
         onMouseEnter={() => setIsPaused(true)}
         onMouseLeave={() => setIsPaused(false)}
         onFocusCapture={() => setIsPaused(true)}
         onBlurCapture={() => setIsPaused(false)}
       >
-        <div className="grid h-120 w-max grid-flow-col grid-rows-1 auto-cols-[minmax(86vw,86vw)] gap-4 pr-4 sm:auto-cols-[minmax(22rem,28rem)] md:h-124 md:grid-rows-2 md:auto-cols-[minmax(24rem,30rem)] lg:auto-cols-[minmax(27rem,33rem)]">
-          {loopingTestimonials.map((testimonial, index) => {
-            const long = isLongTestimonial(testimonial);
-
-            return (
-              <article
-                key={`${testimonial.attribution}-${index}`}
-                className={cn(
-                  "themed-scrollbar min-w-0 overflow-y-auto rounded-xl border border-emerald-200/14 bg-bg-950/55 p-5 backdrop-blur-[2px] sm:p-6",
-                  long ? "md:row-span-2" : "md:row-span-1",
-                )}
-              >
-                <p className="whitespace-pre-line wrap-break-word text-sm leading-7 text-mist-100/86">{`"${testimonial.quote}"`}</p>
-                <p className="mt-4 wrap-break-word text-xs font-semibold uppercase tracking-[0.12em] text-emerald-200/86">
-                  - {testimonial.attribution}
-                </p>
-              </article>
-            );
-          })}
+        <div className="flex w-max gap-3 pr-3 sm:gap-4 sm:pr-4">
+          {loopingTestimonials.map((testimonial, index) => (
+            <div
+              key={`${testimonial.attribution}-${index}`}
+              className="w-[78vw] shrink-0 sm:w-72 md:w-80 lg:w-88"
+            >
+              <TestimonialCard testimonial={testimonial} />
+            </div>
+          ))}
         </div>
       </div>
     </div>

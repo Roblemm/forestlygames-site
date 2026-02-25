@@ -9,8 +9,7 @@ export function HeroSection() {
   return (
     <section className="relative bg-bg-950">
       <HeroScene>
-        <div className="mx-auto max-w-[82rem] px-5 pb-10 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
-          {/* Text content — full width */}
+        <div className="mx-auto max-w-328 px-5 pb-10 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
           <div className="max-w-4xl">
             <p
               data-hero-kicker
@@ -76,7 +75,6 @@ export function HeroSection() {
             </div>
           </div>
 
-          {/* Video — full width below text */}
           <div data-hero-media-shell className="mt-8 lg:mt-10">
             <div
               data-hero-media

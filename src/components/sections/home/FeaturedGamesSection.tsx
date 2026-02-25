@@ -295,7 +295,7 @@ export function FeaturedGamesSection() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(5,11,8,0.76)_0%,rgba(5,11,8,0.44)_34%,rgba(5,11,8,0.62)_70%,rgba(5,11,8,0.82)_100%)]"
         />
 
-        <div className="relative z-10 mx-auto max-w-[90rem] px-5 pb-16 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
+        <div className="relative z-10 mx-auto max-w-360 px-5 pb-16 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
           <div data-games-heading className="max-w-5xl">
             <p className="inline-block rounded-full border border-emerald-200/20 bg-emerald-300/6 px-4 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-200/90">
               Featured Games
@@ -308,77 +308,75 @@ export function FeaturedGamesSection() {
             </p>
           </div>
 
-          <div className="mt-10 grid gap-8 lg:grid-cols-[1.1fr_0.9fr] lg:items-start">
-            <div data-games-media-shell className="relative min-w-0">
+          <div data-games-media-shell className="relative mt-10 min-w-0">
+            <div
+              data-games-media
+              className="relative aspect-21/9 w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(125deg,#0f2c20_4%,#07110d_40%,#1a150a_96%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.1)]"
+            >
+              <Image
+                src="/games/boss-battles/thumbnail.png"
+                alt=""
+                fill
+                sizes="92vw"
+                data-games-media-image
+                className="object-cover opacity-[0.72]"
+              />
               <div
-                data-games-media
-                className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(125deg,#0f2c20_4%,#07110d_40%,#1a150a_96%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.1)]"
-              >
-                <Image
-                  src="/games/boss-battles/thumbnail.png"
-                  alt=""
-                  fill
-                  sizes="(min-width: 1024px) 52vw, 92vw"
-                  data-games-media-image
-                  className="object-cover opacity-[0.72]"
-                />
-                <div
-                  aria-hidden
-                  data-games-media-layer="far"
-                  className="absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(141,234,185,0.26),transparent_46%),radial-gradient(circle_at_84%_74%,rgba(214,170,96,0.22),transparent_40%)]"
-                />
-                <div
-                  aria-hidden
-                  data-games-media-layer="near"
-                  className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,13,10,0.02)_0%,rgba(7,13,10,0.72)_100%)]"
-                />
-                <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
-                  <p className="font-display text-[clamp(1.35rem,3vw,2.5rem)] uppercase tracking-[0.16em] text-mist-50/92">
-                    Live Portfolio
-                  </p>
-                  <p className="mt-1.5 text-sm uppercase tracking-[0.2em] text-emerald-200/90">Roblox Game Releases</p>
-                </div>
+                aria-hidden
+                data-games-media-layer="far"
+                className="absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(141,234,185,0.26),transparent_46%),radial-gradient(circle_at_84%_74%,rgba(214,170,96,0.22),transparent_40%)]"
+              />
+              <div
+                aria-hidden
+                data-games-media-layer="near"
+                className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,13,10,0.02)_0%,rgba(7,13,10,0.72)_100%)]"
+              />
+              <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
+                <p className="font-display text-[clamp(1.35rem,3vw,2.5rem)] uppercase tracking-[0.16em] text-mist-50/92">
+                  Live Portfolio
+                </p>
+                <p className="mt-1.5 text-sm uppercase tracking-[0.2em] text-emerald-200/90">Roblox Game Releases</p>
               </div>
             </div>
+          </div>
 
-            <div className="min-w-0 space-y-4 sm:space-y-5 lg:ml-auto lg:w-full lg:max-w-[34rem]">
-              {featuredGames.map((game, index) => (
-                <article
-                  key={game.slug}
-                  data-games-item
-                  data-games-depth={index % 3}
+          <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
+            {featuredGames.map((game, index) => (
+              <article
+                key={game.slug}
+                data-games-item
+                data-games-depth={index % 3}
+                className={cn(
+                  "group relative w-full rounded-xl border bg-bg-950/60 p-5 backdrop-blur-[2px] transition-colors duration-300 hover:bg-bg-950/75 sm:p-6",
+                  accentBorderMap[game.accent],
+                )}
+              >
+                <div
+                  aria-hidden
                   className={cn(
-                    "group w-full rounded-xl border bg-bg-950/60 p-5 backdrop-blur-[2px] transition-colors duration-300 hover:bg-bg-950/75 sm:p-6",
-                    accentBorderMap[game.accent],
+                    "pointer-events-none absolute inset-0 rounded-xl bg-linear-to-br opacity-0 transition-opacity duration-300 group-hover:opacity-100",
+                    accentGlowMap[game.accent],
                   )}
-                >
-                  <div
-                    aria-hidden
-                    className={cn(
-                      "pointer-events-none absolute inset-0 rounded-xl bg-linear-to-br opacity-0 transition-opacity duration-300 group-hover:opacity-100",
-                      accentGlowMap[game.accent],
-                    )}
-                  />
-                  <div className="relative">
-                    <div className="flex items-start justify-between gap-4">
-                      <div>
-                        <h3 className="font-display text-2xl leading-tight text-mist-50 sm:text-3xl">
-                          {game.title}
-                        </h3>
-                        <p className={cn("mt-1.5 text-sm uppercase tracking-[0.16em]", accentSubtitleMap[game.accent])}>
-                          {game.subtitle}
-                        </p>
-                      </div>
-                      <Badge className={accentBadgeMap[game.accent]}>{game.stage}</Badge>
+                />
+                <div className="relative">
+                  <div className="flex items-start justify-between gap-4">
+                    <div>
+                      <h3 className="font-display text-2xl leading-tight text-mist-50 sm:text-3xl">
+                        {game.title}
+                      </h3>
+                      <p className={cn("mt-1.5 text-sm uppercase tracking-[0.16em]", accentSubtitleMap[game.accent])}>
+                        {game.subtitle}
+                      </p>
                     </div>
-                    <p className="mt-4 text-base leading-7 text-mist-100/78">{game.description}</p>
-                    <p className={cn("mt-4 text-sm", accentGenreMap[game.accent])}>
-                      {game.genre} | {game.platformFocus}
-                    </p>
+                    <Badge className={accentBadgeMap[game.accent]}>{game.stage}</Badge>
                   </div>
-                </article>
-              ))}
-            </div>
+                  <p className="mt-4 text-base leading-7 text-mist-100/78">{game.description}</p>
+                  <p className={cn("mt-4 text-sm", accentGenreMap[game.accent])}>
+                    {game.genre} | {game.platformFocus}
+                  </p>
+                </div>
+              </article>
+            ))}
           </div>
 
           <div data-games-footer className="mt-8 border-t border-emerald-200/14 pt-5">
