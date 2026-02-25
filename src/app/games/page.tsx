@@ -1,4 +1,4 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
@@ -27,6 +27,231 @@ type CreatorSpot = {
   href: string;
   image: string;
 };
+
+type AccentColor = "gold" | "emerald" | "azure" | "moss";
+
+const accentMap: Record<
+  AccentColor,
+  {
+    border: string;
+    borderSubtle: string;
+    text: string;
+    textMuted: string;
+    glow: string;
+    pill: string;
+    pillText: string;
+    audioBorder: string;
+    gradient: string;
+    heroBg: string;
+  }
+> = {
+  gold: {
+    border: "border-gold-300/30",
+    borderSubtle: "border-gold-300/14",
+    text: "text-gold-100",
+    textMuted: "text-gold-100/72",
+    glow: "shadow-[0_0_120px_40px_rgba(222,186,120,0.07)]",
+    pill: "bg-gold-300/12 border-gold-300/28",
+    pillText: "text-gold-300",
+    audioBorder: "border-gold-300/22",
+    gradient: "from-gold-300/6 via-transparent to-transparent",
+    heroBg: "bg-linear-to-br from-gold-400/8 via-bg-950/95 to-bg-950",
+  },
+  emerald: {
+    border: "border-emerald-200/30",
+    borderSubtle: "border-emerald-200/14",
+    text: "text-emerald-100",
+    textMuted: "text-emerald-200/72",
+    glow: "shadow-[0_0_120px_40px_rgba(156,218,184,0.07)]",
+    pill: "bg-emerald-300/12 border-emerald-200/28",
+    pillText: "text-emerald-200",
+    audioBorder: "border-emerald-200/22",
+    gradient: "from-emerald-300/6 via-transparent to-transparent",
+    heroBg: "bg-linear-to-br from-emerald-400/8 via-bg-950/95 to-bg-950",
+  },
+  azure: {
+    border: "border-azure-300/30",
+    borderSubtle: "border-azure-300/14",
+    text: "text-azure-300",
+    textMuted: "text-azure-300/72",
+    glow: "shadow-[0_0_120px_40px_rgba(121,201,255,0.07)]",
+    pill: "bg-azure-300/12 border-azure-300/28",
+    pillText: "text-azure-300",
+    audioBorder: "border-azure-300/22",
+    gradient: "from-azure-300/6 via-transparent to-transparent",
+    heroBg: "bg-linear-to-br from-azure-500/8 via-bg-950/95 to-bg-950",
+  },
+  moss: {
+    border: "border-emerald-200/24",
+    borderSubtle: "border-emerald-200/12",
+    text: "text-emerald-100",
+    textMuted: "text-emerald-200/64",
+    glow: "shadow-[0_0_120px_40px_rgba(85,190,136,0.06)]",
+    pill: "bg-emerald-300/10 border-emerald-200/22",
+    pillText: "text-emerald-200",
+    audioBorder: "border-emerald-200/18",
+    gradient: "from-emerald-400/5 via-transparent to-transparent",
+    heroBg: "bg-linear-to-br from-emerald-400/6 via-bg-950/95 to-bg-950",
+  },
+};
+
+function GenrePills({ genres, accent }: { genres: string[]; accent: AccentColor }) {
+  const a = accentMap[accent];
+  return (
+    <div className="flex flex-wrap gap-2">
+      {genres.map((genre) => (
+        <span
+          key={genre}
+          className={`inline-block rounded-full border px-3 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.16em] ${a.pill} ${a.pillText}`}
+        >
+          {genre}
+        </span>
+      ))}
+    </div>
+  );
+}
+
+function GameHeroBanner({
+  image,
+  title,
+  accent,
+  children,
+}: {
+  image: MediaImage;
+  title: string;
+  accent: AccentColor;
+  children: React.ReactNode;
+}) {
+  const a = accentMap[accent];
+  return (
+    <div className={`game-section-hero relative overflow-hidden rounded-2xl ${a.border} ${a.glow}`}>
+      <div className="absolute inset-0 z-0">
+        <Image
+          src={image.src}
+          alt={image.alt}
+          fill
+          sizes="(min-width:1280px) 90vw, 100vw"
+          className="object-cover opacity-30 blur-[2px]"
+        />
+        <div className="absolute inset-0 bg-linear-to-r from-bg-950 via-bg-950/92 to-bg-950/60" />
+        <div className={`absolute inset-0 bg-linear-to-t from-bg-950 via-bg-950/50 to-transparent`} />
+      </div>
+      <div className="relative z-10 flex flex-col gap-5 p-6 sm:p-8 lg:flex-row lg:items-end lg:justify-between lg:p-10">
+        <div className="max-w-2xl space-y-4">
+          <h2 className="font-display text-[clamp(2.4rem,6vw,4.6rem)] leading-[0.88] tracking-tight text-mist-50 drop-shadow-lg">
+            {title}
+          </h2>
+          {children}
+        </div>
+        <div className="relative hidden h-48 w-72 shrink-0 overflow-hidden rounded-lg lg:block xl:h-56 xl:w-80">
+          <Image
+            src={image.src}
+            alt={image.alt}
+            fill
+            sizes="320px"
+            className="object-cover"
+          />
+          <div className={`absolute inset-0 rounded-lg border ${a.borderSubtle}`} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MediaGrid({
+  images,
+  accent,
+  columns = 3,
+}: {
+  images: MediaImage[];
+  accent: AccentColor;
+  columns?: 2 | 3 | 4;
+}) {
+  const a = accentMap[accent];
+  const colClass =
+    columns === 2
+      ? "grid-cols-2"
+      : columns === 3
+        ? "grid-cols-2 sm:grid-cols-3"
+        : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4";
+
+  return (
+    <div className={`grid gap-3 ${colClass}`}>
+      {images.map((asset, index) => (
+        <figure
+          key={`${asset.src}-${index}`}
+          className={`game-media-item group relative aspect-4/3 overflow-hidden rounded-lg border bg-bg-900/60 ${a.borderSubtle}`}
+        >
+          <Image
+            src={asset.src}
+            alt={asset.alt}
+            fill
+            sizes="360px"
+            className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.05]"
+          />
+          <div className="pointer-events-none absolute inset-0 rounded-lg bg-linear-to-t from-bg-950/40 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
+        </figure>
+      ))}
+    </div>
+  );
+}
+
+function VideoCard({
+  clip,
+  poster,
+  accent,
+}: {
+  clip: VideoClip;
+  poster: string;
+  accent: AccentColor;
+}) {
+  const a = accentMap[accent];
+  return (
+    <article className={`game-media-item group overflow-hidden rounded-lg border bg-bg-900/50 ${a.borderSubtle}`}>
+      <div className="relative aspect-video overflow-hidden">
+        <video
+          className="h-full w-full object-cover"
+          controls
+          preload="metadata"
+          playsInline
+          poster={poster}
+          src={clip.src}
+        />
+      </div>
+      <div className="flex items-center gap-2 px-3 py-2.5">
+        <div className={`h-1.5 w-1.5 rounded-full ${accent === "gold" ? "bg-gold-300/80" : accent === "azure" ? "bg-azure-300/80" : "bg-emerald-300/80"}`} />
+        <p className="text-xs font-medium uppercase tracking-[0.14em] text-mist-200/80">{clip.title}</p>
+      </div>
+    </article>
+  );
+}
+
+function AudioCard({ track, accent }: { track: AudioTrack; accent: AccentColor }) {
+  const a = accentMap[accent];
+  return (
+    <div className={`rounded-lg border bg-bg-900/50 p-3 ${a.audioBorder}`}>
+      <div className="mb-2 flex items-center gap-2">
+        <svg className={`h-3.5 w-3.5 ${a.pillText}`} viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+        </svg>
+        <p className={`text-[0.68rem] font-semibold uppercase tracking-[0.14em] ${a.textMuted}`}>
+          {track.title}
+        </p>
+      </div>
+      <audio className="w-full" controls preload="none" src={track.src} />
+    </div>
+  );
+}
+
+function SectionDivider({ accent }: { accent: AccentColor }) {
+  const a = accentMap[accent];
+  return (
+    <div className="relative py-4">
+      <div className={`h-px w-full ${a.border} border-t`} />
+      <div className={`absolute left-1/2 top-1/2 h-8 w-32 -translate-x-1/2 -translate-y-1/2 bg-linear-to-r ${a.gradient} blur-2xl`} />
+    </div>
+  );
+}
 
 const roEmpiresImages: MediaImage[] = [
   { src: "/games/roempires/thumbnail.png", alt: "RoEmpires thumbnail artwork." },
@@ -224,412 +449,375 @@ export const metadata: Metadata = {
 export default function GamesPage() {
   return (
     <>
-      <Section className="pb-8 pt-10 sm:pb-10 sm:pt-14">
-        <Container className="max-w-[90rem]">
-          <div className="border-b border-emerald-200/20 pb-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200/85">ForestlyGames</p>
-            <h1 className="mt-4 font-display text-[clamp(2.4rem,7.2vw,5.4rem)] leading-[0.9] text-mist-50">Games</h1>
-            <p className="mt-4 max-w-3xl text-base leading-7 text-mist-200/84 sm:text-lg">
-              Live game sections, rebuilt to prioritize readable titles and dense media presentation with real project assets.
+      {/* ── Page Header ── */}
+      <Section className="pb-6 pt-10 sm:pb-8 sm:pt-14">
+        <Container className="max-w-360">
+          <div className="pb-8">
+            <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/85">
+              ForestlyGames
             </p>
-            <nav className="mt-6 flex flex-wrap gap-2 text-xs uppercase tracking-[0.14em] sm:text-sm">
-              <a href="#roempires" className="border border-gold-300/30 px-3 py-1.5 text-gold-100">RoEmpires</a>
-              <a href="#encaved" className="border border-emerald-200/30 px-3 py-1.5 text-emerald-100">Encaved</a>
-              <a href="#boss-battles" className="border border-azure-300/30 px-3 py-1.5 text-azure-300">Boss Battles</a>
-              <a href="#escape-bruno" className="border border-gold-300/30 px-3 py-1.5 text-gold-100">Escape Bruno</a>
-              <a href="#evil-pets" className="border border-emerald-200/30 px-3 py-1.5 text-emerald-100">Evil Pets</a>
-              <a href="#panda-tycoon" className="border border-gold-300/30 px-3 py-1.5 text-gold-100">Panda Tycoon</a>
-              <a href="#raise-a-brainrot" className="border border-azure-300/30 px-3 py-1.5 text-azure-300">Raise a Brainrot</a>
+            <h1 className="mt-4 font-display text-[clamp(2.8rem,8vw,6rem)] leading-[0.86] tracking-tight text-mist-50">
+              Games
+            </h1>
+            <p className="mt-5 max-w-2xl text-base leading-relaxed text-mist-200/80 sm:text-lg">
+              Every game we&apos;ve built, from early prototypes to live titles. Real screenshots, real gameplay, real audio.
+            </p>
+            <nav className="mt-8 flex flex-wrap gap-2">
+              {[
+                { href: "#roempires", label: "RoEmpires", accent: "gold" as const },
+                { href: "#encaved", label: "Encaved", accent: "emerald" as const },
+                { href: "#boss-battles", label: "Boss Battles", accent: "azure" as const },
+                { href: "#escape-bruno", label: "Escape Bruno", accent: "gold" as const },
+                { href: "#evil-pets", label: "Evil Pets", accent: "emerald" as const },
+                { href: "#panda-tycoon", label: "Panda Tycoon", accent: "gold" as const },
+                { href: "#raise-a-brainrot", label: "Raise a Brainrot", accent: "azure" as const },
+              ].map((item) => (
+                <a
+                  key={item.href}
+                  href={item.href}
+                  className={`rounded-full border px-4 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.15em] transition-all duration-200 hover:scale-[1.04] ${accentMap[item.accent].pill} ${accentMap[item.accent].pillText}`}
+                >
+                  {item.label}
+                </a>
+              ))}
             </nav>
           </div>
         </Container>
       </Section>
 
-      <Section id="roempires" className="py-10 sm:py-14">
-        <Container className="max-w-[90rem]">
-          <article className="space-y-5 border-t border-gold-300/22 pt-8">
-            <h2 className="font-display text-[clamp(2rem,5vw,3.8rem)] leading-[0.9] text-mist-50">RoEmpires</h2>
-            <p className="text-xs uppercase tracking-[0.14em] text-gold-100/84">
-              {gameMeta.roEmpires.genres.join(" | ")}
-            </p>
-            <p className="max-w-3xl text-sm leading-7 text-mist-200/84 sm:text-base">
+      {/* ── RoEmpires ── */}
+      <Section id="roempires" className="py-6 sm:py-10">
+        <Container className="max-w-360">
+          <GameHeroBanner image={roEmpiresImages[0]} title="RoEmpires" accent="gold">
+            <GenrePills genres={gameMeta.roEmpires.genres} accent="gold" />
+            <p className="text-sm leading-relaxed text-mist-200/80 sm:text-base">
               {gameMeta.roEmpires.description}
             </p>
+          </GameHeroBanner>
 
-            <div className="grid gap-4 xl:grid-cols-[1.08fr_0.92fr]">
+          <div className="mt-6 space-y-6">
+            <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
               <div className="space-y-4">
-                <div className="relative aspect-video overflow-hidden border border-gold-300/24 bg-bg-950/40">
-                  <video
-                    className="h-full w-full object-cover"
-                    controls
-                    preload="metadata"
-                    playsInline
-                    poster="/games/roempires/thumbnail.png"
-                    src="/games/roempires/trailer.mp4"
-                  />
-                </div>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {roEmpiresClips.map((clip, index) => (
-                    <article key={clip.src} className="overflow-hidden border border-mist-50/14 bg-bg-950/40 p-2">
-                      <div className="relative aspect-video overflow-hidden border border-mist-50/12">
-                        <video
-                          className="h-full w-full object-cover"
-                          controls
-                          preload="metadata"
-                          playsInline
-                          poster={roEmpiresImages[Math.min(index + 2, roEmpiresImages.length - 1)].src}
-                          src={clip.src}
-                        />
-                      </div>
-                      <p className="mt-2 text-xs uppercase tracking-[0.13em] text-mist-200/80">{clip.title}</p>
-                    </article>
-                  ))}
-                </div>
-              </div>
-
-              <div className="space-y-4">
-                <div className="grid grid-cols-2 gap-2">
-                  {roEmpiresImages.slice(0, 6).map((asset, index) => (
-                    <figure key={`${asset.src}-${index}`} className="relative aspect-[4/3] overflow-hidden border border-mist-50/12">
-                      <Image src={asset.src} alt={asset.alt} fill sizes="420px" className="object-cover" />
-                    </figure>
-                  ))}
-                </div>
-                <div className="border border-gold-300/22 bg-bg-950/40 p-3">
-                  <p className="mb-2 text-xs uppercase tracking-[0.13em] text-gold-100/88">Audio</p>
-                  <audio className="w-full" controls preload="none" src={roEmpiresTracks[0].src} />
-                </div>
-              </div>
-            </div>
-
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-4">
-              {roEmpiresImages.slice(6).map((asset, index) => (
-                <figure key={`${asset.src}-${index}`} className="relative aspect-[5/4] overflow-hidden border border-mist-50/12">
-                  <Image src={asset.src} alt={asset.alt} fill sizes="300px" className="object-cover" />
-                </figure>
-              ))}
-            </div>
-          </article>
-        </Container>
-      </Section>
-      <Section id="encaved" className="py-10 sm:py-14">
-        <Container className="max-w-[90rem]">
-          <article className="space-y-5 border-t border-emerald-200/22 pt-8">
-            <h2 className="font-display text-[clamp(2rem,5vw,3.8rem)] leading-[0.9] text-mist-50">Encaved</h2>
-            <p className="text-xs uppercase tracking-[0.14em] text-emerald-100/84">
-              {gameMeta.encaved.genres.join(" | ")}
-            </p>
-            <p className="max-w-3xl text-sm leading-7 text-mist-200/84 sm:text-base">
-              {gameMeta.encaved.description}
-            </p>
-
-            <div className="grid gap-4 xl:grid-cols-[0.92fr_1.08fr]">
-              <div className="space-y-4">
-                <figure className="relative aspect-[16/10] overflow-hidden border border-emerald-200/20">
-                  <Image src={encavedImages[0].src} alt={encavedImages[0].alt} fill sizes="(min-width:1280px) 42vw, 94vw" className="object-cover" />
-                </figure>
-                <div className="grid gap-2 sm:grid-cols-2">
-                  {encavedTracks.map((track) => (
-                    <div key={track.src} className="border border-emerald-200/16 bg-bg-950/40 p-2">
-                      <p className="mb-1 text-[0.66rem] uppercase tracking-[0.13em] text-mist-200/80">{track.title}</p>
-                      <audio className="w-full" controls preload="none" src={track.src} />
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="grid gap-2 sm:grid-cols-2">
-                {encavedImages.slice(1).map((asset, index) => (
-                  <figure key={`${asset.src}-${index}`} className="relative aspect-[4/3] overflow-hidden border border-mist-50/12">
-                    <Image src={asset.src} alt={asset.alt} fill sizes="420px" className="object-cover" />
-                  </figure>
-                ))}
-              </div>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-3">
-              {encavedPrototypeClips.map((clip, index) => (
-                <article key={clip.src} className="overflow-hidden border border-mist-50/14 bg-bg-950/40 p-2">
-                  <div className="relative aspect-video overflow-hidden border border-mist-50/12">
+                <div className="relative overflow-hidden rounded-lg border border-gold-300/20 bg-bg-900/40">
+                  <div className="relative aspect-video">
                     <video
                       className="h-full w-full object-cover"
                       controls
                       preload="metadata"
                       playsInline
-                      poster={encavedImages[Math.min(index + 1, encavedImages.length - 1)].src}
-                      src={clip.src}
+                      poster="/games/roempires/thumbnail.png"
+                      src="/games/roempires/trailer.mp4"
                     />
                   </div>
-                  <p className="mt-2 text-xs uppercase tracking-[0.13em] text-mist-200/80">{clip.title}</p>
-                </article>
-              ))}
+                  <div className="px-3 py-2.5">
+                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-gold-100/80">Main Trailer</p>
+                  </div>
+                </div>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {roEmpiresClips.map((clip, index) => (
+                    <VideoCard
+                      key={clip.src}
+                      clip={clip}
+                      poster={roEmpiresImages[Math.min(index + 2, roEmpiresImages.length - 1)].src}
+                      accent="gold"
+                    />
+                  ))}
+                </div>
+              </div>
+
+              <div className="space-y-4">
+                <MediaGrid images={roEmpiresImages.slice(0, 6)} accent="gold" columns={2} />
+                <AudioCard track={roEmpiresTracks[0]} accent="gold" />
+              </div>
             </div>
-          </article>
+
+            {roEmpiresImages.length > 6 && (
+              <MediaGrid images={roEmpiresImages.slice(6)} accent="gold" columns={4} />
+            )}
+          </div>
         </Container>
       </Section>
 
-      <Section id="boss-battles" className="py-10 sm:py-14">
-        <Container className="max-w-[90rem]">
-          <article className="space-y-5 border-t border-azure-300/22 pt-8">
-            <h2 className="font-display text-[clamp(2rem,5vw,3.8rem)] leading-[0.9] text-mist-50">Boss Battles</h2>
-            <p className="text-xs uppercase tracking-[0.14em] text-azure-200/84">
-              {gameMeta.bossBattles.genres.join(" | ")}
+      <SectionDivider accent="emerald" />
+
+      {/* ── Encaved ── */}
+      <Section id="encaved" className="py-6 sm:py-10">
+        <Container className="max-w-360">
+          <GameHeroBanner image={encavedImages[0]} title="Encaved" accent="emerald">
+            <GenrePills genres={gameMeta.encaved.genres} accent="emerald" />
+            <p className="text-sm leading-relaxed text-mist-200/80 sm:text-base">
+              {gameMeta.encaved.description}
             </p>
-            <p className="max-w-3xl text-sm leading-7 text-mist-200/84 sm:text-base">
+          </GameHeroBanner>
+
+          <div className="mt-6 space-y-6">
+            <div className="grid gap-4 xl:grid-cols-[0.92fr_1.08fr]">
+              <div className="space-y-4">
+                <figure className="game-media-item group relative aspect-16/10 overflow-hidden rounded-lg border border-emerald-200/18">
+                  <Image
+                    src={encavedImages[0].src}
+                    alt={encavedImages[0].alt}
+                    fill
+                    sizes="(min-width:1280px) 42vw, 94vw"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                  />
+                </figure>
+                <div className="grid gap-3 sm:grid-cols-2">
+                  {encavedTracks.map((track) => (
+                    <AudioCard key={track.src} track={track} accent="emerald" />
+                  ))}
+                </div>
+              </div>
+
+              <MediaGrid images={encavedImages.slice(1)} accent="emerald" columns={2} />
+            </div>
+
+            <div className="grid gap-3 sm:grid-cols-3">
+              {encavedPrototypeClips.map((clip, index) => (
+                <VideoCard
+                  key={clip.src}
+                  clip={clip}
+                  poster={encavedImages[Math.min(index + 1, encavedImages.length - 1)].src}
+                  accent="emerald"
+                />
+              ))}
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionDivider accent="azure" />
+
+      {/* ── Boss Battles ── */}
+      <Section id="boss-battles" className="py-6 sm:py-10">
+        <Container className="max-w-360">
+          <GameHeroBanner image={bossBattlesImages[0]} title="Boss Battles" accent="azure">
+            <GenrePills genres={gameMeta.bossBattles.genres} accent="azure" />
+            <p className="text-sm leading-relaxed text-mist-200/80 sm:text-base">
               {gameMeta.bossBattles.description}
             </p>
+          </GameHeroBanner>
 
+          <div className="mt-6 space-y-6">
             <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
-              <div className="grid grid-cols-6 gap-2">
-                <figure className="relative col-span-6 aspect-[16/9] overflow-hidden border border-mist-50/12 sm:col-span-4 sm:row-span-2 sm:aspect-auto">
-                  <Image src={bossBattlesImages[0].src} alt={bossBattlesImages[0].alt} fill sizes="(min-width:1280px) 42vw, 94vw" className="object-cover" />
+              <div className="space-y-4">
+                <figure className="game-media-item group relative aspect-video overflow-hidden rounded-lg border border-azure-300/16">
+                  <Image
+                    src={bossBattlesImages[0].src}
+                    alt={bossBattlesImages[0].alt}
+                    fill
+                    sizes="(min-width:1280px) 48vw, 94vw"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                  />
                 </figure>
-                <figure className="relative col-span-3 aspect-[4/3] overflow-hidden border border-mist-50/12 sm:col-span-2">
-                  <Image src={bossBattlesImages[1].src} alt={bossBattlesImages[1].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative col-span-3 aspect-[4/3] overflow-hidden border border-mist-50/12 sm:col-span-2">
-                  <Image src={bossBattlesImages[2].src} alt={bossBattlesImages[2].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative col-span-3 aspect-[4/3] overflow-hidden border border-mist-50/12 sm:col-span-2">
-                  <Image src={bossBattlesImages[3].src} alt={bossBattlesImages[3].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative col-span-3 aspect-[4/3] overflow-hidden border border-mist-50/12 sm:col-span-2">
-                  <Image src={bossBattlesImages[4].src} alt={bossBattlesImages[4].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative col-span-3 aspect-[4/3] overflow-hidden border border-mist-50/12 sm:col-span-2">
-                  <Image src={bossBattlesImages[5].src} alt={bossBattlesImages[5].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative col-span-3 aspect-[4/3] overflow-hidden border border-mist-50/12 sm:col-span-2">
-                  <Image src={bossBattlesImages[6].src} alt={bossBattlesImages[6].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative col-span-6 aspect-[16/7] overflow-hidden border border-mist-50/12 sm:col-span-6">
-                  <Image src={bossBattlesImages[7].src} alt={bossBattlesImages[7].alt} fill sizes="(min-width:1280px) 42vw, 94vw" className="object-cover" />
+                <MediaGrid images={bossBattlesImages.slice(1, 7)} accent="azure" columns={3} />
+                <figure className="game-media-item group relative aspect-16/7 overflow-hidden rounded-lg border border-azure-300/14">
+                  <Image
+                    src={bossBattlesImages[7].src}
+                    alt={bossBattlesImages[7].alt}
+                    fill
+                    sizes="(min-width:1280px) 48vw, 94vw"
+                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                  />
                 </figure>
               </div>
 
               <div className="space-y-4">
                 <div className="grid gap-3 sm:grid-cols-2">
                   {bossBattlesClips.map((clip, index) => (
-                    <article key={clip.src} className="overflow-hidden border border-mist-50/14 bg-bg-950/40 p-2">
-                      <div className="relative aspect-video overflow-hidden border border-mist-50/12">
-                        <video
-                          className="h-full w-full object-cover"
-                          controls
-                          preload="metadata"
-                          playsInline
-                          poster={bossBattlesImages[Math.min(index + 2, bossBattlesImages.length - 1)].src}
-                          src={clip.src}
-                        />
-                      </div>
-                      <p className="mt-2 text-xs uppercase tracking-[0.13em] text-mist-200/80">{clip.title}</p>
-                    </article>
+                    <VideoCard
+                      key={clip.src}
+                      clip={clip}
+                      poster={bossBattlesImages[Math.min(index + 2, bossBattlesImages.length - 1)].src}
+                      accent="azure"
+                    />
                   ))}
                 </div>
-
-                <div className="grid gap-2 sm:grid-cols-3">
+                <div className="grid gap-3 sm:grid-cols-3">
                   {bossBattlesTracks.map((track) => (
-                    <div key={track.src} className="border border-azure-300/18 bg-bg-950/40 p-2">
-                      <p className="mb-1 text-[0.66rem] uppercase tracking-[0.13em] text-mist-200/80">{track.title}</p>
-                      <audio className="w-full" controls preload="none" src={track.src} />
-                    </div>
+                    <AudioCard key={track.src} track={track} accent="azure" />
                   ))}
                 </div>
               </div>
             </div>
-          </article>
+          </div>
         </Container>
       </Section>
 
-      <Section id="escape-bruno" className="py-10 sm:py-14">
-        <Container className="max-w-[90rem]">
-          <article className="space-y-5 border-t border-gold-300/22 pt-8">
-            <h2 className="font-display text-[clamp(2rem,5vw,3.8rem)] leading-[0.9] text-mist-50">Escape Bruno</h2>
-            <p className="text-xs uppercase tracking-[0.14em] text-gold-100/84">
-              {gameMeta.escapeBruno.genres.join(" | ")}
-            </p>
-            <p className="max-w-3xl text-sm leading-7 text-mist-200/84 sm:text-base">
+      <SectionDivider accent="gold" />
+
+      {/* ── Escape Bruno ── */}
+      <Section id="escape-bruno" className="py-6 sm:py-10">
+        <Container className="max-w-360">
+          <GameHeroBanner image={escapeBrunoImages[0]} title="Escape Bruno" accent="gold">
+            <GenrePills genres={gameMeta.escapeBruno.genres} accent="gold" />
+            <p className="text-sm leading-relaxed text-mist-200/80 sm:text-base">
               {gameMeta.escapeBruno.description}
             </p>
+          </GameHeroBanner>
 
+          <div className="mt-6 space-y-6">
             <div className="grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
-              <figure className="relative aspect-[16/9] overflow-hidden border border-mist-50/12">
+              <figure className="game-media-item group relative aspect-video overflow-hidden rounded-lg border border-gold-300/16">
                 <Image
                   src={escapeBrunoImages[0].src}
                   alt={escapeBrunoImages[0].alt}
                   fill
                   sizes="(min-width:1024px) 56vw, 94vw"
-                  className="object-cover"
+                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
                 />
               </figure>
-              <div className="grid grid-cols-2 gap-2">
-                <figure className="relative aspect-[4/3] overflow-hidden border border-mist-50/12">
-                  <Image src={escapeBrunoImages[1].src} alt={escapeBrunoImages[1].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative aspect-[4/3] overflow-hidden border border-mist-50/12">
-                  <Image src={escapeBrunoImages[2].src} alt={escapeBrunoImages[2].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative aspect-[4/3] overflow-hidden border border-mist-50/12">
-                  <Image src={escapeBrunoImages[3].src} alt={escapeBrunoImages[3].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-                <figure className="relative aspect-[4/3] overflow-hidden border border-mist-50/12">
-                  <Image src={escapeBrunoImages[1].src} alt={escapeBrunoImages[1].alt} fill sizes="280px" className="object-cover" />
-                </figure>
-              </div>
+              <MediaGrid images={escapeBrunoImages.slice(1)} accent="gold" columns={2} />
             </div>
 
-            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-              {creatorCoverage.map((creator) => (
-                <Link key={creator.href} href={creator.href} target="_blank" rel="noreferrer noopener" className="group block overflow-hidden border border-gold-300/22 bg-bg-950/34">
-                  <div className="relative aspect-video overflow-hidden">
-                    <Image src={creator.image} alt={`${creator.name} thumbnail`} fill sizes="400px" className="object-cover transition-transform duration-300 group-hover:scale-[1.03]" />
-                  </div>
-                  <div className="p-3">
-                    <p className="font-display text-2xl leading-none text-mist-50">{creator.name}</p>
-                    <p className="mt-1 text-[0.65rem] uppercase tracking-[0.13em] text-gold-100/82">{creator.note}</p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </article>
-        </Container>
-      </Section>
-
-      <Section id="evil-pets" className="py-10 sm:py-14">
-        <Container className="max-w-[90rem]">
-          <article className="space-y-5 border-t border-emerald-200/22 pt-8">
-            <h2 className="font-display text-[clamp(2rem,5vw,3.8rem)] leading-[0.9] text-mist-50">Evil Pets</h2>
-            <p className="text-xs uppercase tracking-[0.14em] text-emerald-100/84">
-              {gameMeta.evilPets.genres.join(" | ")}
-            </p>
-            <p className="max-w-3xl text-sm leading-7 text-mist-200/84 sm:text-base">
-              {gameMeta.evilPets.description}
-            </p>
-
-            <div className="grid gap-4 xl:grid-cols-[0.86fr_1.14fr]">
-              <div className="space-y-4">
-                <article className="overflow-hidden border border-mist-50/14 bg-bg-950/40 p-2">
-                  <div className="relative aspect-video overflow-hidden border border-mist-50/12">
-                    <video
-                      className="h-full w-full object-cover"
-                      controls
-                      preload="metadata"
-                      playsInline
-                      poster="/games/evil-pets/thumbnail.png"
-                      src="/games/evil-pets/fence-teaser.mp4"
-                    />
-                  </div>
-                  <p className="mt-2 text-xs uppercase tracking-[0.13em] text-mist-200/80">Fence Teaser</p>
-                </article>
-                <div className="border border-emerald-200/18 bg-bg-950/40 p-2">
-                  <p className="mb-1 text-[0.66rem] uppercase tracking-[0.13em] text-mist-200/80">Intro Track</p>
-                  <audio className="w-full" controls preload="none" src="/games/evil-pets/intro-perfect.mp3" />
-                </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
-                {evilPetsImages.map((asset, index) => (
-                  <figure key={`${asset.src}-${index}`} className="relative aspect-[4/3] overflow-hidden border border-mist-50/12">
-                    <Image src={asset.src} alt={asset.alt} fill sizes="280px" className="object-cover" />
-                  </figure>
+            <div>
+              <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold-100/70">
+                Creator Coverage
+              </p>
+              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                {creatorCoverage.map((creator) => (
+                  <Link
+                    key={creator.href}
+                    href={creator.href}
+                    target="_blank"
+                    rel="noreferrer noopener"
+                    className="group block overflow-hidden rounded-lg border border-gold-300/18 bg-bg-900/40 transition-all duration-300 hover:border-gold-300/36 hover:shadow-[0_0_30px_8px_rgba(222,186,120,0.06)]"
+                  >
+                    <div className="relative aspect-video overflow-hidden">
+                      <Image
+                        src={creator.image}
+                        alt={`${creator.name} thumbnail`}
+                        fill
+                        sizes="400px"
+                        className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      />
+                      <div className="absolute inset-0 bg-linear-to-t from-bg-950/60 via-transparent to-transparent" />
+                    </div>
+                    <div className="p-3.5">
+                      <p className="font-display text-xl leading-none text-mist-50">{creator.name}</p>
+                      <p className="mt-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-gold-300/80">
+                        {creator.note}
+                      </p>
+                    </div>
+                  </Link>
                 ))}
               </div>
             </div>
-          </article>
+          </div>
         </Container>
       </Section>
-      <Section id="panda-tycoon" className="py-10 sm:py-14">
-        <Container className="max-w-[90rem]">
-          <article className="space-y-5 border-t border-gold-300/22 pt-8">
-            <h2 className="font-display text-[clamp(2rem,5vw,3.8rem)] leading-[0.9] text-mist-50">Panda Tycoon</h2>
-            <p className="text-xs uppercase tracking-[0.14em] text-gold-100/84">
-              {gameMeta.pandaTycoon.genres.join(" | ")}
+
+      <SectionDivider accent="emerald" />
+
+      {/* ── Evil Pets ── */}
+      <Section id="evil-pets" className="py-6 sm:py-10">
+        <Container className="max-w-360">
+          <GameHeroBanner image={evilPetsImages[0]} title="Evil Pets" accent="moss">
+            <GenrePills genres={gameMeta.evilPets.genres} accent="moss" />
+            <p className="text-sm leading-relaxed text-mist-200/80 sm:text-base">
+              {gameMeta.evilPets.description}
             </p>
-            <p className="max-w-3xl text-sm leading-7 text-mist-200/84 sm:text-base">
+          </GameHeroBanner>
+
+          <div className="mt-6 space-y-6">
+            <div className="grid gap-4 xl:grid-cols-[0.86fr_1.14fr]">
+              <div className="space-y-4">
+                <VideoCard
+                  clip={{ title: "Fence Teaser", src: "/games/evil-pets/fence-teaser.mp4" }}
+                  poster="/games/evil-pets/thumbnail.png"
+                  accent="moss"
+                />
+                <AudioCard
+                  track={{ title: "Intro Track", src: "/games/evil-pets/intro-perfect.mp3" }}
+                  accent="moss"
+                />
+              </div>
+
+              <MediaGrid images={evilPetsImages} accent="moss" columns={3} />
+            </div>
+          </div>
+        </Container>
+      </Section>
+
+      <SectionDivider accent="gold" />
+
+      {/* ── Panda Tycoon ── */}
+      <Section id="panda-tycoon" className="py-6 sm:py-10">
+        <Container className="max-w-360">
+          <GameHeroBanner image={turningRedImages[0]} title="Panda Tycoon" accent="gold">
+            <GenrePills genres={gameMeta.pandaTycoon.genres} accent="gold" />
+            <p className="text-sm leading-relaxed text-mist-200/80 sm:text-base">
               {gameMeta.pandaTycoon.description}
             </p>
+          </GameHeroBanner>
 
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-              {turningRedImages.map((asset, index) => (
-                <figure key={`${asset.src}-${index}`} className="relative aspect-[16/10] overflow-hidden border border-mist-50/12">
-                  <Image src={asset.src} alt={asset.alt} fill sizes="260px" className="object-cover" />
-                </figure>
-              ))}
-            </div>
-          </article>
+          <div className="mt-6">
+            <MediaGrid images={turningRedImages} accent="gold" columns={4} />
+          </div>
         </Container>
       </Section>
 
-      <Section id="raise-a-brainrot" className="py-10 sm:py-14">
-        <Container className="max-w-[90rem]">
-          <article className="space-y-5 border-t border-azure-300/22 pt-8">
-            <h2 className="font-display text-[clamp(2rem,5vw,3.8rem)] leading-[0.9] text-mist-50">Raise a Brainrot</h2>
-            <p className="text-xs uppercase tracking-[0.14em] text-azure-200/84">
-              {gameMeta.raiseABrainrot.genres.join(" | ")}
-            </p>
-            <p className="max-w-3xl text-sm leading-7 text-mist-200/84 sm:text-base">
+      <SectionDivider accent="azure" />
+
+      {/* ── Raise a Brainrot ── */}
+      <Section id="raise-a-brainrot" className="py-6 sm:py-10">
+        <Container className="max-w-360">
+          <GameHeroBanner image={brainrotImages[0]} title="Raise a Brainrot" accent="azure">
+            <GenrePills genres={gameMeta.raiseABrainrot.genres} accent="azure" />
+            <p className="text-sm leading-relaxed text-mist-200/80 sm:text-base">
               {gameMeta.raiseABrainrot.description}
             </p>
+          </GameHeroBanner>
 
-            <div className="grid gap-4 xl:grid-cols-[1fr_1fr]">
-              <article className="overflow-hidden border border-mist-50/14 bg-bg-950/40 p-2">
-                <div className="relative aspect-video overflow-hidden border border-mist-50/12">
-                  <video
-                    className="h-full w-full object-cover"
-                    controls
-                    preload="metadata"
-                    playsInline
-                    poster="/games/raise-a-brainrot/thumbnail.png"
-                    src="/games/raise-a-brainrot/clip-1.mp4"
-                  />
-                </div>
-                <p className="mt-2 text-xs uppercase tracking-[0.13em] text-mist-200/80">Clip 1</p>
-              </article>
-              <article className="overflow-hidden border border-mist-50/14 bg-bg-950/40 p-2">
-                <div className="relative aspect-video overflow-hidden border border-mist-50/12">
-                  <video
-                    className="h-full w-full object-cover"
-                    controls
-                    preload="metadata"
-                    playsInline
-                    poster="/games/raise-a-brainrot/thumbnail-2.png"
-                    src="/games/raise-a-brainrot/clip-2.mp4"
-                  />
-                </div>
-                <p className="mt-2 text-xs uppercase tracking-[0.13em] text-mist-200/80">Clip 2</p>
-              </article>
+          <div className="mt-6 space-y-6">
+            <div className="grid gap-4 xl:grid-cols-2">
+              <VideoCard
+                clip={{ title: "Clip 1", src: "/games/raise-a-brainrot/clip-1.mp4" }}
+                poster="/games/raise-a-brainrot/thumbnail.png"
+                accent="azure"
+              />
+              <VideoCard
+                clip={{ title: "Clip 2", src: "/games/raise-a-brainrot/clip-2.mp4" }}
+                poster="/games/raise-a-brainrot/thumbnail-2.png"
+                accent="azure"
+              />
             </div>
 
-            <div className="grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-              {brainrotImages.map((asset, index) => (
-                <figure key={`${asset.src}-${index}`} className="relative aspect-[16/10] overflow-hidden border border-mist-50/12">
-                  <Image src={asset.src} alt={asset.alt} fill sizes="260px" className="object-cover" />
-                </figure>
-              ))}
-            </div>
-          </article>
+            <MediaGrid images={brainrotImages} accent="azure" columns={4} />
+          </div>
         </Container>
       </Section>
 
-      <Section className="pb-16 pt-10 sm:pb-20">
-        <Container className="max-w-[90rem]">
-          <div className="border-t border-emerald-200/18 pt-8">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200/86">Legacy Archive</p>
-            <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+      <SectionDivider accent="emerald" />
+
+      {/* ── Legacy Archive ── */}
+      <Section className="pb-16 pt-6 sm:pb-20">
+        <Container className="max-w-360">
+          <div className="space-y-6">
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/80">Legacy Archive</p>
+              <p className="mt-2 text-sm text-mist-300/60">Older titles from our earlier catalog.</p>
+            </div>
+            <div className="grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
               {archiveHighlights.map((item) => (
-                <article key={item.title} className="overflow-hidden border border-emerald-200/20 bg-bg-900/50">
-                  <div className="relative aspect-[4/3]">
+                <article
+                  key={item.title}
+                  className="game-media-item group overflow-hidden rounded-lg border border-emerald-200/16 bg-bg-900/40"
+                >
+                  <div className="relative aspect-4/3 overflow-hidden">
                     <Image
                       src={item.image.src}
                       alt={item.image.alt}
                       fill
-                      sizes="(min-width: 1280px) 23vw, (min-width: 640px) 45vw, 94vw"
-                      className="object-cover"
+                      sizes="(min-width: 1280px) 30vw, (min-width: 640px) 45vw, 94vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
                       style={{ objectPosition: item.image.objectPosition }}
                     />
+                    <div className="absolute inset-0 bg-linear-to-t from-bg-950/50 via-transparent to-transparent" />
                   </div>
-                  <div className="p-3">
+                  <div className="p-4">
                     <p className="font-display text-xl text-mist-50">{item.title}</p>
-                    <p className="mt-1 text-[0.66rem] uppercase tracking-[0.13em] text-mist-300">{item.note}</p>
+                    <p className="mt-1 text-[0.66rem] uppercase tracking-[0.14em] text-mist-300/70">{item.note}</p>
                   </div>
                 </article>
               ))}
@@ -640,4 +828,3 @@ export default function GamesPage() {
     </>
   );
 }
-
