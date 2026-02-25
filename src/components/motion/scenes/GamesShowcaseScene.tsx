@@ -60,29 +60,48 @@ export function GamesShowcaseScene({ children, className }: GamesShowcaseScenePr
             { willChange: "transform, opacity" },
           );
 
+          // Dramatic entrance for heading and media
           gsap.fromTo(
-            ["[data-games-heading]", "[data-games-media-shell]", ...items],
-            { y: isMobile ? 14 : 28, autoAlpha: 0 },
+            ["[data-games-heading]", "[data-games-media-shell]"],
+            { y: isMobile ? 50 : 90, autoAlpha: 0, scale: 0.94 },
             {
               y: 0,
               autoAlpha: 1,
-              duration: isMobile ? 0.42 : 0.68,
-              ease: "power2.out",
-              stagger: 0.08,
+              scale: 1,
+              duration: isMobile ? 0.7 : 1.1,
+              ease: "power3.out",
+              stagger: 0.12,
               overwrite: "auto",
             },
           );
 
+          // Game items stagger in from below with slight rotation
+          gsap.fromTo(
+            items,
+            { y: isMobile ? 40 : 70, autoAlpha: 0, rotate: isMobile ? 0 : 1.5 },
+            {
+              y: 0,
+              autoAlpha: 1,
+              rotate: 0,
+              duration: isMobile ? 0.6 : 0.95,
+              ease: "power3.out",
+              stagger: 0.1,
+              overwrite: "auto",
+            },
+          );
+
+          // Backdrop floats emerge dramatically
           gsap.fromTo(
             floats,
-            { autoAlpha: 0, y: isMobile ? 10 : 36, scale: isMobile ? 1.02 : 1.08 },
+            { autoAlpha: 0, y: isMobile ? 30 : 80, scale: isMobile ? 1.04 : 1.16, rotate: "+=4" },
             {
-              autoAlpha: isMobile ? 0.2 : 0.42,
+              autoAlpha: isMobile ? 0.22 : 0.46,
               y: 0,
               scale: 1,
-              duration: isMobile ? 0.48 : 0.82,
+              rotate: "+=0",
+              duration: isMobile ? 0.6 : 1.0,
               ease: "power2.out",
-              stagger: 0.08,
+              stagger: 0.06,
               overwrite: "auto",
             },
           );
@@ -92,109 +111,87 @@ export function GamesShowcaseScene({ children, className }: GamesShowcaseScenePr
               defaults: { ease: "none" },
               scrollTrigger: {
                 trigger: root,
-                // Run from section entry to exit to avoid a pinned/sticky feel.
                 start: "top bottom-=10%",
                 end: "bottom top+=10%",
                 pin: false,
-                scrub: isMobile ? 0.22 : 0.28,
+                scrub: isMobile ? 0.2 : 0.25,
                 invalidateOnRefresh: true,
               },
             })
+            // Float field drifts dramatically through the section
             .fromTo(
               "[data-games-float-field]",
-              { yPercent: isDesktop ? 14 : isTablet ? 11 : 7 },
-              { yPercent: isDesktop ? -12 : isTablet ? -9 : -6 },
+              { yPercent: isDesktop ? 22 : isTablet ? 16 : 10 },
+              { yPercent: isDesktop ? -20 : isTablet ? -14 : -8 },
               0,
             )
-            .to("[data-games-bg='far']", { y: isDesktop ? -82 : isTablet ? -46 : -18, opacity: 0.58 }, 0)
-            .to("[data-games-bg='near']", { y: isDesktop ? -46 : isTablet ? -28 : -10, opacity: 0.72 }, 0.02)
-            .to("[data-games-heading]", { y: isDesktop ? -42 : isTablet ? -26 : -10, opacity: isMobile ? 0.98 : 0.84 }, 0)
-            .to("[data-games-media]", { scale: isDesktop ? 1.05 : isTablet ? 1.02 : 1, y: isDesktop ? -36 : isTablet ? -22 : -8 }, 0.03)
+            // Background parallax layers with dramatic depth
+            .to("[data-games-bg='far']", { y: isDesktop ? -220 : isTablet ? -130 : -55, opacity: 0.3, scale: 1.05 }, 0)
+            .to("[data-games-bg='near']", { y: isDesktop ? -120 : isTablet ? -70 : -30, opacity: 0.5 }, 0.02)
+            // Heading drifts up and fades
+            .to("[data-games-heading]", { y: isDesktop ? -110 : isTablet ? -65 : -28, opacity: isMobile ? 0.85 : 0.55 }, 0)
+            // Media panel scales and lifts dramatically
+            .to(
+              "[data-games-media]",
+              { scale: isDesktop ? 1.1 : isTablet ? 1.06 : 1.02, y: isDesktop ? -90 : isTablet ? -55 : -22, rotate: isDesktop ? -0.6 : 0 },
+              0.03,
+            )
             .to(
               "[data-games-media-image]",
-              { scale: isDesktop ? 1.08 : isTablet ? 1.05 : 1.03, y: isDesktop ? -26 : isTablet ? -16 : -8 },
+              { scale: isDesktop ? 1.16 : isTablet ? 1.1 : 1.05, y: isDesktop ? -60 : isTablet ? -36 : -16 },
               0.04,
             )
-            .to("[data-games-media-layer='far']", { y: isDesktop ? -28 : isTablet ? -18 : -7 }, 0.07)
-            .to("[data-games-media-layer='near']", { y: isDesktop ? -14 : isTablet ? -9 : -4 }, 0.1)
+            // Inner media layers for depth
+            .to("[data-games-media-layer='far']", { y: isDesktop ? -70 : isTablet ? -42 : -18, opacity: 0.4 }, 0.07)
+            .to("[data-games-media-layer='near']", { y: isDesktop ? -36 : isTablet ? -22 : -10 }, 0.1)
+            // Game items parallax with staggered depths and rotation
             .to(
               items,
               {
                 y: (index) => {
-                  if (isDesktop) {
-                    return -(28 + (index % 3) * 12);
-                  }
-
-                  if (isTablet) {
-                    return -(18 + (index % 2) * 8);
-                  }
-
-                  return -(8 + (index % 2) * 4);
+                  if (isDesktop) return -(70 + (index % 3) * 30);
+                  if (isTablet) return -(45 + (index % 2) * 20);
+                  return -(20 + (index % 2) * 10);
                 },
                 rotate: (index) => {
-                  if (isMobile) {
-                    return 0;
-                  }
-
-                  return index % 2 === 0 ? -0.35 : 0.35;
+                  if (isMobile) return 0;
+                  return index % 2 === 0 ? -1.2 : 1.2;
                 },
-                autoAlpha: isMobile ? 1 : 0.93,
+                autoAlpha: isMobile ? 0.9 : 0.7,
                 stagger: 0.04,
               },
               0.08,
             )
+            // Backdrop floats drift with dramatic parallax and rotation
             .to(
               floats,
               {
                 y: (_, target) => {
                   const depth = Number((target as HTMLElement).dataset.gamesFloatDepth ?? 2);
-
-                  if (isDesktop) {
-                    return -(74 + depth * 12);
-                  }
-
-                  if (isTablet) {
-                    return -(52 + depth * 9);
-                  }
-
-                  return -(28 + depth * 6);
+                  if (isDesktop) return -(160 + depth * 30);
+                  if (isTablet) return -(110 + depth * 22);
+                  return -(55 + depth * 14);
                 },
                 x: (index) => {
-                  if (isMobile) {
-                    return 0;
-                  }
-
-                  if (isDesktop) {
-                    return index % 2 === 0 ? 10 : -10;
-                  }
-
-                  return index % 2 === 0 ? 6 : -6;
+                  if (isMobile) return 0;
+                  if (isDesktop) return index % 2 === 0 ? 24 : -24;
+                  return index % 2 === 0 ? 14 : -14;
                 },
                 rotate: (index) => {
-                  if (isMobile) {
-                    return index % 2 === 0 ? "+=1.1" : "-=1.1";
-                  }
-
-                  if (isDesktop) {
-                    return index % 2 === 0 ? "+=3.8" : "-=3.8";
-                  }
-
-                  return index % 2 === 0 ? "+=2.4" : "-=2.4";
+                  if (isMobile) return index % 2 === 0 ? "+=2.5" : "-=2.5";
+                  if (isDesktop) return index % 2 === 0 ? "+=8" : "-=8";
+                  return index % 2 === 0 ? "+=5.5" : "-=5.5";
                 },
                 autoAlpha: (_, target) => {
                   const depth = Number((target as HTMLElement).dataset.gamesFloatDepth ?? 1);
-
-                  if (isMobile) {
-                    return 0.18 + depth * 0.03;
-                  }
-
-                  return 0.22 + depth * 0.045;
+                  if (isMobile) return 0.14 + depth * 0.03;
+                  return 0.18 + depth * 0.04;
                 },
-                stagger: 0.04,
+                stagger: 0.03,
               },
               0.04,
             )
-            .to("[data-games-footer]", { y: isDesktop ? -16 : isTablet ? -10 : -4, opacity: 0.9 }, 0.34);
+            .to("[data-games-footer]", { y: isDesktop ? -40 : isTablet ? -24 : -10, opacity: 0.7 }, 0.34);
         },
       );
     }, root);

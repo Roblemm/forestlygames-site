@@ -66,17 +66,23 @@ export function Navbar() {
       )}
     >
       <Container className="flex h-20 items-center justify-between gap-6">
-        <Link href="/" aria-label={siteConfig.name} className="inline-flex items-center">
-          <span className="relative block h-14 w-14 overflow-hidden rounded-xl border border-emerald-200/20 bg-bg-900/55">
-            <Image
-              src="/brand/mascot-smile.png"
-              alt="ForestlyGames mascot logo"
-              fill
-              sizes="56px"
-              className="object-cover object-center scale-[1.32]"
-              priority
-            />
-          </span>
+        <Link href="/" aria-label={siteConfig.name} className="inline-flex items-center gap-3">
+          <Image
+            src="/brand/mascot-smile.png"
+            alt="ForestlyGames mascot"
+            width={48}
+            height={48}
+            className="h-11 w-11 object-contain drop-shadow-[0_2px_8px_rgba(85,190,136,0.3)] sm:h-12 sm:w-12"
+            priority
+          />
+          <Image
+            src="/brand/fg-logo.png"
+            alt="ForestlyGames"
+            width={140}
+            height={48}
+            className="hidden h-9 w-auto object-contain sm:block"
+            priority
+          />
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-6 md:flex">

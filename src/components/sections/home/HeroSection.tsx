@@ -9,7 +9,7 @@ export function HeroSection() {
   return (
     <section className="relative bg-bg-950">
       <HeroScene>
-        <div className="mx-auto max-w-[88rem] px-5 pb-12 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
+        <div className="mx-auto max-w-352 px-5 pb-12 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
           <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
             <div className="min-w-0">
               <p
@@ -100,9 +100,9 @@ export function HeroSection() {
                 <Image
                   src="/brand/mascot-smile.png"
                   alt="Forestly mascot"
-                  width={96}
-                  height={96}
-                  className="pointer-events-none absolute right-3 top-3 h-16 w-16 opacity-85 drop-shadow-[0_8px_18px_rgba(89,107,255,0.35)] sm:right-4 sm:top-4 sm:h-20 sm:w-20"
+                  width={120}
+                  height={120}
+                  className="pointer-events-none absolute -right-4 -top-6 h-20 w-20 object-contain opacity-90 drop-shadow-[0_8px_22px_rgba(89,107,255,0.35)] sm:-right-5 sm:-top-8 sm:h-24 sm:w-24"
                 />
               </div>
             </div>

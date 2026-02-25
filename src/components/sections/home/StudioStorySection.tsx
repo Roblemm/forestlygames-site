@@ -6,7 +6,7 @@ export function StudioStorySection() {
   return (
     <section className="relative bg-bg-950">
       <StudioStoryScene>
-        <div className="mx-auto max-w-[90rem] px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
+        <div className="mx-auto max-w-360 px-5 py-16 sm:px-8 sm:py-20 lg:px-12 lg:py-24">
           <div className="grid gap-10 lg:grid-cols-[1.05fr_0.95fr] lg:items-end">
             <div data-studio-lead className="max-w-3xl min-w-0">
               <p className="inline-block rounded-full border border-emerald-200/20 bg-emerald-300/6 px-4 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-200/90">
@@ -26,7 +26,7 @@ export function StudioStorySection() {
 
             <div
               data-studio-media
-              className="relative min-h-[16rem] min-w-0 overflow-hidden rounded-xl border border-emerald-200/16 bg-[linear-gradient(140deg,#11281f_2%,#070f0c_40%,#161308_100%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.08)] sm:min-h-[20rem]"
+              className="relative min-h-64 min-w-0 overflow-hidden rounded-xl border border-emerald-200/16 bg-[linear-gradient(140deg,#11281f_2%,#070f0c_40%,#161308_100%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.08)] sm:min-h-80"
             >
               <div
                 aria-hidden
@@ -49,9 +49,9 @@ export function StudioStorySection() {
               <Image
                 src="/brand/mascot-face.png"
                 alt="Forestly mascot icon"
-                width={112}
-                height={112}
-                className="pointer-events-none absolute bottom-4 right-4 h-20 w-20 opacity-75 drop-shadow-[0_8px_20px_rgba(92,111,255,0.28)] sm:bottom-6 sm:right-6 sm:h-24 sm:w-24"
+                width={120}
+                height={120}
+                className="pointer-events-none absolute -bottom-2 -right-2 h-24 w-24 object-contain opacity-80 drop-shadow-[0_8px_20px_rgba(92,111,255,0.28)] sm:-bottom-3 sm:-right-3 sm:h-28 sm:w-28"
               />
             </div>
           </div>
@@ -63,7 +63,7 @@ export function StudioStorySection() {
               ))}
             </div>
 
-            <div className="min-w-0 space-y-4 lg:ml-auto lg:w-full lg:max-w-[34rem]">
+            <div className="min-w-0 space-y-4 lg:ml-auto lg:w-full lg:max-w-136">
               {studioPillars.map((pillar, index) => (
                 <article
                   key={pillar.title}
