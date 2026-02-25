@@ -230,12 +230,12 @@ const gamesData: GameSectionProps[] = [
     genres: ["Obby", "Horror", "Story"],
     stage: "Live",
     color: "gold",
-    heroImage: "/games/escape-bruno/encanto-shot-1.png",
+    heroImage: "/games/escape-bruno/encanto-shot-4.png",
     gallery: [
       "/games/escape-bruno/encanto-shot-3.png",
       "/games/escape-bruno/encanto-shot-5.png",
-      "/games/escape-bruno/chairs-scene.png",
-      "/games/escape-bruno/characters-menu.png",
+      "/games/escape-bruno/encanto-shot-6.png",
+      "/games/escape-bruno/encanto-shot-7.png",
     ],
     creatorCoverage: [
       { name: "FGTeeV", note: "3.2M+ views", href: "https://www.youtube.com/watch?v=gJBWB2fpCQ8" },
