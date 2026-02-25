@@ -1,6 +1,6 @@
 export type GameAccent = "moss" | "emerald" | "gold" | "azure";
 
-export type GameStage = "Released" | "Live" | "In Development" | "Alpha";
+export type GameStage = "Released" | "Live" | "In Development" | "In Dev" | "Alpha";
 
 export interface Game {
   slug: string;
