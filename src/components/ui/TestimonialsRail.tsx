@@ -94,14 +94,14 @@ export function TestimonialsRail({ testimonials, className }: TestimonialsRailPr
         <button
           type="button"
           onClick={() => moveRail(-1)}
-          className="border border-emerald-200/24 bg-bg-950/72 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-mist-100 transition-colors hover:border-emerald-200/46 hover:text-emerald-100"
+          className="rounded-lg border border-emerald-200/20 bg-bg-950/65 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-mist-100 transition-colors hover:border-emerald-200/40 hover:text-emerald-100"
         >
           Prev
         </button>
         <button
           type="button"
           onClick={() => moveRail(1)}
-          className="border border-emerald-200/24 bg-bg-950/72 px-3 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-mist-100 transition-colors hover:border-emerald-200/46 hover:text-emerald-100"
+          className="rounded-lg border border-emerald-200/20 bg-bg-950/65 px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] text-mist-100 transition-colors hover:border-emerald-200/40 hover:text-emerald-100"
         >
           Next
         </button>
@@ -115,7 +115,7 @@ export function TestimonialsRail({ testimonials, className }: TestimonialsRailPr
         onFocusCapture={() => setIsPaused(true)}
         onBlurCapture={() => setIsPaused(false)}
       >
-        <div className="grid h-[30rem] w-max grid-flow-col grid-rows-1 auto-cols-[minmax(86vw,86vw)] gap-4 pr-4 sm:auto-cols-[minmax(22rem,28rem)] md:h-[31rem] md:grid-rows-2 md:auto-cols-[minmax(24rem,30rem)] lg:auto-cols-[minmax(27rem,33rem)]">
+        <div className="grid h-120 w-max grid-flow-col grid-rows-1 auto-cols-[minmax(86vw,86vw)] gap-4 pr-4 sm:auto-cols-[minmax(22rem,28rem)] md:h-124 md:grid-rows-2 md:auto-cols-[minmax(24rem,30rem)] lg:auto-cols-[minmax(27rem,33rem)]">
           {loopingTestimonials.map((testimonial, index) => {
             const long = isLongTestimonial(testimonial);
 
@@ -123,12 +123,12 @@ export function TestimonialsRail({ testimonials, className }: TestimonialsRailPr
               <article
                 key={`${testimonial.attribution}-${index}`}
                 className={cn(
-                  "themed-scrollbar min-w-0 overflow-y-auto border border-emerald-200/18 bg-bg-950/64 p-5 sm:p-6",
+                  "themed-scrollbar min-w-0 overflow-y-auto rounded-xl border border-emerald-200/14 bg-bg-950/55 p-5 backdrop-blur-[2px] sm:p-6",
                   long ? "md:row-span-2" : "md:row-span-1",
                 )}
               >
-                <p className="whitespace-pre-line break-words text-sm leading-7 text-mist-100/86">{`"${testimonial.quote}"`}</p>
-                <p className="mt-4 break-words text-xs font-semibold uppercase tracking-[0.12em] text-emerald-200/86">
+                <p className="whitespace-pre-line wrap-break-word text-sm leading-7 text-mist-100/86">{`"${testimonial.quote}"`}</p>
+                <p className="mt-4 wrap-break-word text-xs font-semibold uppercase tracking-[0.12em] text-emerald-200/86">
                   - {testimonial.attribution}
                 </p>
               </article>

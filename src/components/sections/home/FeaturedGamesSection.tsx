@@ -1,7 +1,44 @@
 import { GamesShowcaseScene } from "@/components/motion/scenes/GamesShowcaseScene";
+import { Badge } from "@/components/ui/Badge";
 import { featuredGames } from "@/data/games";
 import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
+import type { GameAccent } from "@/types/game";
+
+const accentBorderMap: Record<GameAccent, string> = {
+  moss: "border-emerald-200/22",
+  emerald: "border-emerald-300/24",
+  gold: "border-gold-300/24",
+  azure: "border-azure-300/24",
+};
+
+const accentGlowMap: Record<GameAccent, string> = {
+  moss: "from-emerald-400/8 via-transparent to-transparent",
+  emerald: "from-emerald-300/10 via-transparent to-transparent",
+  gold: "from-gold-300/10 via-transparent to-transparent",
+  azure: "from-azure-300/10 via-transparent to-transparent",
+};
+
+const accentSubtitleMap: Record<GameAccent, string> = {
+  moss: "text-emerald-200/80",
+  emerald: "text-emerald-200/84",
+  gold: "text-gold-100/84",
+  azure: "text-azure-300/84",
+};
+
+const accentGenreMap: Record<GameAccent, string> = {
+  moss: "text-emerald-200/66",
+  emerald: "text-emerald-200/66",
+  gold: "text-gold-100/66",
+  azure: "text-azure-300/66",
+};
+
+const accentBadgeMap: Record<GameAccent, string> = {
+  moss: "border-emerald-200/26 bg-emerald-300/10 text-emerald-200",
+  emerald: "border-emerald-200/26 bg-emerald-300/10 text-emerald-200",
+  gold: "border-gold-300/26 bg-gold-400/12 text-gold-100",
+  azure: "border-azure-300/26 bg-azure-300/10 text-azure-300",
+};
 
 const gamesBackdropAssets = [
   {
@@ -240,7 +277,7 @@ export function FeaturedGamesSection() {
               key={asset.id}
               data-games-float
               data-games-float-depth={asset.depth}
-              className={cn("absolute overflow-hidden border border-mist-50/12 bg-bg-950/24", asset.className)}
+              className={cn("absolute overflow-hidden rounded-lg border border-mist-50/12 bg-bg-950/24", asset.className)}
             >
               <Image
                 src={asset.src}
@@ -260,11 +297,13 @@ export function FeaturedGamesSection() {
 
         <div className="relative z-10 mx-auto max-w-[90rem] px-5 pb-16 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
           <div data-games-heading className="max-w-5xl">
-            <p className="font-semibold uppercase tracking-[0.22em] text-emerald-200/90">Featured Games</p>
-            <h2 className="mt-4 max-w-[14ch] font-display text-[clamp(2.2rem,6.8vw,5.2rem)] leading-[0.92] tracking-[-0.01em] text-mist-50">
+            <p className="inline-block rounded-full border border-emerald-200/20 bg-emerald-300/6 px-4 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-200/90">
+              Featured Games
+            </p>
+            <h2 className="mt-5 max-w-[14ch] font-display text-[clamp(2.2rem,6.8vw,5.2rem)] leading-[0.92] tracking-[-0.01em] text-mist-50">
               Real ForestlyGames Titles
             </h2>
-            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-mist-100/82 sm:text-xl">
+            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-mist-100/78 sm:text-xl">
               A live portfolio spanning strategy, horror survival, dungeon combat, and viral obstacle experiences.
             </p>
           </div>
@@ -273,7 +312,7 @@ export function FeaturedGamesSection() {
             <div data-games-media-shell className="relative min-w-0">
               <div
                 data-games-media
-                className="relative aspect-[16/10] w-full overflow-hidden border border-mist-50/18 bg-[linear-gradient(125deg,#0f2c20_4%,#07110d_40%,#1a150a_96%)]"
+                className="relative aspect-[16/10] w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(125deg,#0f2c20_4%,#07110d_40%,#1a150a_96%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.1)]"
               >
                 <Image
                   src="/games/boss-battles/thumbnail.png"
@@ -297,7 +336,7 @@ export function FeaturedGamesSection() {
                   <p className="font-display text-[clamp(1.35rem,3vw,2.5rem)] uppercase tracking-[0.16em] text-mist-50/92">
                     Live Portfolio
                   </p>
-                  <p className="mt-1 text-sm uppercase tracking-[0.2em] text-emerald-200/90">Roblox Game Releases</p>
+                  <p className="mt-1.5 text-sm uppercase tracking-[0.2em] text-emerald-200/90">Roblox Game Releases</p>
                 </div>
               </div>
             </div>
@@ -308,24 +347,42 @@ export function FeaturedGamesSection() {
                   key={game.slug}
                   data-games-item
                   data-games-depth={index % 3}
-                  className="w-full border border-emerald-200/20 bg-bg-950/55 p-5 backdrop-blur-[1px] sm:p-6"
+                  className={cn(
+                    "group w-full rounded-xl border bg-bg-950/60 p-5 backdrop-blur-[2px] transition-colors duration-300 hover:bg-bg-950/75 sm:p-6",
+                    accentBorderMap[game.accent],
+                  )}
                 >
-                  <div className="flex items-center justify-between gap-4">
-                    <h3 className="font-display text-2xl leading-tight text-mist-50 sm:text-3xl">{game.title}</h3>
-                    <p className="text-xs font-semibold uppercase tracking-[0.18em] text-gold-100/95">{game.stage}</p>
+                  <div
+                    aria-hidden
+                    className={cn(
+                      "pointer-events-none absolute inset-0 rounded-xl bg-linear-to-br opacity-0 transition-opacity duration-300 group-hover:opacity-100",
+                      accentGlowMap[game.accent],
+                    )}
+                  />
+                  <div className="relative">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="font-display text-2xl leading-tight text-mist-50 sm:text-3xl">
+                          {game.title}
+                        </h3>
+                        <p className={cn("mt-1.5 text-sm uppercase tracking-[0.16em]", accentSubtitleMap[game.accent])}>
+                          {game.subtitle}
+                        </p>
+                      </div>
+                      <Badge className={accentBadgeMap[game.accent]}>{game.stage}</Badge>
+                    </div>
+                    <p className="mt-4 text-base leading-7 text-mist-100/78">{game.description}</p>
+                    <p className={cn("mt-4 text-sm", accentGenreMap[game.accent])}>
+                      {game.genre} | {game.platformFocus}
+                    </p>
                   </div>
-                  <p className="mt-2 text-sm uppercase tracking-[0.16em] text-emerald-200/84">{game.subtitle}</p>
-                  <p className="mt-4 text-base leading-7 text-mist-100/82">{game.description}</p>
-                  <p className="mt-4 text-sm text-mist-200/78">
-                    {game.genre} | {game.platformFocus}
-                  </p>
                 </article>
               ))}
             </div>
           </div>
 
-          <div data-games-footer className="mt-8 border-t border-emerald-200/18 pt-5">
-            <p className="max-w-4xl text-sm uppercase tracking-[0.16em] text-mist-200/76">
+          <div data-games-footer className="mt-8 border-t border-emerald-200/14 pt-5">
+            <p className="max-w-4xl text-sm uppercase tracking-[0.16em] text-mist-200/70">
               Escape Bruno creator coverage includes FGTeeV, LankyBox, DenisDaily, and GravyCatMan features.
             </p>
           </div>

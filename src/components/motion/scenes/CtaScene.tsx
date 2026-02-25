@@ -48,13 +48,14 @@ export function CtaScene({ children, className }: CtaSceneProps) {
 
           gsap.fromTo(
             introTargets,
-            { y: isMobile ? 12 : 24, autoAlpha: 0.2 },
+            { y: isMobile ? 35 : 60, autoAlpha: 0, scale: 0.97 },
             {
               y: 0,
               autoAlpha: 1,
-              duration: isMobile ? 0.42 : 0.66,
-              stagger: 0.07,
-              ease: "power2.out",
+              scale: 1,
+              duration: isMobile ? 0.6 : 0.9,
+              stagger: 0.1,
+              ease: "power3.out",
               overwrite: "auto",
             },
           );
@@ -63,19 +64,19 @@ export function CtaScene({ children, className }: CtaSceneProps) {
             .timeline({
               defaults: { ease: "none" },
               scrollTrigger: {
-                // CTA is a low-medium finish: clear, confident, and not over-theatrical.
                 trigger: root,
-                start: "top 82%",
-                end: isDesktop ? "bottom top+=18%" : isTablet ? "bottom top+=26%" : "bottom top+=36%",
-                scrub: isMobile ? 0.45 : 0.68,
+                start: "top 78%",
+                end: isDesktop ? "bottom top+=14%" : isTablet ? "bottom top+=22%" : "bottom top+=32%",
+                scrub: isMobile ? 0.35 : 0.55,
                 invalidateOnRefresh: true,
               },
             })
-            .to("[data-cta-bg='far']", { y: isDesktop ? -42 : isTablet ? -24 : -10, opacity: 0.58 }, 0)
-            .to("[data-cta-bg='near']", { y: isDesktop ? -22 : isTablet ? -14 : -5, opacity: 0.74 }, 0.03)
-            .to("[data-cta-title]", { y: isDesktop ? -18 : isTablet ? -10 : -4 }, 0.05)
-            .to("[data-cta-actions]", { y: isDesktop ? -16 : isTablet ? -10 : -4 }, 0.08)
-            .to("[data-cta-copy]", { autoAlpha: isMobile ? 1 : 0.9 }, 0.62);
+            .to("[data-cta-bg='far']", { y: isDesktop ? -110 : isTablet ? -65 : -28, opacity: 0.35, scale: 1.05 }, 0)
+            .to("[data-cta-bg='near']", { y: isDesktop ? -60 : isTablet ? -36 : -16, opacity: 0.55 }, 0.03)
+            .to("[data-cta-kicker]", { y: isDesktop ? -30 : isTablet ? -18 : -8, opacity: 0.6 }, 0.04)
+            .to("[data-cta-title]", { y: isDesktop ? -50 : isTablet ? -30 : -12, opacity: isMobile ? 0.85 : 0.7 }, 0.05)
+            .to("[data-cta-copy]", { y: isDesktop ? -35 : isTablet ? -20 : -8, autoAlpha: isMobile ? 0.85 : 0.65 }, 0.08)
+            .to("[data-cta-actions]", { y: isDesktop ? -40 : isTablet ? -24 : -10, opacity: isMobile ? 0.9 : 0.75 }, 0.1);
         },
       );
     }, root);

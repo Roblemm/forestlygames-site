@@ -46,16 +46,24 @@ export function ProofStripScene({ children, className }: ProofStripSceneProps) {
 
           gsap.set(["[data-proof-bg]", "[data-proof-heading]", ...items], { willChange: "transform, opacity" });
 
+          // Staggered entrance with items sliding up from offset positions
           gsap.fromTo(
-            ["[data-proof-heading]", ...items],
-            { y: isMobile ? 12 : 24, autoAlpha: 0.2 },
+            "[data-proof-heading]",
+            { y: isMobile ? 30 : 50, autoAlpha: 0 },
+            { y: 0, autoAlpha: 1, duration: isMobile ? 0.6 : 0.85, ease: "power3.out" },
+          );
+
+          gsap.fromTo(
+            items,
+            { y: isMobile ? 40 : 65, autoAlpha: 0, scale: 0.96 },
             {
               y: 0,
               autoAlpha: 1,
-              duration: isMobile ? 0.4 : 0.62,
-              stagger: 0.06,
-              ease: "power2.out",
-              overwrite: "auto",
+              scale: 1,
+              duration: isMobile ? 0.55 : 0.8,
+              stagger: isMobile ? 0.06 : 0.1,
+              ease: "power3.out",
+              delay: 0.15,
             },
           );
 
@@ -63,32 +71,29 @@ export function ProofStripScene({ children, className }: ProofStripSceneProps) {
             .timeline({
               defaults: { ease: "none" },
               scrollTrigger: {
-                // Cooldown motion: short and subtle by design.
                 trigger: root,
-                start: "top 82%",
-                end: isDesktop ? "bottom top+=26%" : isTablet ? "bottom top+=34%" : "bottom top+=42%",
-                scrub: isMobile ? 0.45 : 0.62,
+                start: "top 75%",
+                end: isDesktop ? "bottom top+=20%" : isTablet ? "bottom top+=30%" : "bottom top+=38%",
+                scrub: isMobile ? 0.35 : 0.5,
                 invalidateOnRefresh: true,
               },
             })
-            .to("[data-proof-bg='soft']", { y: isDesktop ? -20 : isTablet ? -12 : -6, opacity: 0.66 }, 0)
-            .to("[data-proof-heading]", { y: isDesktop ? -20 : isTablet ? -12 : -5, opacity: 0.9 }, 0.02)
+            .to("[data-proof-bg='soft']", { y: isDesktop ? -55 : isTablet ? -32 : -16, opacity: 0.5 }, 0)
+            .to("[data-proof-heading]", { y: isDesktop ? -50 : isTablet ? -30 : -14, opacity: 0.7 }, 0.02)
             .to(
               items,
               {
                 y: (index) => {
-                  if (isDesktop) {
-                    return -(14 + index * 4);
-                  }
-
-                  if (isTablet) {
-                    return -(9 + index * 3);
-                  }
-
-                  return -(4 + index * 2);
+                  if (isDesktop) return -(35 + index * 12);
+                  if (isTablet) return -(22 + index * 8);
+                  return -(10 + index * 5);
                 },
-                autoAlpha: isMobile ? 1 : 0.92,
-                stagger: 0.03,
+                scale: (index) => {
+                  if (isMobile) return 1;
+                  return 1 - index * 0.008;
+                },
+                autoAlpha: isMobile ? 0.95 : 0.8,
+                stagger: 0.04,
               },
               0.05,
             );
