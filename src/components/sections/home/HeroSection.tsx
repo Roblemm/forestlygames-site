@@ -9,8 +9,8 @@ export function HeroSection() {
   return (
     <section className="relative bg-bg-950">
       <HeroScene>
-        <div className="mx-auto max-w-352 px-5 pb-12 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
-          <div className="grid gap-10 lg:grid-cols-[1.08fr_0.92fr] lg:items-end">
+        <div className="mx-auto max-w-352 px-5 pb-10 pt-12 sm:px-8 sm:pt-16 lg:px-12 lg:pt-16">
+          <div className="grid gap-8 lg:grid-cols-[1fr_1fr] lg:items-center lg:gap-12">
             <div className="min-w-0">
               <p
                 data-hero-kicker
@@ -21,19 +21,19 @@ export function HeroSection() {
 
               <h1
                 data-hero-title
-                className="mt-6 max-w-[11ch] font-display text-[clamp(2.6rem,7.5vw,5.8rem)] leading-[0.88] tracking-[-0.02em] text-mist-50"
+                className="mt-5 max-w-[16ch] font-display text-[clamp(2.6rem,6.5vw,5rem)] leading-[0.9] tracking-[-0.02em] text-mist-50"
               >
                 Roblox games built with polish, scale, and replay depth.
               </h1>
 
               <p
                 data-hero-copy
-                className="mt-6 max-w-xl text-base leading-relaxed text-mist-100/82 sm:text-lg sm:leading-relaxed"
+                className="mt-5 max-w-xl text-base leading-relaxed text-mist-100/82 sm:text-lg sm:leading-relaxed"
               >
                 ForestlyGames is a remote Roblox game studio focused on building, testing, and shipping games quickly.
               </p>
 
-              <div className="mt-6 flex flex-wrap gap-2.5">
+              <div className="mt-5 flex flex-wrap gap-2.5">
                 {heroProofChips.map((chip) => (
                   <span
                     key={chip}
@@ -55,7 +55,7 @@ export function HeroSection() {
                 ))}
               </div>
 
-              <div data-hero-actions className="mt-8 flex flex-wrap gap-3">
+              <div data-hero-actions className="mt-6 flex flex-wrap gap-3">
                 <LinkButton href="/games">Explore Games</LinkButton>
                 <LinkButton href="/contact" variant="secondary">
                   Contact the Studio
@@ -64,7 +64,7 @@ export function HeroSection() {
 
               <div
                 data-hero-panel
-                className="mt-9 max-w-lg rounded-xl border border-emerald-200/16 bg-emerald-300/4 p-5"
+                className="mt-7 max-w-lg rounded-xl border border-emerald-200/16 bg-emerald-300/4 p-5"
               >
                 <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/86">Studio Focus</p>
                 <p className="mt-2.5 text-sm leading-7 text-mist-100/78 sm:text-base">
@@ -76,7 +76,7 @@ export function HeroSection() {
             <div data-hero-media-shell className="min-w-0 lg:pl-2">
               <div
                 data-hero-media
-                className="relative isolate aspect-video w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(135deg,#0f3124_2%,#071912_42%,#131206_82%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.12)]"
+                className="relative isolate aspect-[4/3] w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(135deg,#0f3124_2%,#071912_42%,#131206_82%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.12)]"
               >
                 <ReelVideo
                   className="absolute inset-0 h-full w-full object-cover"
