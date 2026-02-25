@@ -60,40 +60,7 @@ export function GamesShowcaseScene({ children, className }: GamesShowcaseScenePr
             { willChange: "transform, opacity" },
           );
 
-          // Entrance tied to viewport entry so it plays when visible
-          ScrollTrigger.create({
-            trigger: root,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.fromTo(
-                ["[data-games-heading]", "[data-games-media-shell]", ...items],
-                { y: isMobile ? 16 : 32, autoAlpha: 0 },
-                {
-                  y: 0,
-                  autoAlpha: 1,
-                  duration: isMobile ? 0.45 : 0.72,
-                  ease: "power2.out",
-                  stagger: 0.08,
-                  overwrite: "auto",
-                },
-              );
-
-              gsap.fromTo(
-                floats,
-                { autoAlpha: 0, y: isMobile ? 12 : 40, scale: isMobile ? 1.02 : 1.08 },
-                {
-                  autoAlpha: isMobile ? 0.2 : 0.42,
-                  y: 0,
-                  scale: 1,
-                  duration: isMobile ? 0.5 : 0.84,
-                  ease: "power2.out",
-                  stagger: 0.06,
-                  overwrite: "auto",
-                },
-              );
-            },
-          });
+          gsap.set(floats, { autoAlpha: isMobile ? 0.2 : 0.42 });
 
           gsap
             .timeline({

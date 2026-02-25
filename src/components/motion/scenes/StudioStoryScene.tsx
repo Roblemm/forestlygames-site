@@ -57,26 +57,7 @@ export function StudioStoryScene({ children, className }: StudioStorySceneProps)
             { willChange: "transform, opacity" },
           );
 
-          // Medium-high scene: entrance tied to viewport
-          ScrollTrigger.create({
-            trigger: root,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.fromTo(
-                ["[data-studio-lead]", "[data-studio-media]", ...pillars],
-                { y: isMobile ? 16 : 28, autoAlpha: 0 },
-                {
-                  y: 0,
-                  autoAlpha: 1,
-                  duration: isMobile ? 0.45 : 0.7,
-                  stagger: 0.08,
-                  ease: "power2.out",
-                  overwrite: "auto",
-                },
-              );
-            },
-          });
+          // No aggressive entrance animations — scroll parallax handles motion
 
           gsap
             .timeline({

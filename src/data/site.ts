@@ -8,7 +8,7 @@ export const siteConfig = {
   ctaHref: "/contact",
 } as const;
 
-export const heroProofChips: string[] = ["78M+ total visits", "28+ releases", "28M+ YouTube views"];
+export const heroProofChips: string[] = ["54M+ game visits", "6.3M+ hours played", "24M+ YouTube views"];
 
 export const studioNarrative: string[] = [
   "ForestlyGames is a remote Roblox game studio focused on building, testing, and shipping games quickly.",

@@ -1,22 +1,22 @@
 @import "tailwindcss";
 
 :root {
-  --bg-950: #050b08;
-  --bg-900: #09120e;
-  --bg-850: #0e1713;
+  --bg-950: #0b1610;
+  --bg-900: #111e17;
+  --bg-850: #18261e;
   --mist-50: #f4f8f6;
   --mist-100: #dde8e2;
   --mist-200: #b6c8be;
   --mist-300: #91a79b;
   --emerald-100: #ccf1de;
-  --emerald-200: #9cdab8;
-  --emerald-300: #55be88;
-  --emerald-400: #2f9465;
-  --azure-300: #79c9ff;
-  --azure-500: #596bff;
-  --gold-100: #f9e6c6;
-  --gold-300: #deba78;
-  --gold-400: #c99545;
+  --emerald-200: #a8e0c2;
+  --emerald-300: #5fca94;
+  --emerald-400: #38a872;
+  --azure-300: #85d0ff;
+  --azure-500: #6a7cff;
+  --gold-100: #fcecd2;
+  --gold-300: #e6c68a;
+  --gold-400: #d4a254;
 }
 
 @theme inline {
@@ -164,5 +164,104 @@ a {
   }
   50% {
     opacity: 0;
+  }
+}
+
+@keyframes borderRotate {
+  0% {
+    --border-angle: 0deg;
+  }
+  100% {
+    --border-angle: 360deg;
+  }
+}
+
+@keyframes orbFloat1 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(30px, -20px) scale(1.1);
+  }
+  66% {
+    transform: translate(-20px, 15px) scale(0.95);
+  }
+}
+
+@keyframes orbFloat2 {
+  0%,
+  100% {
+    transform: translate(0, 0) scale(1);
+  }
+  33% {
+    transform: translate(-25px, 25px) scale(1.08);
+  }
+  66% {
+    transform: translate(20px, -15px) scale(0.92);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: -200% center;
+  }
+  100% {
+    background-position: 200% center;
+  }
+}
+
+@property --border-angle {
+  syntax: "<angle>";
+  initial-value: 0deg;
+  inherits: false;
+}
+
+@keyframes canopySway {
+  0%,
+  100% {
+    transform: translateX(0) skewX(0deg);
+  }
+  25% {
+    transform: translateX(18px) skewX(0.4deg);
+  }
+  50% {
+    transform: translateX(-12px) skewX(-0.3deg);
+  }
+  75% {
+    transform: translateX(8px) skewX(0.2deg);
+  }
+}
+
+@keyframes fireflyFloat {
+  0%,
+  100% {
+    transform: translate(0, 0);
+  }
+  25% {
+    transform: translate(6px, -14px);
+  }
+  50% {
+    transform: translate(-4px, -8px);
+  }
+  75% {
+    transform: translate(8px, -18px);
+  }
+}
+
+@keyframes fireflyPulse {
+  0%,
+  100% {
+    opacity: 0.15;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .forest-canopy-rays,
+  .forest-firefly {
+    animation: none !important;
   }
 }

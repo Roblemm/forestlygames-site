@@ -7,7 +7,7 @@ export const games: Game[] = [
     subtitle: "Horror Survival Adventure",
     description:
       "A horror survival experience built around minecart routes, cave exploration, mining progression, upgrades, and co-op encounters against spirits.",
-    stage: "In Development",
+    stage: "In Dev",
     genre: "Horror Survival",
     platformFocus: "Roblox",
     accent: "moss",
@@ -66,7 +66,7 @@ export const games: Game[] = [
     subtitle: "Obstacle Horror Run",
     description:
       "An obstacle survival experience where players outrun Bruno through trap-heavy maps, with strong creator coverage and repeat play sessions.",
-    stage: "Live",
+    stage: "Released",
     genre: "Obby / Horror",
     platformFocus: "Roblox",
     accent: "azure",

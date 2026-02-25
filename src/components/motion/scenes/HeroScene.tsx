@@ -4,6 +4,7 @@ import { useEffect, useRef, type ReactNode } from "react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
+import { Fireflies } from "@/components/ui/Fireflies";
 import { cn } from "@/lib/utils/cn";
 
 type HeroSceneProps = {
@@ -129,6 +130,41 @@ export function HeroScene({ children, className }: HeroSceneProps) {
         data-hero-bg="near"
         className="pointer-events-none absolute inset-0 bg-[linear-gradient(120deg,rgba(61,153,110,0.16)_0%,rgba(7,16,12,0.08)_44%,rgba(201,149,69,0.16)_100%)]"
       />
+      <div
+        aria-hidden
+        className="forest-canopy-rays pointer-events-none absolute inset-0 overflow-hidden"
+        style={{ animation: "canopySway 22s ease-in-out infinite" }}
+      >
+        <div
+          className="absolute -top-[20%] left-[8%] h-[140%] w-[120px] rotate-32 sm:w-[180px]"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(95,202,148,0.06) 30%, rgba(95,202,148,0.04) 70%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute -top-[20%] left-[30%] h-[140%] w-[80px] rotate-38 sm:w-[140px]"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(230,198,138,0.05) 35%, rgba(230,198,138,0.03) 65%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute -top-[20%] right-[22%] h-[140%] w-[100px] rotate-28 sm:w-[160px]"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(95,202,148,0.04) 25%, rgba(133,208,255,0.03) 75%, transparent 100%)",
+          }}
+        />
+        <div
+          className="absolute -top-[20%] right-[5%] h-[140%] w-[60px] rotate-45 sm:w-[100px]"
+          style={{
+            background:
+              "linear-gradient(180deg, transparent 0%, rgba(230,198,138,0.04) 40%, rgba(230,198,138,0.02) 60%, transparent 100%)",
+          }}
+        />
+      </div>
+      <Fireflies count={22} lgExtra={18} />
       <div className="relative">{children}</div>
     </div>
   );

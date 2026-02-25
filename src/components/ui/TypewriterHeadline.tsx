@@ -155,18 +155,36 @@ export function TypewriterHeadline({
     : colors.cursor;
 
   return (
-    <h1 className={className} {...rest}>
-      <span>{prefixText}</span>
-      <span className={cn("transition-colors duration-300", colors.text)}>
-        {phraseText}
-      </span>
-      <span
-        className={cn(
-          "ml-0.5 inline-block h-[0.85em] w-[3px] translate-y-[0.1em] rounded-full transition-colors duration-300 animate-[cursorBlink_0.8s_steps(2)_infinite]",
-          cursorColor,
-        )}
+    <div className="relative">
+      {/* Invisible ghosts overlap to reserve the tallest height */}
+      <div
+        className="grid *:col-start-1 *:row-start-1"
+        style={{ visibility: "hidden" }}
         aria-hidden
-      />
-    </h1>
+      >
+        {sequences.map((s) =>
+          s.phrases.map((p) => (
+            <h1 key={`${s.prefix}-${p.text}`} className={className} {...rest}>
+              {s.prefix} {p.text}&#8203;
+            </h1>
+          )),
+        )}
+      </div>
+
+      {/* Visible typewriter — absolutely positioned so mid-typing wrapping can't shift layout */}
+      <h1 className={cn(className, "absolute inset-x-0 top-0")} {...rest}>
+        <span>{prefixText}</span>
+        <span className={cn("transition-colors duration-300", colors.text)}>
+          {phraseText}
+        </span>
+        <span
+          className={cn(
+            "ml-0.5 inline-block h-[0.85em] w-[3px] translate-y-[0.1em] rounded-full transition-colors duration-300 animate-[cursorBlink_0.8s_steps(2)_infinite]",
+            cursorColor,
+          )}
+          aria-hidden
+        />
+      </h1>
+    </div>
   );
 }

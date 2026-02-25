@@ -32,8 +32,8 @@ export function HeroSection() {
   return (
     <section className="relative bg-bg-950">
       <HeroScene>
-        <div className="mx-auto max-w-328 px-5 pb-10 pt-10 sm:px-8 sm:pt-14 lg:px-12 lg:pt-16">
-          <div className="max-w-4xl">
+        <div className="mx-auto max-w-328 px-5 pb-8 pt-8 sm:px-8 sm:pt-12 lg:px-12 lg:pt-14">
+          <div className="mx-auto max-w-3xl text-center">
             <p
               data-hero-kicker
               className="inline-block rounded-full border border-emerald-200/25 bg-emerald-300/8 px-4 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-emerald-200/90"
@@ -44,60 +44,47 @@ export function HeroSection() {
             <TypewriterHeadline
               data-hero-title
               sequences={heroSequences}
-              className="mt-5 font-display text-[clamp(2.6rem,6.5vw,5rem)] leading-[0.9] tracking-[-0.02em] text-mist-50"
+              className="mt-4 font-display text-[clamp(2rem,5.5vw,3.8rem)] leading-[0.92] tracking-[-0.02em] text-mist-50"
             />
 
             <p
               data-hero-copy
-              className="mt-5 max-w-2xl text-base leading-relaxed text-mist-100/82 sm:text-lg sm:leading-relaxed"
+              className="mx-auto mt-5 max-w-2xl text-base leading-relaxed text-mist-100/82 sm:text-lg sm:leading-relaxed"
             >
               ForestlyGames is a remote Roblox game studio focused on building, testing, and shipping games quickly.
             </p>
 
-            <div className="mt-5 flex flex-wrap items-center gap-x-6 gap-y-4">
-              <div className="flex flex-wrap gap-2.5">
-                {heroProofChips.map((chip) => (
+            <div className="mt-5 flex flex-wrap items-center justify-center gap-2.5">
+              {heroProofChips.map((chip) => (
+                <span
+                  key={chip}
+                  className={cn(
+                    "inline-flex items-center gap-2 rounded-lg border px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em] transition-all duration-300 hover:scale-[1.06] active:scale-[0.97]",
+                    chip.includes("YouTube")
+                      ? "border-azure-300/30 bg-azure-300/8 text-azure-300 hover:border-azure-300/50 hover:bg-azure-300/16 hover:shadow-[0_0_18px_-3px_rgba(133,208,255,0.35)]"
+                      : "border-emerald-200/24 bg-emerald-300/6 text-emerald-100/90 hover:border-emerald-200/45 hover:bg-emerald-300/14 hover:shadow-[0_0_18px_-3px_rgba(95,202,148,0.35)]",
+                  )}
+                >
                   <span
-                    key={chip}
                     className={cn(
-                      "inline-flex items-center gap-2 rounded-lg border px-3.5 py-1.5 text-xs font-semibold uppercase tracking-[0.12em]",
-                      chip.includes("YouTube")
-                        ? "border-azure-300/30 bg-azure-300/8 text-azure-300"
-                        : "border-emerald-200/24 bg-emerald-300/6 text-emerald-100/90",
+                      "h-1.5 w-1.5 rounded-full",
+                      chip.includes("YouTube") ? "bg-azure-300/80" : "bg-emerald-300/80",
                     )}
-                  >
-                    <span
-                      className={cn(
-                        "h-1.5 w-1.5 rounded-full",
-                        chip.includes("YouTube") ? "bg-azure-300/80" : "bg-emerald-300/80",
-                      )}
-                    />
-                    {chip}
-                  </span>
-                ))}
-              </div>
+                  />
+                  {chip}
+                </span>
+              ))}
             </div>
 
-            <div className="mt-6 flex flex-wrap items-center gap-4">
-              <div data-hero-actions className="flex flex-wrap gap-3">
-                <LinkButton href="/games">Explore Games</LinkButton>
-                <LinkButton href="/contact" variant="secondary">
-                  Contact the Studio
-                </LinkButton>
-              </div>
-              <div
-                data-hero-panel
-                className="hidden rounded-xl border border-emerald-200/16 bg-emerald-300/4 px-5 py-3.5 lg:block"
-              >
-                <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/86">Studio Focus</p>
-                <p className="mt-1.5 text-sm leading-6 text-mist-100/78">
-                  We prioritize communication, initiative, and fast iteration to ship more playable games.
-                </p>
-              </div>
+            <div data-hero-actions className="mt-6 flex flex-wrap justify-center gap-3">
+              <LinkButton href="/games">Explore Games</LinkButton>
+              <LinkButton href="/contact" variant="secondary">
+                Contact the Studio
+              </LinkButton>
             </div>
           </div>
 
-          <div data-hero-media-shell className="mt-8 lg:mt-10">
+          <div data-hero-media-shell className="mt-6 lg:mt-8">
             <div
               data-hero-media
               className="relative isolate aspect-video w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(135deg,#0f3124_2%,#071912_42%,#131206_82%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.12)]"

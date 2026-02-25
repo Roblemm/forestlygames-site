@@ -46,26 +46,6 @@ export function ProofStripScene({ children, className }: ProofStripSceneProps) {
 
           gsap.set(["[data-proof-bg]", "[data-proof-heading]", ...items], { willChange: "transform, opacity" });
 
-          // Cooldown section: subtle entrance tied to viewport
-          ScrollTrigger.create({
-            trigger: root,
-            start: "top 85%",
-            once: true,
-            onEnter: () => {
-              gsap.fromTo(
-                ["[data-proof-heading]", ...items],
-                { y: isMobile ? 14 : 26, autoAlpha: 0.15 },
-                {
-                  y: 0,
-                  autoAlpha: 1,
-                  duration: isMobile ? 0.42 : 0.64,
-                  stagger: 0.06,
-                  ease: "power2.out",
-                  overwrite: "auto",
-                },
-              );
-            },
-          });
 
           gsap
             .timeline({

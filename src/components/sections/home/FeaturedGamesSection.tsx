@@ -1,5 +1,6 @@
 import { GamesShowcaseScene } from "@/components/motion/scenes/GamesShowcaseScene";
 import { Badge } from "@/components/ui/Badge";
+import { Fireflies } from "@/components/ui/Fireflies";
 import { featuredGames } from "@/data/games";
 import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
@@ -270,6 +271,7 @@ const gamesBackdropAssets = [
 export function FeaturedGamesSection() {
   return (
     <section id="featured-games" className="relative overflow-hidden bg-bg-900">
+      <Fireflies count={16} lgExtra={16} palette="mixed" className="z-5" />
       <GamesShowcaseScene>
         <div aria-hidden data-games-float-field className="pointer-events-none absolute inset-x-0 -top-[44%] h-[188%]">
           {gamesBackdropAssets.map((asset) => (
@@ -295,23 +297,23 @@ export function FeaturedGamesSection() {
           className="pointer-events-none absolute inset-0 bg-[linear-gradient(180deg,rgba(5,11,8,0.76)_0%,rgba(5,11,8,0.44)_34%,rgba(5,11,8,0.62)_70%,rgba(5,11,8,0.82)_100%)]"
         />
 
-        <div className="relative z-10 mx-auto max-w-360 px-5 pb-16 pt-16 sm:px-8 sm:pt-20 lg:px-12 lg:pt-24">
-          <div data-games-heading className="max-w-5xl">
+        <div className="relative z-10 mx-auto max-w-360 px-5 pb-12 pt-12 sm:px-8 sm:pt-16 lg:px-12 lg:pt-20">
+          <div data-games-heading className="mx-auto max-w-3xl text-center">
             <p className="inline-block rounded-full border border-emerald-200/20 bg-emerald-300/6 px-4 py-1.5 text-[0.68rem] font-semibold uppercase tracking-[0.22em] text-emerald-200/90">
               Featured Games
             </p>
-            <h2 className="mt-5 max-w-[14ch] font-display text-[clamp(2.2rem,6.8vw,5.2rem)] leading-[0.92] tracking-[-0.01em] text-mist-50">
+            <h2 className="mt-4 font-display text-[clamp(1.8rem,5vw,3.6rem)] leading-[0.92] tracking-[-0.01em] text-mist-50">
               Real ForestlyGames Titles
             </h2>
-            <p className="mt-5 max-w-3xl text-lg leading-relaxed text-mist-100/78 sm:text-xl">
+            <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-mist-100/78 sm:text-lg">
               A live portfolio spanning strategy, horror survival, dungeon combat, and viral obstacle experiences.
             </p>
           </div>
 
-          <div data-games-media-shell className="relative mt-10 min-w-0">
+          <div data-games-media-shell className="relative mt-8 min-w-0">
             <div
               data-games-media
-              className="relative aspect-21/9 w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(125deg,#0f2c20_4%,#07110d_40%,#1a150a_96%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.1)]"
+              className="relative h-40 w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(125deg,#0f2c20_4%,#07110d_40%,#1a150a_96%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.1)] sm:h-48"
             >
               <Image
                 src="/games/boss-battles/thumbnail.png"
@@ -319,7 +321,7 @@ export function FeaturedGamesSection() {
                 fill
                 sizes="92vw"
                 data-games-media-image
-                className="object-cover opacity-[0.72]"
+                className="object-cover object-[center_35%] opacity-[0.72]"
               />
               <div
                 aria-hidden
@@ -331,11 +333,11 @@ export function FeaturedGamesSection() {
                 data-games-media-layer="near"
                 className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,13,10,0.02)_0%,rgba(7,13,10,0.72)_100%)]"
               />
-              <div className="absolute bottom-6 left-6 sm:bottom-8 sm:left-8">
-                <p className="font-display text-[clamp(1.35rem,3vw,2.5rem)] uppercase tracking-[0.16em] text-mist-50/92">
+              <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5">
+                <p className="font-display text-lg uppercase tracking-[0.16em] text-mist-50/92 sm:text-xl">
                   Live Portfolio
                 </p>
-                <p className="mt-1.5 text-sm uppercase tracking-[0.2em] text-emerald-200/90">Roblox Game Releases</p>
+                <p className="mt-0.5 text-xs uppercase tracking-[0.2em] text-emerald-200/90">Roblox Game Releases</p>
               </div>
             </div>
           </div>
@@ -372,16 +374,18 @@ export function FeaturedGamesSection() {
                   </div>
                   <p className="mt-4 text-base leading-7 text-mist-100/78">{game.description}</p>
                   <p className={cn("mt-4 text-sm", accentGenreMap[game.accent])}>
-                    {game.genre} | {game.platformFocus}
+                    {game.genre}
                   </p>
                 </div>
               </article>
             ))}
           </div>
 
-          <div data-games-footer className="mt-8 border-t border-emerald-200/14 pt-5">
-            <p className="max-w-4xl text-sm uppercase tracking-[0.16em] text-mist-200/70">
-              Escape Bruno creator coverage includes FGTeeV, LankyBox, DenisDaily, and GravyCatMan features.
+          <div data-games-footer className="mt-8 border-t border-emerald-200/14 pt-5 text-center">
+            <p className="mx-auto max-w-4xl text-sm uppercase tracking-[0.16em] text-mist-200/70">
+              Escape Bruno featured by creators with{" "}
+              <span className="font-semibold text-emerald-200">79M+ combined subscribers</span>
+              {" "}— FGTeeV, LankyBox, DenisDaily, and GravyCatMan.
             </p>
           </div>
         </div>

@@ -108,7 +108,7 @@ function TestimonialCard({ testimonial, compact }: { testimonial: Testimonial; c
   return (
     <article
       className={cn(
-        "group relative flex flex-col justify-between overflow-hidden rounded-xl border border-emerald-200/14 bg-bg-950/55 backdrop-blur-[2px] transition-all duration-300",
+        "group relative flex flex-col justify-between rounded-xl border border-emerald-200/14 bg-bg-950/55 backdrop-blur-[2px] transition-all duration-300",
         compact
           ? "flex-1 p-4 hover:border-emerald-200/30 hover:bg-bg-950/70"
           : "h-full p-5 hover:border-emerald-200/30 hover:bg-bg-950/70 sm:p-6",
