@@ -54,41 +54,30 @@ export function HeroScene({ children, className }: HeroSceneProps) {
             willChange: "transform, opacity",
           });
 
-          // Dramatic entrance: elements slide up from further away with staggered timing
           gsap.fromTo(
             introTargets,
-            { y: isMobile ? 40 : 80, autoAlpha: 0, scale: isMobile ? 0.98 : 0.96 },
+            { y: isMobile ? 18 : 34, autoAlpha: 0 },
             {
               y: 0,
               autoAlpha: 1,
-              scale: 1,
-              duration: isMobile ? 0.7 : 1.1,
-              stagger: isMobile ? 0.08 : 0.14,
-              ease: "power3.out",
+              duration: isMobile ? 0.5 : 0.8,
+              stagger: isMobile ? 0.05 : 0.09,
+              ease: "power2.out",
               overwrite: "auto",
             },
           );
 
-          // Media panel dramatic reveal
           gsap.fromTo(
             "[data-hero-media]",
-            { scale: isMobile ? 0.88 : 0.82, yPercent: 12, autoAlpha: 0, rotate: isMobile ? 0 : 1.5 },
+            { scale: isMobile ? 0.92 : 0.88, yPercent: 8, autoAlpha: 0 },
             {
               scale: 1,
               yPercent: 0,
               autoAlpha: 1,
-              rotate: 0,
-              duration: isMobile ? 0.8 : 1.3,
-              delay: isMobile ? 0.2 : 0.35,
-              ease: "power3.out",
+              duration: isMobile ? 0.6 : 1.0,
+              delay: isMobile ? 0.15 : 0.25,
+              ease: "power2.out",
             },
-          );
-
-          // Background layers fade in
-          gsap.fromTo(
-            "[data-hero-bg]",
-            { autoAlpha: 0, scale: 1.08 },
-            { autoAlpha: 1, scale: 1, duration: 1.6, ease: "power2.out" },
           );
 
           gsap
@@ -96,31 +85,28 @@ export function HeroScene({ children, className }: HeroSceneProps) {
               defaults: { ease: "none" },
               scrollTrigger: {
                 trigger: root,
-                start: "top top",
-                end: isDesktop ? "+=85%" : isTablet ? "+=65%" : "+=50%",
+                start: "top top+=6%",
+                end: isDesktop ? "+=55%" : isTablet ? "+=46%" : "+=36%",
                 pin: false,
-                scrub: isMobile ? 0.3 : 0.4,
+                scrub: isMobile ? 0.35 : 0.45,
                 invalidateOnRefresh: true,
               },
             })
-            // Background layers move at different speeds for depth
-            .to("[data-hero-bg='far']", { y: isDesktop ? -180 : isTablet ? -110 : -50, opacity: 0.3, scale: 1.06 }, 0)
-            .to("[data-hero-bg='near']", { y: isDesktop ? -100 : isTablet ? -60 : -28, opacity: 0.5, scale: 1.03 }, 0.02)
-            // Text elements drift up at varying rates
-            .to("[data-hero-kicker]", { y: isDesktop ? -60 : isTablet ? -36 : -16, opacity: 0.4 }, 0)
-            .to("[data-hero-title]", { y: isDesktop ? -90 : isTablet ? -54 : -24, opacity: isMobile ? 0.8 : 0.6, scale: isDesktop ? 0.97 : 1 }, 0.02)
-            .to("[data-hero-copy]", { y: isDesktop ? -70 : isTablet ? -42 : -18, opacity: isMobile ? 0.7 : 0.45 }, 0.06)
-            .to("[data-hero-actions]", { y: isDesktop ? -55 : isTablet ? -34 : -14, opacity: isMobile ? 0.75 : 0.5 }, 0.08)
-            .to("[data-hero-panel]", { y: isDesktop ? -50 : isTablet ? -30 : -12, opacity: isMobile ? 0.6 : 0.35 }, 0.1)
-            // Media panel scales up and lifts as user scrolls past
-            .to(
+            .to("[data-hero-bg='far']", { y: isDesktop ? -70 : isTablet ? -42 : -16, opacity: 0.55 }, 0)
+            .to("[data-hero-bg='near']", { y: isDesktop ? -38 : isTablet ? -22 : -10, opacity: 0.72 }, 0.02)
+            .to("[data-hero-kicker]", { y: isDesktop ? -18 : isTablet ? -11 : -5 }, 0)
+            .to("[data-hero-title]", { y: isDesktop ? -30 : isTablet ? -18 : -8 }, 0.02)
+            .to("[data-hero-copy]", { y: isDesktop ? -20 : isTablet ? -12 : -6, opacity: isMobile ? 0.98 : 0.88 }, 0.06)
+            .to("[data-hero-actions]", { y: isDesktop ? -18 : isTablet ? -11 : -5, opacity: isMobile ? 0.98 : 0.88 }, 0.08)
+            .to("[data-hero-panel]", { y: isDesktop ? -16 : isTablet ? -10 : -5, opacity: isMobile ? 0.96 : 0.85 }, 0.1)
+            .fromTo(
               "[data-hero-media]",
-              { scale: isDesktop ? 1.08 : isTablet ? 1.04 : 1.02, y: isDesktop ? -60 : isTablet ? -36 : -16, rotate: isDesktop ? -0.8 : 0 },
+              { scale: isMobile ? 0.97 : 0.96, yPercent: 4, autoAlpha: 0.9 },
+              { scale: isDesktop ? 1.02 : 1, yPercent: 0, autoAlpha: 1 },
               0.04,
             )
-            // Inner media layers create parallax depth inside the video panel
-            .to("[data-hero-media-layer='far']", { y: isDesktop ? -50 : isTablet ? -30 : -14, opacity: 0.5, scale: 1.04 }, 0.08)
-            .to("[data-hero-media-layer='near']", { y: isDesktop ? -28 : isTablet ? -16 : -8, opacity: 0.7, scale: 1.02 }, 0.12);
+            .to("[data-hero-media-layer='far']", { y: isDesktop ? -20 : isTablet ? -12 : -5, opacity: 0.8 }, 0.08)
+            .to("[data-hero-media-layer='near']", { y: isDesktop ? -11 : isTablet ? -7 : -3, opacity: 0.94 }, 0.12);
         },
       );
     }, root);

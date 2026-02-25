@@ -46,54 +46,50 @@ export function ProofStripScene({ children, className }: ProofStripSceneProps) {
 
           gsap.set(["[data-proof-bg]", "[data-proof-heading]", ...items], { willChange: "transform, opacity" });
 
-          // Staggered entrance with items sliding up from offset positions
-          gsap.fromTo(
-            "[data-proof-heading]",
-            { y: isMobile ? 30 : 50, autoAlpha: 0 },
-            { y: 0, autoAlpha: 1, duration: isMobile ? 0.6 : 0.85, ease: "power3.out" },
-          );
-
-          gsap.fromTo(
-            items,
-            { y: isMobile ? 40 : 65, autoAlpha: 0, scale: 0.96 },
-            {
-              y: 0,
-              autoAlpha: 1,
-              scale: 1,
-              duration: isMobile ? 0.55 : 0.8,
-              stagger: isMobile ? 0.06 : 0.1,
-              ease: "power3.out",
-              delay: 0.15,
+          // Cooldown section: subtle entrance tied to viewport
+          ScrollTrigger.create({
+            trigger: root,
+            start: "top 85%",
+            once: true,
+            onEnter: () => {
+              gsap.fromTo(
+                ["[data-proof-heading]", ...items],
+                { y: isMobile ? 14 : 26, autoAlpha: 0.15 },
+                {
+                  y: 0,
+                  autoAlpha: 1,
+                  duration: isMobile ? 0.42 : 0.64,
+                  stagger: 0.06,
+                  ease: "power2.out",
+                  overwrite: "auto",
+                },
+              );
             },
-          );
+          });
 
           gsap
             .timeline({
               defaults: { ease: "none" },
               scrollTrigger: {
                 trigger: root,
-                start: "top 75%",
-                end: isDesktop ? "bottom top+=20%" : isTablet ? "bottom top+=30%" : "bottom top+=38%",
-                scrub: isMobile ? 0.35 : 0.5,
+                start: "top 82%",
+                end: isDesktop ? "bottom top+=26%" : isTablet ? "bottom top+=34%" : "bottom top+=42%",
+                scrub: isMobile ? 0.45 : 0.62,
                 invalidateOnRefresh: true,
               },
             })
-            .to("[data-proof-bg='soft']", { y: isDesktop ? -55 : isTablet ? -32 : -16, opacity: 0.5 }, 0)
-            .to("[data-proof-heading]", { y: isDesktop ? -50 : isTablet ? -30 : -14, opacity: 0.7 }, 0.02)
+            .to("[data-proof-bg='soft']", { y: isDesktop ? -22 : isTablet ? -14 : -7, opacity: 0.64 }, 0)
+            .to("[data-proof-heading]", { y: isDesktop ? -22 : isTablet ? -14 : -6, opacity: 0.88 }, 0.02)
             .to(
               items,
               {
                 y: (index) => {
-                  if (isDesktop) return -(35 + index * 12);
-                  if (isTablet) return -(22 + index * 8);
-                  return -(10 + index * 5);
+                  if (isDesktop) return -(16 + index * 5);
+                  if (isTablet) return -(10 + index * 3);
+                  return -(5 + index * 2);
                 },
-                scale: (index) => {
-                  if (isMobile) return 1;
-                  return 1 - index * 0.008;
-                },
-                autoAlpha: isMobile ? 0.95 : 0.8,
-                stagger: 0.04,
+                autoAlpha: isMobile ? 1 : 0.91,
+                stagger: 0.03,
               },
               0.05,
             );
