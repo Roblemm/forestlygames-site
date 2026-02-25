@@ -95,7 +95,7 @@ const accentMap: Record<
   },
 };
 
-function GenrePills({ genres, accent }: { genres: string[]; accent: AccentColor }) {
+function GenrePills({ genres, accent }: { genres: readonly string[]; accent: AccentColor }) {
   const a = accentMap[accent];
   return (
     <div className="flex flex-wrap gap-2">
