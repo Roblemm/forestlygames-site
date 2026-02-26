@@ -124,7 +124,7 @@ function GameHeroBanner({
 }) {
   const a = accentMap[accent];
   return (
-    <div className={`game-section-hero relative overflow-hidden rounded-2xl ${a.border} ${a.glow}`}>
+    <div className={`game-section-hero games-cut-panel relative overflow-hidden border ${a.border} ${a.glow}`}>
       <div className="absolute inset-0 z-0">
         <Image
           src={image.src}
@@ -143,7 +143,7 @@ function GameHeroBanner({
           </h2>
           {children}
         </div>
-        <div className="relative hidden h-48 w-72 shrink-0 overflow-hidden rounded-lg lg:block xl:h-56 xl:w-80">
+        <div className="games-frame relative hidden h-48 w-72 shrink-0 overflow-hidden border lg:block xl:h-56 xl:w-80">
           <Image
             src={image.src}
             alt={image.alt}
@@ -151,7 +151,7 @@ function GameHeroBanner({
             sizes="320px"
             className="object-cover"
           />
-          <div className={`absolute inset-0 rounded-lg border ${a.borderSubtle}`} />
+          <div className={`absolute inset-0 border ${a.borderSubtle}`} />
         </div>
       </div>
     </div>
@@ -192,7 +192,7 @@ function MediaGrid({
           return (
             <figure
               key={`${asset.src}-${index}`}
-              className={`game-media-item group ${widthClass} relative aspect-video shrink-0 overflow-hidden rounded-xl border bg-bg-900/45 ${a.borderSubtle}`}
+              className={`game-media-item games-frame group ${widthClass} relative aspect-video shrink-0 overflow-hidden border bg-bg-900/35 ${a.borderSubtle}`}
             >
               <Image
                 src={asset.src}
@@ -225,7 +225,7 @@ function VideoCard({
 }) {
   const a = accentMap[accent];
   return (
-    <article className={`game-media-item group overflow-hidden rounded-lg border bg-bg-900/48 ${a.borderSubtle}`}>
+    <article className={`game-media-item games-frame group overflow-hidden border bg-bg-900/32 ${a.borderSubtle}`}>
       <div className="relative aspect-video overflow-hidden">
         <video
           className="h-full w-full object-cover"
@@ -260,7 +260,7 @@ function FeatureImage({
   const note = parts[1] || "Key capture from production media.";
 
   return (
-    <figure className={`game-media-item group relative overflow-hidden rounded-xl border bg-bg-900/45 ${a.borderSubtle} ${className ?? ""}`}>
+    <figure className={`game-media-item games-frame group relative overflow-hidden border bg-bg-900/32 ${a.borderSubtle} ${className ?? ""}`}>
       <Image
         src={image.src}
         alt={title}
@@ -304,11 +304,11 @@ function AudioDeck({
   return (
     <div className={`grid gap-3 ${columns === 3 ? "xl:grid-cols-3" : columns === 2 ? "lg:grid-cols-2" : "grid-cols-1"} ${className}`}>
       {groupedTracks.map((group, groupIndex) => (
-        <div key={`${accent}-deck-${groupIndex}`} className={`overflow-hidden rounded-xl border bg-bg-900/35 ${a.audioBorder}`}>
+        <div key={`${accent}-deck-${groupIndex}`} className={`games-audio-sheet overflow-hidden border bg-bg-900/20 ${a.audioBorder}`}>
           {group.map((track, laneIndex) => (
             <div
               key={track.src}
-              className={`grid gap-2 px-3 py-2.5 sm:grid-cols-[13rem_1fr] sm:items-center ${laneIndex === 0 ? "" : `border-t ${laneBorder}`}`}
+              className={`games-audio-lane grid gap-2 px-3 py-2.5 sm:grid-cols-[13rem_1fr] sm:items-center ${laneIndex === 0 ? "" : `border-t ${laneBorder}`}`}
             >
               <div className="flex items-center gap-2">
                 <svg className={`h-3.5 w-3.5 ${a.pillText}`} viewBox="0 0 24 24" fill="currentColor">
@@ -638,7 +638,7 @@ export default function GamesPage() {
 
           <div className="mt-6 space-y-5">
             <div className="grid min-w-0 gap-4 xl:grid-cols-[1.22fr_0.78fr]">
-              <article className="min-w-0 overflow-hidden rounded-xl border border-gold-300/20 bg-bg-900/40">
+              <article className="games-cut-panel min-w-0 overflow-hidden border border-gold-300/20 bg-bg-900/26">
                 <div className="relative aspect-video">
                   <video
                     className="h-full w-full object-cover"
@@ -661,7 +661,7 @@ export default function GamesPage() {
               </div>
             </div>
 
-            <section className="min-w-0 rounded-lg border border-gold-300/16 bg-bg-900/35 p-3">
+            <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/20 p-3">
               <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
                 Development Roll
               </p>
@@ -699,7 +699,7 @@ export default function GamesPage() {
 
           <div className="mt-6 space-y-5">
             <div className="grid min-w-0 gap-4 xl:grid-cols-[1.3fr_0.7fr]">
-              <article className="min-w-0 overflow-hidden rounded-xl border border-emerald-200/22 bg-bg-900/40">
+              <article className="games-cut-panel min-w-0 overflow-hidden border border-emerald-200/22 bg-bg-900/24">
                 <div className="relative aspect-video">
                   <video
                     className="h-full w-full object-cover"
@@ -724,7 +724,7 @@ export default function GamesPage() {
             <div className="grid min-w-0 gap-4 xl:grid-cols-[0.55fr_1.45fr]">
               <AudioDeck tracks={encavedTracks} accent="emerald" columns={1} className="min-w-0" />
 
-              <section className="min-w-0 rounded-lg border border-emerald-200/16 bg-bg-900/35 p-3">
+              <section className="games-cut-panel min-w-0 border border-emerald-200/16 bg-bg-900/18 p-3">
                 <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/72">
                   Environment + Gameplay Roll
                 </p>
@@ -761,7 +761,7 @@ export default function GamesPage() {
           <div className="mt-6 space-y-5">
             <FeatureImage image={bossBattlesImages[0]} accent="azure" className="aspect-[16/9]" sizes="(min-width:1280px) 92vw, 94vw" />
 
-            <section className="min-w-0 rounded-lg border border-azure-300/16 bg-bg-900/35 p-3">
+            <section className="games-cut-panel min-w-0 border border-azure-300/16 bg-bg-900/18 p-3">
               <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-azure-300/74">
                 Event Coverage Roll
               </p>
@@ -803,7 +803,7 @@ export default function GamesPage() {
           <div className="mt-6 space-y-5">
             <div className="grid min-w-0 gap-4 lg:grid-cols-[1.1fr_0.9fr]">
               <FeatureImage image={escapeBrunoImages[0]} accent="gold" className="aspect-video min-w-0" sizes="(min-width:1024px) 56vw, 94vw" />
-              <section className="min-w-0 rounded-lg border border-gold-300/16 bg-bg-900/35 p-3">
+              <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/18 p-3">
                 <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
                   Gameplay Route Roll
                 </p>
@@ -811,7 +811,7 @@ export default function GamesPage() {
               </section>
             </div>
 
-            <div className="rounded-lg border border-gold-300/16 bg-bg-900/32 p-3">
+            <div className="games-cut-panel border border-gold-300/16 bg-bg-900/18 p-3">
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold-100/70">
                 Creator Coverage
               </p>
@@ -822,7 +822,7 @@ export default function GamesPage() {
                     href={creator.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="group block overflow-hidden rounded-lg border border-gold-300/18 bg-bg-900/44 transition-all duration-300 hover:border-gold-300/36 hover:shadow-[0_0_30px_8px_rgba(222,186,120,0.06)]"
+                    className="games-frame group block overflow-hidden border border-gold-300/18 bg-bg-900/24 transition-all duration-300 hover:border-gold-300/36 hover:shadow-[0_0_30px_8px_rgba(222,186,120,0.06)]"
                   >
                     <div className="relative aspect-video overflow-hidden">
                       <Image
@@ -852,7 +852,7 @@ export default function GamesPage() {
 
       <Section className="pb-0 pt-6 sm:pt-8">
         <Container className="max-w-[96rem]">
-          <div className="rounded-xl border border-mist-100/12 bg-bg-900/30 px-5 py-4 sm:px-6">
+          <div className="games-cut-panel border border-mist-100/12 bg-bg-900/18 px-5 py-4 sm:px-6">
             <p className="text-xs font-semibold uppercase tracking-[0.2em] text-mist-300/66">More Games</p>
             <h2 className="mt-2 font-display text-[clamp(1.8rem,4.4vw,3rem)] leading-[0.92] tracking-tight text-mist-50">
               Live Titles Beyond The Main Four
@@ -892,7 +892,7 @@ export default function GamesPage() {
                 </div>
               </div>
 
-              <section className="min-w-0 rounded-lg border border-emerald-200/14 bg-bg-900/35 p-3">
+              <section className="games-cut-panel min-w-0 border border-emerald-200/14 bg-bg-900/18 p-3">
                 <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/70">
                   Environment Roll
                 </p>
@@ -916,7 +916,7 @@ export default function GamesPage() {
           </GameHeroBanner>
 
           <div className="mt-6 space-y-5">
-            <section className="min-w-0 rounded-lg border border-gold-300/16 bg-bg-900/35 p-3">
+            <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/18 p-3">
               <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
                 World Tour Roll
               </p>
@@ -957,7 +957,7 @@ export default function GamesPage() {
               />
             </div>
 
-            <section className="min-w-0 rounded-lg border border-azure-300/16 bg-bg-900/35 p-3">
+            <section className="games-cut-panel min-w-0 border border-azure-300/16 bg-bg-900/18 p-3">
               <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-azure-300/74">
                 Progression + Promo Roll
               </p>
@@ -981,7 +981,7 @@ export default function GamesPage() {
               {archiveHighlights.map((item) => (
                 <article
                   key={item.title}
-                  className="game-media-item group overflow-hidden rounded-lg border border-emerald-200/16 bg-bg-900/40"
+                  className="game-media-item games-frame group overflow-hidden border border-emerald-200/16 bg-bg-900/22"
                 >
                   <div className="relative aspect-4/3 overflow-hidden">
                     <Image
