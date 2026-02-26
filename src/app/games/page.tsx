@@ -232,8 +232,8 @@ function AudioDeck({
         <div key={`${accent}-deck-${groupIndex}`} className={`games-audio-sheet overflow-hidden border bg-bg-900/20 ${a.audioBorder}`}>
           {group.map((track, laneIndex) => (
             <div
-              key={track.src}
-              className={`games-audio-lane grid gap-3 px-3 py-3 lg:grid-cols-[13.5rem_minmax(0,1fr)] lg:items-center ${laneIndex === 0 ? "" : `border-t ${laneBorder}`}`}
+              key={`${track.src}-${track.title}`}
+              className={`games-audio-lane grid gap-3 px-3 py-3 lg:grid-cols-[11.25rem_minmax(0,1fr)] lg:items-center ${laneIndex === 0 ? "" : `border-t ${laneBorder}`}`}
             >
               <div className="flex min-w-0 items-center gap-2.5">
                 <AudioThumb track={track} />
@@ -290,10 +290,12 @@ const encavedImages: MediaImage[] = [
 ];
 
 const encavedTracks: AudioTrack[] = [
-  { title: "Encaved Theme", src: "/games/encaved/theme-encaved.mp3", durationSeconds: 70.03, icon: "/games/encaved/logo.png" },
-  { title: "Synth Melody", src: "/games/encaved/theme-synth-melody.mp3", durationSeconds: 23.45, icon: "/games/encaved/main-hero.png" },
-  { title: "Rushed", src: "/games/encaved/theme-rushed.mp3", durationSeconds: 183.22, icon: "/games/encaved/ore-market.png" },
-  { title: "Piano Demo", src: "/games/encaved/theme-piano-demo.mp3", durationSeconds: 31.65, icon: "/games/encaved/mining-station-1.png" },
+  { title: "Desire (Lobby Theme)", src: "/games/encaved/theme-encaved.mp3", durationSeconds: 149, icon: "/games/encaved/logo.png" },
+  { title: "Extracted (Mining Phase)", src: "/games/encaved/theme-rushed.mp3", durationSeconds: 182, icon: "/games/encaved/cave-entrance-3.png" },
+  { title: "Piano Demo", src: "/games/encaved/theme-piano-demo.mp3", durationSeconds: 32, icon: "/games/encaved/mining-station-1.png" },
+  { title: "Loading Demo", src: "/games/encaved/theme-synth-melody.mp3", durationSeconds: 51, icon: "/games/encaved/main-hero.png" },
+  { title: "Ambience Demo", src: "/games/encaved/theme-synth-melody.mp3", durationSeconds: 27, icon: "/games/encaved/lobby-entrance-4.png" },
+  { title: "Ambience Test", src: "/games/encaved/theme-encaved.mp3", durationSeconds: 29, icon: "/games/encaved/cave-interior-mine.png" },
 ];
 
 const bossBattlesImages: MediaImage[] = [
@@ -637,7 +639,7 @@ export default function GamesPage() {
         <Container className="max-w-[96rem]">
           <div className="mx-auto max-w-[76rem] space-y-8 lg:space-y-9">
             <div className="games-cut-panel border border-emerald-200/20 bg-bg-900/16 px-4 py-4 sm:px-5 sm:py-5">
-              <div className="grid gap-5 lg:grid-cols-[1.2fr_0.8fr] lg:items-start">
+              <div className="grid gap-5 lg:grid-cols-[1.06fr_0.94fr] lg:items-start">
                 <div className="space-y-3 lg:pt-1">
                   <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-emerald-200/72">Prototype Build</p>
                   <h2 className="font-display text-[clamp(1.9rem,4vw,3.1rem)] leading-[0.9] tracking-tight text-mist-50">Encaved</h2>
@@ -646,36 +648,27 @@ export default function GamesPage() {
                     {gameMeta.encaved.description}
                   </p>
                 </div>
-                <figure className="games-frame relative aspect-[16/9] overflow-hidden border border-emerald-200/24 lg:mx-auto lg:w-[20rem]">
-                  <Image
-                    src={encavedImages[0].src}
-                    alt={encavedImages[0].alt}
-                    fill
-                    sizes="(min-width:1024px) 20rem, 94vw"
-                    className="object-cover"
-                  />
-                </figure>
+                <article className="games-frame min-w-0 overflow-hidden border border-emerald-200/22 bg-bg-900/18">
+                  <div className="relative aspect-video">
+                    <video
+                      className="h-full w-full object-cover"
+                      controls
+                      preload="metadata"
+                      playsInline
+                      poster="/games/encaved/main-hero.png"
+                      src="/games/encaved/swinging-lights-intro.mp4"
+                    />
+                  </div>
+                </article>
               </div>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-[1.05fr_0.62fr] lg:items-start">
-              <article className="games-frame min-w-0 overflow-hidden border border-emerald-200/22 bg-bg-900/16">
-                <div className="relative aspect-video">
-                  <video
-                    className="h-full w-full object-cover"
-                    controls
-                    preload="metadata"
-                    playsInline
-                    poster="/games/encaved/main-hero.png"
-                    src="/games/encaved/swinging-lights-intro.mp4"
-                  />
-                </div>
-              </article>
+            <div className="grid gap-4 lg:grid-cols-[1fr_1.06fr_1fr] lg:items-start">
+              <AudioDeck tracks={encavedTracks.slice(0, 3)} accent="emerald" columns={1} />
 
-              <div className="space-y-4">
-                <FeatureImage image={encavedImages[6]} accent="emerald" className="aspect-video" sizes="(min-width:1024px) 30vw, 94vw" />
-                <AudioDeck tracks={encavedTracks} accent="emerald" columns={1} />
-              </div>
+              <FeatureImage image={encavedImages[6]} accent="emerald" className="aspect-video lg:mt-1" sizes="(min-width:1024px) 32vw, 94vw" />
+
+              <AudioDeck tracks={encavedTracks.slice(3)} accent="emerald" columns={1} />
             </div>
 
             <section className="games-cut-panel border border-emerald-200/16 bg-bg-900/14 p-3">
