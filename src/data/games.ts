@@ -15,9 +15,9 @@ export const games: Game[] = [
     accent: "moss",
     featured: true,
     media: {
-      src: "/games/encaved/cave-interior.png",
-      alt: "Encaved cave interior concept art.",
-      objectPosition: "center 48%",
+      src: "/games/encaved/main-hero.png",
+      alt: "Encaved mine tunnel with blue lanterns and glowing trail.",
+      objectPosition: "center 50%",
     },
     mark: {
       src: "/games/encaved/logo.png",
