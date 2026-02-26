@@ -1,7 +1,8 @@
-﻿import type { Metadata } from "next";
+import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 
+import { AudioTrackPlayer } from "@/components/games/AudioTrackPlayer";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { archiveHighlights } from "@/data/games";
@@ -182,7 +183,7 @@ function MediaGrid({
     columns === 2 ? Math.max(34, images.length * 6.4) : columns === 4 ? Math.max(36, images.length * 5.4) : Math.max(35, images.length * 5.8);
 
   return (
-    <div className={`media-rail-mask w-full max-w-full overflow-hidden pb-2 ${className}`}>
+    <div className={`media-rail-mask w-full max-w-full overflow-hidden px-1 pb-2 sm:px-2 lg:px-5 ${className}`}>
       <div className="media-rail-track flex w-max gap-3" style={{ animationDuration: `${durationSeconds}s` }}>
         {railItems.map((asset, index) => {
           const parts = asset.alt.split("|").map((part) => part.trim());
@@ -308,7 +309,7 @@ function AudioDeck({
           {group.map((track, laneIndex) => (
             <div
               key={track.src}
-              className={`games-audio-lane grid gap-2 px-3 py-2.5 sm:grid-cols-[13rem_1fr] sm:items-center ${laneIndex === 0 ? "" : `border-t ${laneBorder}`}`}
+              className={`games-audio-lane grid gap-3 px-3 py-3 lg:grid-cols-[12rem_minmax(0,1fr)] lg:items-center ${laneIndex === 0 ? "" : `border-t ${laneBorder}`}`}
             >
               <div className="flex items-center gap-2">
                 <svg className={`h-3.5 w-3.5 ${a.pillText}`} viewBox="0 0 24 24" fill="currentColor">
@@ -316,7 +317,7 @@ function AudioDeck({
                 </svg>
                 <p className={`text-[0.68rem] font-semibold uppercase tracking-[0.14em] ${a.textMuted}`}>{track.title}</p>
               </div>
-              <audio className="w-full" controls preload="none" src={track.src} />
+              <AudioTrackPlayer src={track.src} accent={accent} label={track.title} />
             </div>
           ))}
         </div>
@@ -328,7 +329,7 @@ function AudioDeck({
 function SectionDivider({ accent }: { accent: AccentColor }) {
   const a = accentMap[accent];
   return (
-    <div className="relative py-4">
+    <div className="relative py-8 sm:py-10">
       <div className={`h-px w-full ${a.border} border-t`} />
       <div className={`absolute left-1/2 top-1/2 h-8 w-32 -translate-x-1/2 -translate-y-1/2 bg-linear-to-r ${a.gradient} blur-2xl`} />
     </div>
@@ -627,7 +628,7 @@ export default function GamesPage() {
       </Section>
 
       {/* -- RoEmpires -- */}
-      <Section id="roempires" className="py-6 sm:py-10">
+      <Section id="roempires" className="py-12 sm:py-16">
         <Container className="max-w-[96rem]">
           <GameHeroBanner image={roEmpiresImages[0]} title="RoEmpires" accent="gold">
             <GenrePills genres={gameMeta.roEmpires.genres} accent="gold" />
@@ -636,8 +637,8 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-5">
-            <div className="grid min-w-0 gap-4 xl:grid-cols-[1.22fr_0.78fr]">
+          <div className="mx-auto mt-10 max-w-[84rem] space-y-10 lg:space-y-14">
+            <div className="grid min-w-0 gap-8 xl:grid-cols-[1.08fr_0.62fr]">
               <article className="games-cut-panel min-w-0 overflow-hidden border border-gold-300/20 bg-bg-900/26">
                 <div className="relative aspect-video">
                   <video
@@ -654,23 +655,23 @@ export default function GamesPage() {
                 </div>
               </article>
 
-              <div className="grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-1">
+              <div className="grid min-w-0 gap-6 sm:grid-cols-2 xl:grid-cols-1 xl:pt-8">
                 <FeatureImage image={roEmpiresImages[1]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
                 <FeatureImage image={roEmpiresImages[2]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
                 <FeatureImage image={roEmpiresImages[3]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
               </div>
             </div>
 
-            <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/20 p-3">
+            <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/20 p-4">
               <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
                 Development Roll
               </p>
               <MediaGrid images={roEmpiresImages.slice(0, 6)} accent="gold" columns={3} />
             </section>
 
-            <div className="grid min-w-0 gap-4 lg:grid-cols-[1fr_1fr]">
+            <div className="grid min-w-0 gap-8 lg:grid-cols-[0.86fr_1fr]">
               <AudioDeck tracks={roEmpiresTracks} accent="gold" columns={2} />
-              <div className="grid gap-3 sm:grid-cols-2">
+              <div className="grid gap-5 sm:grid-cols-2">
                 {roEmpiresClips.map((clip, index) => (
                   <VideoCard
                     key={clip.src}
@@ -688,7 +689,7 @@ export default function GamesPage() {
       <SectionDivider accent="emerald" />
 
       {/* -- Encaved -- */}
-      <Section id="encaved" className="py-6 sm:py-10">
+      <Section id="encaved" className="py-12 sm:py-16">
         <Container className="max-w-[96rem]">
           <GameHeroBanner image={encavedImages[0]} title="Encaved" accent="emerald">
             <GenrePills genres={gameMeta.encaved.genres} accent="emerald" />
@@ -697,8 +698,8 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-5">
-            <div className="grid min-w-0 gap-4 xl:grid-cols-[1.3fr_0.7fr]">
+          <div className="mx-auto mt-10 max-w-[84rem] space-y-10 lg:space-y-14">
+            <div className="grid min-w-0 gap-8 xl:grid-cols-[1.06fr_0.58fr]">
               <article className="games-cut-panel min-w-0 overflow-hidden border border-emerald-200/22 bg-bg-900/24">
                 <div className="relative aspect-video">
                   <video
@@ -715,16 +716,16 @@ export default function GamesPage() {
                 </div>
               </article>
 
-              <div className="grid min-w-0 gap-3">
+              <div className="grid min-w-0 gap-6 xl:pt-10">
                 <FeatureImage image={encavedImages[0]} accent="emerald" className="aspect-video" sizes="(min-width:1280px) 28vw, 94vw" />
                 <FeatureImage image={encavedImages[6]} accent="emerald" className="aspect-video" sizes="(min-width:1280px) 28vw, 94vw" />
               </div>
             </div>
 
-            <div className="grid min-w-0 gap-4 xl:grid-cols-[0.55fr_1.45fr]">
+            <div className="grid min-w-0 gap-10 xl:grid-cols-[0.48fr_1fr]">
               <AudioDeck tracks={encavedTracks} accent="emerald" columns={1} className="min-w-0" />
 
-              <section className="games-cut-panel min-w-0 border border-emerald-200/16 bg-bg-900/18 p-3">
+              <section className="games-cut-panel min-w-0 border border-emerald-200/16 bg-bg-900/18 p-4">
                 <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/72">
                   Environment + Gameplay Roll
                 </p>
@@ -732,7 +733,7 @@ export default function GamesPage() {
               </section>
             </div>
 
-            <div className="grid min-w-0 gap-3 md:grid-cols-3">
+            <div className="grid min-w-0 gap-5 md:grid-cols-3">
               {encavedPrototypeClips.map((clip, index) => (
                 <VideoCard
                   key={clip.src}
@@ -749,7 +750,7 @@ export default function GamesPage() {
       <SectionDivider accent="azure" />
 
       {/* -- Boss Battles -- */}
-      <Section id="boss-battles" className="py-6 sm:py-10">
+      <Section id="boss-battles" className="py-12 sm:py-16">
         <Container className="max-w-[96rem]">
           <GameHeroBanner image={bossBattlesImages[0]} title="Boss Battles" accent="azure">
             <GenrePills genres={gameMeta.bossBattles.genres} accent="azure" />
@@ -758,20 +759,20 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-5">
+          <div className="mx-auto mt-10 max-w-[84rem] space-y-10 lg:space-y-14">
             <FeatureImage image={bossBattlesImages[0]} accent="azure" className="aspect-[16/9]" sizes="(min-width:1280px) 92vw, 94vw" />
 
-            <section className="games-cut-panel min-w-0 border border-azure-300/16 bg-bg-900/18 p-3">
+            <section className="games-cut-panel min-w-0 border border-azure-300/16 bg-bg-900/18 p-4">
               <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-azure-300/74">
                 Event Coverage Roll
               </p>
               <MediaGrid images={bossBattlesImages.slice(1, 7)} accent="azure" columns={3} />
             </section>
 
-            <div className="grid min-w-0 gap-4 xl:grid-cols-[1.05fr_0.95fr]">
+            <div className="grid min-w-0 gap-8 xl:grid-cols-[0.95fr_0.78fr] xl:pl-6">
               <FeatureImage image={bossBattlesImages[7]} accent="azure" className="aspect-[4/3] xl:aspect-[16/11]" sizes="(min-width:1280px) 52vw, 94vw" />
-              <div className="min-w-0 space-y-4">
-                <div className="grid gap-3 sm:grid-cols-2">
+              <div className="min-w-0 space-y-6">
+                <div className="grid gap-5 sm:grid-cols-2">
                   {bossBattlesClips.map((clip, index) => (
                     <VideoCard
                       key={clip.src}
@@ -791,7 +792,7 @@ export default function GamesPage() {
       <SectionDivider accent="gold" />
 
       {/* -- Escape Bruno -- */}
-      <Section id="escape-bruno" className="py-6 sm:py-10">
+      <Section id="escape-bruno" className="py-12 sm:py-16">
         <Container className="max-w-[96rem]">
           <GameHeroBanner image={escapeBrunoImages[0]} title="Escape Bruno" accent="gold">
             <GenrePills genres={gameMeta.escapeBruno.genres} accent="gold" />
@@ -800,10 +801,10 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-5">
-            <div className="grid min-w-0 gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+          <div className="mx-auto mt-10 max-w-[84rem] space-y-10 lg:space-y-14">
+            <div className="grid min-w-0 gap-8 lg:grid-cols-[0.95fr_0.72fr] xl:pr-6">
               <FeatureImage image={escapeBrunoImages[0]} accent="gold" className="aspect-video min-w-0" sizes="(min-width:1024px) 56vw, 94vw" />
-              <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/18 p-3">
+              <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/18 p-4">
                 <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
                   Gameplay Route Roll
                 </p>
@@ -811,11 +812,11 @@ export default function GamesPage() {
               </section>
             </div>
 
-            <div className="games-cut-panel border border-gold-300/16 bg-bg-900/18 p-3">
+            <div className="games-cut-panel border border-gold-300/16 bg-bg-900/18 p-4">
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold-100/70">
                 Creator Coverage
               </p>
-              <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {creatorCoverage.map((creator) => (
                   <Link
                     key={creator.href}
@@ -865,7 +866,7 @@ export default function GamesPage() {
       </Section>
 
       {/* -- Evil Pets -- */}
-      <Section id="evil-pets" className="py-6 sm:py-10">
+      <Section id="evil-pets" className="py-12 sm:py-16">
         <Container className="max-w-[96rem]">
           <GameHeroBanner image={evilPetsImages[0]} title="Evil Pets" accent="moss">
             <GenrePills genres={gameMeta.evilPets.genres} accent="moss" />
@@ -874,15 +875,15 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-5">
-            <div className="grid min-w-0 gap-4 xl:grid-cols-[0.92fr_1.08fr]">
-              <div className="min-w-0 space-y-4">
+          <div className="mx-auto mt-10 max-w-[84rem] space-y-10 lg:space-y-14">
+            <div className="grid min-w-0 gap-8 xl:grid-cols-[0.72fr_1.04fr]">
+              <div className="min-w-0 space-y-6 xl:pt-8">
                 <VideoCard
                   clip={{ title: "Fence Teaser", src: "/games/evil-pets/fence-teaser.mp4" }}
                   poster="/games/evil-pets/thumbnail.png"
                   accent="moss"
                 />
-                <div className="grid gap-3 sm:grid-cols-2">
+                <div className="grid gap-5 sm:grid-cols-2">
                   <AudioDeck
                     tracks={[{ title: "Intro Track", src: "/games/evil-pets/intro-perfect.mp3" }]}
                     accent="moss"
@@ -892,7 +893,7 @@ export default function GamesPage() {
                 </div>
               </div>
 
-              <section className="games-cut-panel min-w-0 border border-emerald-200/14 bg-bg-900/18 p-3">
+              <section className="games-cut-panel min-w-0 border border-emerald-200/14 bg-bg-900/18 p-4">
                 <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/70">
                   Environment Roll
                 </p>
@@ -906,7 +907,7 @@ export default function GamesPage() {
       <SectionDivider accent="gold" />
 
       {/* -- Panda Tycoon -- */}
-      <Section id="panda-tycoon" className="py-6 sm:py-10">
+      <Section id="panda-tycoon" className="py-12 sm:py-16">
         <Container className="max-w-[96rem]">
           <GameHeroBanner image={turningRedImages[0]} title="Panda Tycoon" accent="gold">
             <GenrePills genres={gameMeta.pandaTycoon.genres} accent="gold" />
@@ -915,14 +916,14 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-5">
-            <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/18 p-3">
+          <div className="mx-auto mt-10 max-w-[84rem] space-y-10 lg:space-y-14">
+            <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/18 p-4">
               <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
                 World Tour Roll
               </p>
               <MediaGrid images={turningRedImages} accent="gold" columns={4} />
             </section>
-            <div className="grid min-w-0 gap-3 md:grid-cols-3">
+            <div className="grid min-w-0 gap-6 md:grid-cols-3 xl:pl-8">
               <FeatureImage image={turningRedImages[0]} accent="gold" className="aspect-video" sizes="(min-width:768px) 32vw, 94vw" />
               <FeatureImage image={turningRedImages[1]} accent="gold" className="aspect-video" sizes="(min-width:768px) 32vw, 94vw" />
               <FeatureImage image={turningRedImages[2]} accent="gold" className="aspect-video" sizes="(min-width:768px) 32vw, 94vw" />
@@ -934,7 +935,7 @@ export default function GamesPage() {
       <SectionDivider accent="azure" />
 
       {/* -- Raise a Brainrot -- */}
-      <Section id="raise-a-brainrot" className="py-6 sm:py-10">
+      <Section id="raise-a-brainrot" className="py-12 sm:py-16">
         <Container className="max-w-[96rem]">
           <GameHeroBanner image={brainrotImages[0]} title="Raise a Brainrot" accent="azure">
             <GenrePills genres={gameMeta.raiseABrainrot.genres} accent="azure" />
@@ -943,8 +944,8 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-5">
-            <div className="grid min-w-0 gap-4 xl:grid-cols-2">
+          <div className="mx-auto mt-10 max-w-[84rem] space-y-10 lg:space-y-14">
+            <div className="mx-auto grid min-w-0 max-w-[76rem] gap-8 xl:grid-cols-2">
               <VideoCard
                 clip={{ title: "Clip 1", src: "/games/raise-a-brainrot/clip-1.mp4" }}
                 poster="/games/raise-a-brainrot/thumbnail.png"
@@ -957,7 +958,7 @@ export default function GamesPage() {
               />
             </div>
 
-            <section className="games-cut-panel min-w-0 border border-azure-300/16 bg-bg-900/18 p-3">
+            <section className="games-cut-panel min-w-0 border border-azure-300/16 bg-bg-900/18 p-4">
               <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-azure-300/74">
                 Progression + Promo Roll
               </p>
@@ -1007,5 +1008,6 @@ export default function GamesPage() {
     </>
   );
 }
+
 
 
