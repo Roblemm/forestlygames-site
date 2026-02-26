@@ -7,6 +7,8 @@ export const games: Game[] = [
     subtitle: "Horror Survival Adventure",
     description:
       "Blends horror survival with simulator elements as players journey through an ancient mine filled with monsters, secrets, and unpredictable events. Ride minecarts through dangerous tunnels, explore the caves on foot, mine resources, upgrade your tools, and fight with friends to survive the spirits that haunt the deep.",
+    shortDescription:
+      "Journey through an ancient mine filled with monsters, secrets, and unpredictable events. Ride minecarts, mine resources, upgrade your tools, and fight with friends to survive the spirits that haunt the deep.",
     stage: "In Dev",
     genre: "Horror, Adventure, Story, Survival",
     platformFocus: "Roblox",
@@ -28,6 +30,8 @@ export const games: Game[] = [
     subtitle: "Real-Time Strategy Builder",
     description:
       "A real time strategy kingdom builder where players construct villages, train troops, and attack enemy bases across a variety of single player and multiplayer modes. Players upgrade buildings, defend their base, and expand their empire through progression and strategic planning.",
+    shortDescription:
+      "Construct villages, train troops, and attack enemy bases across single player and multiplayer modes. Upgrade buildings, defend your base, and expand your empire.",
     stage: "Alpha",
     genre: "Strategy, Building, Action",
     platformFocus: "Roblox",

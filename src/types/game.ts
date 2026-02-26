@@ -7,6 +7,7 @@ export interface Game {
   title: string;
   subtitle: string;
   description: string;
+  shortDescription?: string;
   stage: GameStage;
   genre: string;
   platformFocus: string;
