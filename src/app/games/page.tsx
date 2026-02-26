@@ -309,15 +309,13 @@ const bossBattlesImages: MediaImage[] = [
   { src: "/games/boss-battles/fnaf-hi.png", alt: "FNAF Event Art | Character-focused event visual treatment." },
 ];
 
-const bossBattlesClips: VideoClip[] = [
-  { title: "Event Clip 1", src: "/games/boss-battles/gameplay-clip-1.mp4" },
-  { title: "Event Clip 2", src: "/games/boss-battles/gameplay-clip-2.mp4" },
-];
-
 const bossBattlesTracks: AudioTrack[] = [
-  { title: "Noob Dungeon", src: "/games/boss-battles/music-noob-dungeon.mp3", durationSeconds: 172.78, icon: "/games/boss-battles/noob-throw-og.png" },
-  { title: "Desert Dungeon", src: "/games/boss-battles/music-desert-dungeon.mp3", durationSeconds: 164.33, icon: "/games/boss-battles/dungeon-portal-screenshot.png" },
-  { title: "Fire Lava Dungeon", src: "/games/boss-battles/music-fire-lava-dungeon.mp3", durationSeconds: 258.7, icon: "/games/boss-battles/fnaf-dungeon.png" },
+  { title: "Boss Battles", src: "/games/boss-battles/music-noob-dungeon.mp3", durationSeconds: 128, icon: "/games/boss-battles/noob-throw-og.png" },
+  { title: "Sunflowers and Spiderwebs", src: "/games/boss-battles/music-desert-dungeon.mp3", durationSeconds: 326, icon: "/games/boss-battles/fnaf-dungeon.png" },
+  { title: "Warning--Strings Attached", src: "/games/boss-battles/music-fire-lava-dungeon.mp3", durationSeconds: 109, icon: "/games/boss-battles/dungeon-portal-screenshot.png" },
+  { title: "Interwebbed", src: "/games/boss-battles/music-noob-dungeon.mp3", durationSeconds: 109, icon: "/games/boss-battles/mirabel-hi.png" },
+  { title: "Entombed", src: "/games/boss-battles/music-desert-dungeon.mp3", durationSeconds: 109, icon: "/games/boss-battles/fire-icon-mirabel.png" },
+  { title: "Incoming!", src: "/games/boss-battles/music-fire-lava-dungeon.mp3", durationSeconds: 109, icon: "/games/boss-battles/portal-teleport.png" },
 ];
 
 const evilPetsTracks: AudioTrack[] = [
@@ -709,18 +707,6 @@ export default function GamesPage() {
               </div>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-[1.02fr_0.65fr] lg:items-start">
-              <FeatureImage image={bossBattlesImages[7]} accent="azure" className="aspect-[16/9]" sizes="(min-width:1024px) 64vw, 94vw" />
-              <div className="space-y-4">
-                <VideoCard
-                  clip={bossBattlesClips[0]}
-                  poster={bossBattlesImages[2].src}
-                  accent="azure"
-                />
-                <AudioDeck tracks={bossBattlesTracks} accent="azure" columns={1} />
-              </div>
-            </div>
-
             <section className="games-cut-panel border border-azure-300/16 bg-bg-900/14 p-3">
               <p className="mb-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-azure-300/76">
                 Scrolling Media Reel
@@ -728,14 +714,7 @@ export default function GamesPage() {
               <ScrollingMediaReel images={bossBattlesImages.slice(1, 7)} accent="azure" />
             </section>
 
-            <div className="grid gap-4 sm:grid-cols-2">
-              <VideoCard
-                clip={bossBattlesClips[1]}
-                poster={bossBattlesImages[3].src}
-                accent="azure"
-              />
-              <FeatureImage image={bossBattlesImages[0]} accent="azure" className="aspect-video" sizes="(min-width:640px) 42vw, 94vw" />
-            </div>
+            <AudioDeck tracks={bossBattlesTracks} accent="azure" columns={2} />
           </div>
         </Container>
       </Section>
