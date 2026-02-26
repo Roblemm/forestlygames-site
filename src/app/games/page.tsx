@@ -628,59 +628,104 @@ export default function GamesPage() {
       </Section>
 
       {/* -- RoEmpires -- */}
-      <Section id="roempires" className="py-12 sm:py-16">
+      <Section id="roempires" className="py-16 sm:py-24">
         <Container className="max-w-[96rem]">
-          <GameHeroBanner image={roEmpiresImages[0]} title="RoEmpires" accent="gold">
-            <GenrePills genres={gameMeta.roEmpires.genres} accent="gold" />
-            <p className="text-sm leading-relaxed text-mist-200/80 sm:text-base">
-              {gameMeta.roEmpires.description}
-            </p>
-          </GameHeroBanner>
-
-          <div className="mx-auto mt-10 max-w-[84rem] space-y-10 lg:space-y-14">
-            <div className="grid min-w-0 gap-8 xl:grid-cols-[1.08fr_0.62fr]">
-              <article className="games-cut-panel min-w-0 overflow-hidden border border-gold-300/20 bg-bg-900/26">
-                <div className="relative aspect-video">
-                  <video
-                    className="h-full w-full object-cover"
-                    controls
-                    preload="metadata"
-                    playsInline
-                    poster="/games/roempires/thumbnail.png"
-                    src="/games/roempires/trailer.mp4"
+          <div className="mx-auto max-w-[82rem] space-y-16 lg:space-y-24">
+            <div className="games-cut-panel border border-gold-300/20 bg-bg-900/16 px-6 py-6 sm:px-8 sm:py-8">
+              <div className="grid gap-8 lg:grid-cols-[1.34fr_0.66fr] lg:items-start">
+                <figure className="games-frame relative aspect-[16/9] overflow-hidden border border-gold-300/24">
+                  <Image
+                    src={roEmpiresImages[0].src}
+                    alt={roEmpiresImages[0].alt}
+                    fill
+                    sizes="(min-width:1280px) 58vw, 94vw"
+                    className="object-cover"
                   />
-                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-bg-950/80 to-transparent px-4 py-3">
-                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-gold-100/84">Main Trailer</p>
-                  </div>
+                </figure>
+                <div className="space-y-4 lg:pt-2">
+                  <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-gold-100/72">[ALPHA] Live Build</p>
+                  <h2 className="font-display text-[clamp(2.2rem,5vw,4rem)] leading-[0.9] tracking-tight text-mist-50">RoEmpires</h2>
+                  <GenrePills genres={gameMeta.roEmpires.genres} accent="gold" />
+                  <p className="max-w-md text-sm leading-relaxed text-mist-200/82 sm:text-base">
+                    {gameMeta.roEmpires.description}
+                  </p>
                 </div>
-              </article>
-
-              <div className="grid min-w-0 gap-6 sm:grid-cols-2 xl:grid-cols-1 xl:pt-8">
-                <FeatureImage image={roEmpiresImages[1]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
-                <FeatureImage image={roEmpiresImages[2]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
-                <FeatureImage image={roEmpiresImages[3]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
               </div>
             </div>
 
-            <section className="games-cut-panel min-w-0 border border-gold-300/16 bg-bg-900/20 p-4">
-              <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
-                Development Roll
-              </p>
-              <MediaGrid images={roEmpiresImages.slice(0, 6)} accent="gold" columns={3} />
-            </section>
-
-            <div className="grid min-w-0 gap-8 lg:grid-cols-[0.86fr_1fr]">
-              <AudioDeck tracks={roEmpiresTracks} accent="gold" columns={2} />
-              <div className="grid gap-5 sm:grid-cols-2">
-                {roEmpiresClips.map((clip, index) => (
-                  <VideoCard
-                    key={clip.src}
-                    clip={clip}
-                    poster={roEmpiresImages[Math.min(index + 4, roEmpiresImages.length - 1)].src}
-                    accent="gold"
-                  />
-                ))}
+            <div className="mx-auto w-full max-w-[90rem] px-0 sm:px-6">
+              <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
+                {roEmpiresImages.slice(1, 4).map((image) => {
+                  const [title, note] = image.alt.split("|").map((part) => part.trim());
+                  return (
+                    <article key={image.src} className="space-y-3">
+                      <figure className="games-frame relative aspect-[16/9] overflow-hidden border border-gold-300/18">
+                        <Image
+                          src={image.src}
+                          alt={title}
+                          fill
+                          sizes="(min-width:1280px) 28vw, 94vw"
+                          className="object-cover"
+                        />
+                      </figure>
+                      <div>
+                        <p className="font-display text-[2rem] leading-[0.92] text-mist-50">{title}</p>
+                        <p className="mt-1 text-sm leading-relaxed text-mist-200/72">{note}</p>
+                      </div>
+                    </article>
+                  );
+                })}
               </div>
+            </div>
+
+            <div className="space-y-8">
+              <h3 className="text-center font-display text-[clamp(2.6rem,7vw,5.2rem)] leading-[0.9] tracking-tight text-mist-50">
+                MEET <span className="text-gold-300">ROEMPIRES</span>
+              </h3>
+
+              <div className="grid gap-8 xl:grid-cols-[0.34fr_0.84fr_0.34fr] xl:items-start">
+                <div className="space-y-3">
+                  {roEmpiresTracks.slice(0, 3).map((track) => (
+                    <div key={track.src} className="games-frame border border-gold-300/18 bg-bg-900/12 px-3 py-3">
+                      <p className="mb-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-gold-100/80">{track.title}</p>
+                      <AudioTrackPlayer src={track.src} accent="gold" label={track.title} />
+                    </div>
+                  ))}
+                </div>
+
+                <article className="games-frame overflow-hidden border border-gold-300/20 bg-bg-900/16">
+                  <div className="relative aspect-video">
+                    <video
+                      className="h-full w-full object-cover"
+                      controls
+                      preload="metadata"
+                      playsInline
+                      poster="/games/roempires/thumbnail.png"
+                      src="/games/roempires/trailer.mp4"
+                    />
+                  </div>
+                </article>
+
+                <div className="space-y-3">
+                  {roEmpiresTracks.slice(3).map((track) => (
+                    <div key={track.src} className="games-frame border border-gold-300/18 bg-bg-900/12 px-3 py-3">
+                      <p className="mb-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-gold-100/80">{track.title}</p>
+                      <AudioTrackPlayer src={track.src} accent="gold" label={track.title} />
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+
+            <div className="mx-auto grid max-w-[72rem] gap-8 lg:grid-cols-2">
+              {roEmpiresClips.slice(0, 2).map((clip, index) => (
+                <VideoCard
+                  key={clip.src}
+                  clip={clip}
+                  poster={roEmpiresImages[Math.min(index + 4, roEmpiresImages.length - 1)].src}
+                  accent="gold"
+                />
+              ))}
             </div>
           </div>
         </Container>
