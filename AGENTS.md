@@ -20,3 +20,7 @@ This is a **Next.js 16** frontend-only marketing site (no backend, database, or 
 - No `.env` files or environment variables are needed.
 - Pages: `/`, `/games`, `/about`, `/contact`. All statically rendered.
 - Animations use GSAP + ScrollTrigger for scroll-driven motion scenes (`src/components/motion/scenes/`).
+
+### Skills
+
+- `.cursor/skills/frontend-design.md` — Create distinctive, production-grade frontend interfaces with high design quality. Use when building or modifying web components, pages, or UI.
