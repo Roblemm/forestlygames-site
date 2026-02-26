@@ -38,13 +38,13 @@ export const games: Game[] = [
     accent: "emerald",
     featured: true,
     media: {
-      src: "/games/roempires/screenshot-79.png",
-      alt: "RoEmpires character key art.",
+      src: "/games/roempires/thumbnail.png",
+      alt: "RoEmpires battle key art with armored troops.",
       objectPosition: "center center",
     },
     mark: {
-      src: "/games/roempires/king.png",
-      alt: "RoEmpires crown artwork.",
+      src: "/games/roempires/logo.png",
+      alt: "RoEmpires game logo.",
     },
   },
   {

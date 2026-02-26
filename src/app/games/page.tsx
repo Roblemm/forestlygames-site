@@ -39,6 +39,8 @@ const accent = {
   },
 } as const;
 
+type GalleryItem = string | { src: string; title: string; note: string };
+
 type GameSectionProps = {
   id: string;
   title: string;
@@ -48,7 +50,7 @@ type GameSectionProps = {
   stage: string;
   color: AccentColor;
   heroImage: string;
-  gallery: string[];
+  gallery: GalleryItem[];
   video?: { src: string; poster: string; label: string };
   audio?: { src: string; label: string }[];
   creatorCoverage?: { name: string; note: string; href: string }[];
@@ -117,11 +119,23 @@ function GameSection({
         {/* Gallery row */}
         {gallery.length > 0 && (
           <div className={`mt-5 grid gap-2.5 ${gallery.length <= 3 ? "grid-cols-2 sm:grid-cols-3" : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"}`}>
-            {gallery.map((src, i) => (
-              <figure key={`${src}-${i}`} className={`group relative aspect-[4/3] overflow-hidden rounded-lg border bg-bg-900/40 ${a.border}`}>
-                <Image src={src} alt={`${title} screenshot ${i + 1}`} fill sizes="(min-width:1024px) 22vw, 46vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
-              </figure>
-            ))}
+            {gallery.map((item, i) => {
+              const src = typeof item === "string" ? item : item.src;
+              const caption = typeof item === "string" ? null : item;
+              return (
+                <figure key={`${src}-${i}`} className={`group overflow-hidden rounded-lg border bg-bg-900/40 ${a.border}`}>
+                  <div className="relative aspect-[4/3] overflow-hidden">
+                    <Image src={src} alt={caption ? caption.title : `${title} screenshot ${i + 1}`} fill sizes="(min-width:1024px) 22vw, 46vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
+                  </div>
+                  {caption && (
+                    <div className="px-3 py-2.5">
+                      <p className="text-sm font-semibold text-mist-50">{caption.title}</p>
+                      <p className="mt-0.5 text-[0.68rem] leading-snug text-mist-300/70">{caption.note}</p>
+                    </div>
+                  )}
+                </figure>
+              );
+            })}
           </div>
         )}
 
@@ -140,7 +154,7 @@ function GameSection({
               </div>
             )}
             {audio && audio.length > 0 && (
-              <div className="space-y-3">
+              <div className={`grid gap-2.5 ${audio.length > 3 ? "grid-cols-2" : "grid-cols-1"}`}>
                 {audio.map((track) => (
                   <div key={track.src} className={`rounded-lg border bg-bg-900/40 p-3 ${a.border}`}>
                     <div className="mb-2 flex items-center gap-2">
@@ -166,19 +180,30 @@ const gamesData: GameSectionProps[] = [
     id: "roempires",
     title: "RoEmpires",
     subtitle: "Real-Time Strategy Builder",
-    description: "A real-time strategy kingdom builder where players create villages, build armies, and launch attacks across singleplayer and multiplayer modes.",
+    description: "A real-time strategy kingdom builder where players construct villages, train troops, and attack enemy bases across a variety of single player and multiplayer modes. Players upgrade buildings, defend their base, and expand their empire through progression and strategic planning.",
     genres: ["Strategy", "Building", "Action"],
     stage: "Alpha",
     color: "gold",
     heroImage: "/games/roempires/thumbnail.png",
     gallery: [
-      "/games/roempires/screenshot-79.png",
-      "/games/roempires/screenshot-90.png",
-      "/games/roempires/screenshot-76.png",
-      "/games/roempires/screenshot-77.png",
+      { src: "/games/roempires/loading-screen.png", title: "Civilizations Loading Screen", note: "Civilizations was the original name of RoEmpires." },
+      { src: "/games/roempires/gameplay-village.jpg", title: "Gameplay Picture", note: "This is a Player's Village." },
+      { src: "/games/roempires/banner-1.png", title: "RoEmpires Scientist Banner", note: "The Scientist is a part of RoEmpires' Lore!" },
+      { src: "/games/roempires/old-menu.png", title: "Civilizations Old Menu", note: "Build (Village), Train Troops, and Attack Others!" },
+      { src: "/games/roempires/currency-shop.png", title: "Old Currency Shop", note: "For an extra boost!" },
+      { src: "/games/roempires/currency-ui.png", title: "Currency UI", note: "Gold & Souls (Not Elixir)!" },
+      { src: "/games/roempires/icon.png", title: "ROBLOX GAME [Alpha]", note: "Play the Game on Roblox!" },
+      { src: "/games/roempires/roblox-page.png", title: "Roblox Game Page", note: "The official RoEmpires page on Roblox." },
     ],
     video: { src: "/games/roempires/trailer.mp4", poster: "/games/roempires/thumbnail.png", label: "Main Trailer" },
-    audio: [{ src: "/games/roempires/boost-sfx.mp3", label: "Boost SFX" }],
+    audio: [
+      { src: "/games/roempires/theme-main.mp3", label: "Main Theme" },
+      { src: "/games/roempires/theme-village.mp3", label: "Village Theme" },
+      { src: "/games/roempires/theme-attacking.mp3", label: "Attacking Theme" },
+      { src: "/games/roempires/theme-defending.mp3", label: "Defending Theme" },
+      { src: "/games/roempires/theme-codes.mp3", label: "Codes Theme" },
+      { src: "/games/roempires/theme-teaser.mp3", label: "Teaser Theme" },
+    ],
   },
   {
     id: "encaved",
