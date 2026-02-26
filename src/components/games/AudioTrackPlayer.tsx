@@ -20,10 +20,12 @@ export function AudioTrackPlayer({
   src,
   accent,
   label,
+  durationSeconds,
 }: {
   src: string;
   accent: AccentColor;
   label: string;
+  durationSeconds?: number;
 }) {
   const audioRef = useRef<HTMLAudioElement | null>(null);
   const inputId = useId();
@@ -31,7 +33,9 @@ export function AudioTrackPlayer({
   const [isPlaying, setIsPlaying] = useState(false);
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
-  const progressPercent = duration > 0 ? `${(Math.min(position, duration) / duration) * 100}%` : "0%";
+  const resolvedDuration = duration > 0 ? duration : (durationSeconds ?? 0);
+  const progressPercent =
+    resolvedDuration > 0 ? `${(Math.min(position, resolvedDuration) / resolvedDuration) * 100}%` : "0%";
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -123,16 +127,16 @@ export function AudioTrackPlayer({
           className="games-player-range"
           type="range"
           min={0}
-          max={duration || 1}
+          max={resolvedDuration || 1}
           step={0.1}
-          value={Math.min(position, duration || 0)}
+          value={Math.min(position, resolvedDuration || 0)}
           onChange={(event) => handleSeek(Number(event.target.value))}
           style={{ "--progress": progressPercent } as CSSProperties}
         />
       </div>
 
       <p className="games-player-time">
-        {formatTime(position)} / {formatTime(duration)}
+        {formatTime(position)} / {formatTime(resolvedDuration)}
       </p>
     </div>
   );

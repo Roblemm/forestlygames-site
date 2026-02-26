@@ -3,6 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 
 import { AudioTrackPlayer } from "@/components/games/AudioTrackPlayer";
+import { ScrollingMediaReel } from "@/components/games/ScrollingMediaReel";
 import { Container } from "@/components/ui/Container";
 import { Section } from "@/components/ui/Section";
 import { archiveHighlights } from "@/data/games";
@@ -20,6 +21,7 @@ type VideoClip = {
 type AudioTrack = {
   title: string;
   src: string;
+  durationSeconds?: number;
 };
 
 type CreatorSpot = {
@@ -317,7 +319,7 @@ function AudioDeck({
                 </svg>
                 <p className={`text-[0.68rem] font-semibold uppercase tracking-[0.14em] ${a.textMuted}`}>{track.title}</p>
               </div>
-              <AudioTrackPlayer src={track.src} accent={accent} label={track.title} />
+              <AudioTrackPlayer src={track.src} accent={accent} label={track.title} durationSeconds={track.durationSeconds} />
             </div>
           ))}
         </div>
@@ -347,20 +349,13 @@ const roEmpiresImages: MediaImage[] = [
   { src: "/games/roempires/loading-screen.png", alt: "Loading Screen | Intro splash branding for the alpha client." },
 ];
 
-const roEmpiresClips: VideoClip[] = [
-  { title: "Gameplay", src: "/games/roempires/gameplay.mp4" },
-  { title: "Attacking", src: "/games/roempires/attacking.mp4" },
-  { title: "Placement", src: "/games/roempires/placement.mp4" },
-  { title: "UI Pass", src: "/games/roempires/ui.mp4" },
-];
-
 const roEmpiresTracks: AudioTrack[] = [
-  { title: "Main Theme", src: "/games/roempires/theme-main.mp3" },
-  { title: "Village Theme", src: "/games/roempires/theme-village.mp3" },
-  { title: "Defending Theme", src: "/games/roempires/theme-defending.mp3" },
-  { title: "Attacking Theme", src: "/games/roempires/theme-attacking.mp3" },
-  { title: "Codes Theme", src: "/games/roempires/theme-codes.mp3" },
-  { title: "Teaser Theme", src: "/games/roempires/theme-teaser.mp3" },
+  { title: "Main Theme", src: "/games/roempires/theme-main.mp3", durationSeconds: 10.67 },
+  { title: "Village Theme", src: "/games/roempires/theme-village.mp3", durationSeconds: 22.59 },
+  { title: "Defending Theme", src: "/games/roempires/theme-defending.mp3", durationSeconds: 15.0 },
+  { title: "Attacking Theme", src: "/games/roempires/theme-attacking.mp3", durationSeconds: 19.2 },
+  { title: "Codes Theme", src: "/games/roempires/theme-codes.mp3", durationSeconds: 7.74 },
+  { title: "Teaser Theme", src: "/games/roempires/theme-teaser.mp3", durationSeconds: 71.35 },
 ];
 
 const encavedImages: MediaImage[] = [
@@ -381,10 +376,10 @@ const encavedPrototypeClips: VideoClip[] = [
 ];
 
 const encavedTracks: AudioTrack[] = [
-  { title: "Encaved Theme", src: "/games/encaved/theme-encaved.mp3" },
-  { title: "Synth Melody", src: "/games/encaved/theme-synth-melody.mp3" },
-  { title: "Rushed", src: "/games/encaved/theme-rushed.mp3" },
-  { title: "Piano Demo", src: "/games/encaved/theme-piano-demo.mp3" },
+  { title: "Encaved Theme", src: "/games/encaved/theme-encaved.mp3", durationSeconds: 70.03 },
+  { title: "Synth Melody", src: "/games/encaved/theme-synth-melody.mp3", durationSeconds: 23.45 },
+  { title: "Rushed", src: "/games/encaved/theme-rushed.mp3", durationSeconds: 183.22 },
+  { title: "Piano Demo", src: "/games/encaved/theme-piano-demo.mp3", durationSeconds: 31.65 },
 ];
 
 const bossBattlesImages: MediaImage[] = [
@@ -404,9 +399,9 @@ const bossBattlesClips: VideoClip[] = [
 ];
 
 const bossBattlesTracks: AudioTrack[] = [
-  { title: "Noob Dungeon", src: "/games/boss-battles/music-noob-dungeon.mp3" },
-  { title: "Desert Dungeon", src: "/games/boss-battles/music-desert-dungeon.mp3" },
-  { title: "Fire Lava Dungeon", src: "/games/boss-battles/music-fire-lava-dungeon.mp3" },
+  { title: "Noob Dungeon", src: "/games/boss-battles/music-noob-dungeon.mp3", durationSeconds: 172.78 },
+  { title: "Desert Dungeon", src: "/games/boss-battles/music-desert-dungeon.mp3", durationSeconds: 164.33 },
+  { title: "Fire Lava Dungeon", src: "/games/boss-battles/music-fire-lava-dungeon.mp3", durationSeconds: 258.7 },
 ];
 
 const escapeBrunoImages: MediaImage[] = [
@@ -653,36 +648,11 @@ export default function GamesPage() {
               </div>
             </div>
 
-            <div className="mx-auto w-full max-w-[90rem] px-0 sm:px-6">
-              <div className="grid gap-10 md:grid-cols-2 xl:grid-cols-3">
-                {roEmpiresImages.slice(1, 4).map((image) => {
-                  const [title, note] = image.alt.split("|").map((part) => part.trim());
-                  return (
-                    <article key={image.src} className="space-y-3">
-                      <figure className="games-frame relative aspect-[16/9] overflow-hidden border border-gold-300/18">
-                        <Image
-                          src={image.src}
-                          alt={title}
-                          fill
-                          sizes="(min-width:1280px) 28vw, 94vw"
-                          className="object-cover"
-                        />
-                      </figure>
-                      <div>
-                        <p className="font-display text-[2rem] leading-[0.92] text-mist-50">{title}</p>
-                        <p className="mt-1 text-sm leading-relaxed text-mist-200/72">{note}</p>
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            </div>
-
             <section className="games-cut-panel border border-gold-300/16 bg-bg-900/14 p-4">
               <p className="mb-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/76">
                 Scrolling Media Reel
               </p>
-              <MediaGrid images={roEmpiresImages.slice(1)} accent="gold" columns={3} />
+              <ScrollingMediaReel images={roEmpiresImages.slice(1)} accent="gold" />
             </section>
 
             <div className="space-y-8">
@@ -724,16 +694,6 @@ export default function GamesPage() {
               </div>
             </div>
 
-            <div className="mx-auto grid max-w-[72rem] gap-8 lg:grid-cols-2">
-              {roEmpiresClips.slice(0, 2).map((clip, index) => (
-                <VideoCard
-                  key={clip.src}
-                  clip={clip}
-                  poster={roEmpiresImages[Math.min(index + 4, roEmpiresImages.length - 1)].src}
-                  accent="gold"
-                />
-              ))}
-            </div>
           </div>
         </Container>
       </Section>
@@ -937,7 +897,7 @@ export default function GamesPage() {
                 />
                 <div className="grid gap-5 sm:grid-cols-2">
                   <AudioDeck
-                    tracks={[{ title: "Intro Track", src: "/games/evil-pets/intro-perfect.mp3" }]}
+                    tracks={[{ title: "Intro Track", src: "/games/evil-pets/intro-perfect.mp3", durationSeconds: 130.93 }]}
                     accent="moss"
                     columns={1}
                   />
