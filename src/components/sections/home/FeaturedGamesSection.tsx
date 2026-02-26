@@ -372,7 +372,7 @@ export function FeaturedGamesSection() {
                     </div>
                     <Badge className={accentBadgeMap[game.accent]}>{game.stage}</Badge>
                   </div>
-                  <p className="mt-4 text-base leading-7 text-mist-100/78">{game.description}</p>
+                  <p className="mt-4 text-base leading-7 text-mist-100/78">{game.shortDescription ?? game.description}</p>
                   <p className={cn("mt-4 text-sm", accentGenreMap[game.accent])}>
                     {game.genre}
                   </p>
