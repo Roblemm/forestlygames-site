@@ -262,8 +262,8 @@ a {
 .games-reel-nav {
   display: grid;
   place-items: center;
-  width: 2.2rem;
-  height: 2.2rem;
+  width: 1.9rem;
+  height: 1.9rem;
   background: rgba(7, 15, 12, 0.74);
   color: rgba(236, 243, 239, 0.9);
   transition: transform 150ms ease, border-color 150ms ease, background 150ms ease;
@@ -275,8 +275,8 @@ a {
 }
 
 .games-reel-nav svg {
-  width: 1rem;
-  height: 1rem;
+  width: 0.88rem;
+  height: 0.88rem;
 }
 
 .games-reel-scroll {

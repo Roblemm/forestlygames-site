@@ -132,7 +132,7 @@ export function ScrollingMediaReel({
             return (
               <figure
                 key={`${image.src}-${index}`}
-                className={`games-frame group relative aspect-video w-[min(84vw,28rem)] shrink-0 overflow-hidden border bg-bg-900/30 sm:w-[22rem] lg:w-[23rem] ${borderByAccent[accent]}`}
+                className={`games-frame group relative aspect-video w-[min(78vw,22rem)] shrink-0 overflow-hidden border bg-bg-900/30 sm:w-[17.5rem] lg:w-[18.5rem] ${borderByAccent[accent]}`}
               >
                 <Image
                   src={image.src}
@@ -143,7 +143,7 @@ export function ScrollingMediaReel({
                 />
                 <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-bg-950/80 via-bg-950/18 to-transparent" />
                 <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
-                  <p className="font-display text-[1.04rem] leading-none text-mist-50">{title}</p>
+                  <p className="font-display text-[0.94rem] leading-none text-mist-50">{title}</p>
                   <p className="mt-1 text-xs leading-relaxed text-mist-100/78">{note}</p>
                 </figcaption>
               </figure>
@@ -154,4 +154,3 @@ export function ScrollingMediaReel({
     </div>
   );
 }
-

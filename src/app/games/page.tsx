@@ -623,12 +623,12 @@ export default function GamesPage() {
       </Section>
 
       {/* -- RoEmpires -- */}
-      <Section id="roempires" className="py-16 sm:py-24">
+      <Section id="roempires" className="py-8 sm:py-12">
         <Container className="max-w-[96rem]">
-          <div className="mx-auto max-w-[82rem] space-y-16 lg:space-y-24">
-            <div className="games-cut-panel border border-gold-300/20 bg-bg-900/16 px-6 py-6 sm:px-8 sm:py-8">
-              <div className="grid gap-8 lg:grid-cols-[1.34fr_0.66fr] lg:items-start">
-                <figure className="games-frame relative aspect-[16/9] overflow-hidden border border-gold-300/24">
+          <div className="mx-auto max-w-[76rem] space-y-8 lg:space-y-10">
+            <div className="games-cut-panel border border-gold-300/20 bg-bg-900/16 px-4 py-4 sm:px-5 sm:py-5">
+              <div className="grid gap-5 lg:grid-cols-[1.3fr_0.7fr] lg:items-start">
+                <figure className="games-frame relative aspect-[16/8] overflow-hidden border border-gold-300/24">
                   <Image
                     src={roEmpiresImages[0].src}
                     alt={roEmpiresImages[0].alt}
@@ -637,9 +637,9 @@ export default function GamesPage() {
                     className="object-cover"
                   />
                 </figure>
-                <div className="space-y-4 lg:pt-2">
+                <div className="space-y-3 lg:pt-1">
                   <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-gold-100/72">[ALPHA] Live Build</p>
-                  <h2 className="font-display text-[clamp(2.2rem,5vw,4rem)] leading-[0.9] tracking-tight text-mist-50">RoEmpires</h2>
+                  <h2 className="font-display text-[clamp(1.9rem,4vw,3.2rem)] leading-[0.9] tracking-tight text-mist-50">RoEmpires</h2>
                   <GenrePills genres={gameMeta.roEmpires.genres} accent="gold" />
                   <p className="max-w-md text-sm leading-relaxed text-mist-200/82 sm:text-base">
                     {gameMeta.roEmpires.description}
@@ -648,24 +648,24 @@ export default function GamesPage() {
               </div>
             </div>
 
-            <section className="games-cut-panel border border-gold-300/16 bg-bg-900/14 p-4">
+            <section className="games-cut-panel border border-gold-300/16 bg-bg-900/14 p-3">
               <p className="mb-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/76">
                 Scrolling Media Reel
               </p>
               <ScrollingMediaReel images={roEmpiresImages.slice(1)} accent="gold" />
             </section>
 
-            <div className="space-y-8">
-              <h3 className="text-center font-display text-[clamp(2.6rem,7vw,5.2rem)] leading-[0.9] tracking-tight text-mist-50">
+            <div className="space-y-5">
+              <h3 className="text-center font-display text-[clamp(2rem,5vw,3.6rem)] leading-[0.9] tracking-tight text-mist-50">
                 MEET <span className="text-gold-300">ROEMPIRES</span>
               </h3>
 
-              <div className="grid gap-8 xl:grid-cols-[0.34fr_0.84fr_0.34fr] xl:items-start">
-                <div className="space-y-3">
+              <div className="grid gap-5 xl:grid-cols-[0.34fr_0.8fr_0.34fr] xl:items-start">
+                <div className="space-y-2.5">
                   {roEmpiresTracks.slice(0, 3).map((track) => (
-                    <div key={track.src} className="games-frame border border-gold-300/18 bg-bg-900/12 px-3 py-3">
+                    <div key={track.src} className="games-frame border border-gold-300/18 bg-bg-900/12 px-3 py-2.5">
                       <p className="mb-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-gold-100/80">{track.title}</p>
-                      <AudioTrackPlayer src={track.src} accent="gold" label={track.title} />
+                      <AudioTrackPlayer src={track.src} accent="gold" label={track.title} durationSeconds={track.durationSeconds} />
                     </div>
                   ))}
                 </div>
@@ -683,11 +683,11 @@ export default function GamesPage() {
                   </div>
                 </article>
 
-                <div className="space-y-3">
+                <div className="space-y-2.5">
                   {roEmpiresTracks.slice(3).map((track) => (
-                    <div key={track.src} className="games-frame border border-gold-300/18 bg-bg-900/12 px-3 py-3">
+                    <div key={track.src} className="games-frame border border-gold-300/18 bg-bg-900/12 px-3 py-2.5">
                       <p className="mb-2 text-[0.66rem] font-semibold uppercase tracking-[0.16em] text-gold-100/80">{track.title}</p>
-                      <AudioTrackPlayer src={track.src} accent="gold" label={track.title} />
+                      <AudioTrackPlayer src={track.src} accent="gold" label={track.title} durationSeconds={track.durationSeconds} />
                     </div>
                   ))}
                 </div>
