@@ -38,7 +38,7 @@ export function ProofStripSection() {
               ForestlyGames by the numbers.
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-base leading-7 text-[#243026]/74 sm:text-lg">
-              Core performance metrics from the live portfolio and audience footprint.
+              Real stats from real games.
             </p>
           </div>
 

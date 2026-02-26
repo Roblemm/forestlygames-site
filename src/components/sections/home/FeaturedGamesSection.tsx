@@ -303,10 +303,10 @@ export function FeaturedGamesSection() {
               Featured Games
             </p>
             <h2 className="mt-4 font-display text-[clamp(1.8rem,5vw,3.6rem)] leading-[0.92] tracking-[-0.01em] text-mist-50">
-              Real ForestlyGames Titles
+              What We've Built
             </h2>
             <p className="mx-auto mt-3 max-w-2xl text-base leading-relaxed text-mist-100/78 sm:text-lg">
-              A live portfolio spanning strategy, horror survival, dungeon combat, and viral obstacle experiences.
+              Games we're building right now, from early development to millions of plays.
             </p>
           </div>
 
@@ -335,9 +335,9 @@ export function FeaturedGamesSection() {
               />
               <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5">
                 <p className="font-display text-lg uppercase tracking-[0.16em] text-mist-50/92 sm:text-xl">
-                  Live Portfolio
+                  Our Games
                 </p>
-                <p className="mt-0.5 text-xs uppercase tracking-[0.2em] text-emerald-200/90">Roblox Game Releases</p>
+                <p className="mt-0.5 text-xs uppercase tracking-[0.2em] text-emerald-200/90">Built on Roblox</p>
               </div>
             </div>
           </div>

@@ -15,7 +15,7 @@ export function TestimonialsSection() {
             Testimonials from people who built with us.
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-base leading-7 text-mist-100/74 sm:text-lg lg:text-xl">
-            Real feedback from developers, builders, artists, and collaborators who have worked with the studio.
+            What developers, investors, and industry professionals have to say about working with us.
           </p>
         </div>
 

@@ -12,7 +12,7 @@ export const heroProofChips: string[] = ["54M+ game visits", "6.3M+ hours played
 
 export const studioNarrative: string[] = [
   "ForestlyGames is a remote Roblox game studio focused on building, testing, and shipping games quickly.",
-  "We work through fast prototyping and short iteration cycles. Not every prototype becomes a full release, but every cycle pushes execution forward.",
+  "We work through fast prototyping and short iteration cycles. Every cycle sharpens our execution.",
   "Communication, initiative, and reliability keep projects moving. We are building with developers, collaborators, and investors who want to help ship more games.",
 ];
 
@@ -23,7 +23,7 @@ export const studioPillars: StudioPillar[] = [
   },
   {
     title: "Iterate in Short Cycles",
-    description: "Ideas are tested quickly, measured, and either improved or replaced without long dead zones.",
+    description: "Ideas are tested quickly, measured, and either improved or replaced without wasting time.",
   },
   {
     title: "Build With Accountability",

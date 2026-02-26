@@ -38,8 +38,7 @@ export function StudioStorySection() {
               data-studio-sub
               className="mx-auto mt-4 max-w-2xl text-base leading-relaxed text-mist-100/72 sm:text-lg"
             >
-              Fast prototyping, short iteration cycles, and disciplined execution.
-              Not every prototype ships, but every cycle pushes us forward.
+              Fast prototyping, quick iterations, and constant forward momentum.
             </p>
           </div>
 

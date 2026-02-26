@@ -9,7 +9,7 @@ export const studioStats: StudioStat[] = [
   {
     value: "6.3M+",
     label: "Hours Played",
-    note: "Total playtime across the live portfolio.",
+    note: "Total playtime across all ForestlyGames titles.",
   },
   {
     value: "24M+",
