@@ -96,7 +96,7 @@ const accentMap: Record<
   },
 };
 
-function GenrePills({ genres, accent }: { genres: string[]; accent: AccentColor }) {
+function GenrePills({ genres, accent }: { genres: readonly string[]; accent: AccentColor }) {
   const a = accentMap[accent];
   return (
     <div className="flex flex-wrap gap-2">
@@ -677,6 +677,13 @@ export default function GamesPage() {
                 })}
               </div>
             </div>
+
+            <section className="games-cut-panel border border-gold-300/16 bg-bg-900/14 p-4">
+              <p className="mb-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/76">
+                Scrolling Media Reel
+              </p>
+              <MediaGrid images={roEmpiresImages.slice(1)} accent="gold" columns={3} />
+            </section>
 
             <div className="space-y-8">
               <h3 className="text-center font-display text-[clamp(2.6rem,7vw,5.2rem)] leading-[0.9] tracking-tight text-mist-50">

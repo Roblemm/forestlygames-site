@@ -1,13 +1,13 @@
 "use client";
 
 import type { CSSProperties } from "react";
-import { useId, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 
 type AccentColor = "gold" | "emerald" | "azure" | "moss";
 
 function formatTime(seconds: number) {
-  if (!Number.isFinite(seconds) || seconds <= 0) {
-    return "0:00";
+  if (!Number.isFinite(seconds) || seconds < 0) {
+    return "--:--";
   }
 
   const totalSeconds = Math.floor(seconds);
@@ -32,6 +32,28 @@ export function AudioTrackPlayer({
   const [duration, setDuration] = useState(0);
   const [position, setPosition] = useState(0);
   const progressPercent = duration > 0 ? `${(Math.min(position, duration) / duration) * 100}%` : "0%";
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) {
+      return;
+    }
+
+    // Force metadata fetch so duration shows before play in production browsers.
+    audio.preload = "auto";
+    audio.load();
+  }, []);
+
+  const syncDuration = () => {
+    const audio = audioRef.current;
+    if (!audio) {
+      return;
+    }
+
+    if (Number.isFinite(audio.duration) && audio.duration > 0) {
+      setDuration(audio.duration);
+    }
+  };
 
   const togglePlay = async () => {
     const audio = audioRef.current;
@@ -62,17 +84,16 @@ export function AudioTrackPlayer({
       <audio
         ref={audioRef}
         src={src}
-        preload="metadata"
+        preload="auto"
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
         onEnded={() => {
           setIsPlaying(false);
           setPosition(0);
         }}
-        onLoadedMetadata={(event) => {
-          const nextDuration = Number.isFinite(event.currentTarget.duration) ? event.currentTarget.duration : 0;
-          setDuration(nextDuration);
-        }}
+        onLoadedMetadata={syncDuration}
+        onDurationChange={syncDuration}
+        onCanPlay={syncDuration}
         onTimeUpdate={(event) => setPosition(event.currentTarget.currentTime)}
       />
 
@@ -102,7 +123,7 @@ export function AudioTrackPlayer({
           className="games-player-range"
           type="range"
           min={0}
-          max={duration || 0}
+          max={duration || 1}
           step={0.1}
           value={Math.min(position, duration || 0)}
           onChange={(event) => handleSeek(Number(event.target.value))}
