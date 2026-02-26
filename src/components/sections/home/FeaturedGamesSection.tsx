@@ -4,6 +4,7 @@ import { Fireflies } from "@/components/ui/Fireflies";
 import { featuredGames } from "@/data/games";
 import { cn } from "@/lib/utils/cn";
 import Image from "next/image";
+import Link from "next/link";
 import type { GameAccent } from "@/types/game";
 
 const accentBorderMap: Record<GameAccent, string> = {
@@ -310,46 +311,13 @@ export function FeaturedGamesSection() {
             </p>
           </div>
 
-          <div data-games-media-shell className="relative mt-8 min-w-0">
-            <div
-              data-games-media
-              className="relative h-40 w-full overflow-hidden rounded-xl border border-mist-50/16 bg-[linear-gradient(125deg,#0f2c20_4%,#07110d_40%,#1a150a_96%)] shadow-[0_8px_40px_-8px_rgba(85,190,136,0.1)] sm:h-48"
-            >
-              <Image
-                src="/games/boss-battles/thumbnail.png"
-                alt=""
-                fill
-                sizes="92vw"
-                data-games-media-image
-                className="object-cover object-[center_35%] opacity-[0.72]"
-              />
-              <div
-                aria-hidden
-                data-games-media-layer="far"
-                className="absolute inset-0 bg-[radial-gradient(circle_at_18%_24%,rgba(141,234,185,0.26),transparent_46%),radial-gradient(circle_at_84%_74%,rgba(214,170,96,0.22),transparent_40%)]"
-              />
-              <div
-                aria-hidden
-                data-games-media-layer="near"
-                className="absolute inset-0 bg-[linear-gradient(180deg,rgba(7,13,10,0.02)_0%,rgba(7,13,10,0.72)_100%)]"
-              />
-              <div className="absolute bottom-4 left-4 sm:bottom-5 sm:left-5">
-                <p className="font-display text-lg uppercase tracking-[0.16em] text-mist-50/92 sm:text-xl">
-                  Our Games
-                </p>
-                <p className="mt-0.5 text-xs uppercase tracking-[0.2em] text-emerald-200/90">Built on Roblox</p>
-              </div>
-            </div>
-          </div>
-
           <div className="mt-8 grid gap-4 sm:grid-cols-2 sm:gap-5">
             {featuredGames.map((game, index) => (
-              <article
+              <Link
                 key={game.slug}
-                data-games-item
-                data-games-depth={index % 3}
+                href={`/games#${game.slug}`}
                 className={cn(
-                  "group relative w-full rounded-xl border bg-bg-950/60 p-5 backdrop-blur-[2px] transition-colors duration-300 hover:bg-bg-950/75 sm:p-6",
+                  "group relative block w-full rounded-xl border bg-bg-950/60 p-5 backdrop-blur-[2px] transition-colors duration-300 hover:bg-bg-950/75 sm:p-6",
                   accentBorderMap[game.accent],
                 )}
               >
@@ -360,33 +328,60 @@ export function FeaturedGamesSection() {
                     accentGlowMap[game.accent],
                   )}
                 />
-                <div className="relative">
-                  <div className="flex items-start justify-between gap-4">
-                    <div>
-                      <h3 className="font-display text-2xl leading-tight text-mist-50 sm:text-3xl">
-                        {game.title}
-                      </h3>
-                      <p className={cn("mt-1.5 text-sm uppercase tracking-[0.16em]", accentSubtitleMap[game.accent])}>
-                        {game.subtitle}
-                      </p>
-                    </div>
-                    <Badge className={accentBadgeMap[game.accent]}>{game.stage}</Badge>
+                <article
+                  data-games-item
+                  data-games-depth={index % 3}
+                  className="relative"
+                >
+                  <div className="relative aspect-[16/10] overflow-hidden rounded-lg border border-mist-50/10 bg-bg-900/80">
+                    <Image
+                      src={game.media.src}
+                      alt={game.media.alt}
+                      fill
+                      sizes="(min-width: 1024px) 22vw, 90vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.03]"
+                      style={{ objectPosition: game.media.objectPosition ?? "center center" }}
+                    />
                   </div>
-                  <p className="mt-4 text-base leading-7 text-mist-100/78">{game.shortDescription ?? game.description}</p>
-                  <p className={cn("mt-4 text-sm", accentGenreMap[game.accent])}>
-                    {game.genre}
-                  </p>
-                </div>
-              </article>
+
+                  <div className="mt-4">
+                    <div className="flex items-start justify-between gap-4">
+                      <div>
+                        <h3 className="font-display text-2xl leading-tight text-mist-50 sm:text-3xl">
+                          {game.title}
+                        </h3>
+                        <p className={cn("mt-1.5 text-sm uppercase tracking-[0.16em]", accentSubtitleMap[game.accent])}>
+                          {game.subtitle}
+                        </p>
+                      </div>
+                      <Badge className={accentBadgeMap[game.accent]}>{game.stage}</Badge>
+                    </div>
+                    <p className="mt-4 text-base leading-7 text-mist-100/78">
+                      {game.shortDescription ?? game.description}
+                    </p>
+                    <p className={cn("mt-4 text-sm", accentGenreMap[game.accent])}>
+                      {game.genre}
+                    </p>
+                  </div>
+                </article>
+              </Link>
             ))}
           </div>
 
           <div data-games-footer className="mt-8 border-t border-emerald-200/14 pt-5 text-center">
-            <p className="mx-auto max-w-4xl text-sm uppercase tracking-[0.16em] text-mist-200/70">
-              Escape Bruno featured by creators with{" "}
-              <span className="font-semibold text-emerald-200">79M+ combined subscribers</span>
-              {" "}— FGTeeV, LankyBox, DenisDaily, and GravyCatMan.
-            </p>
+            <div className="mx-auto flex max-w-4xl flex-col items-center justify-between gap-3 text-center sm:flex-row sm:text-left">
+              <p className="text-sm uppercase tracking-[0.16em] text-mist-200/70">
+                Escape Bruno featured by creators with{" "}
+                <span className="font-semibold text-emerald-200">79M+ combined subscribers</span>
+                {" "}— FGTeeV, LankyBox, DenisDaily, and GravyCatMan.
+              </p>
+              <Link
+                href="/games"
+                className="text-xs font-semibold uppercase tracking-[0.18em] text-emerald-200/90 underline-offset-4 hover:text-emerald-50 hover:underline"
+              >
+                See all games
+              </Link>
+            </div>
           </div>
         </div>
       </GamesShowcaseScene>
