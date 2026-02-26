@@ -162,23 +162,29 @@ function MediaGrid({
   images,
   accent,
   columns = 3,
+  className = "",
 }: {
   images: MediaImage[];
   accent: AccentColor;
   columns?: 2 | 3 | 4;
+  className?: string;
 }) {
   const a = accentMap[accent];
   const widthClass =
     columns === 2
-      ? "w-[min(82vw,26rem)] sm:w-[24rem] lg:w-[26rem]"
+      ? "w-[min(88vw,34rem)] sm:w-[29rem] lg:w-[31rem]"
       : columns === 4
-        ? "w-[min(76vw,20rem)] sm:w-[18rem] lg:w-[19rem]"
-        : "w-[min(80vw,22rem)] sm:w-[20.5rem] lg:w-[22rem]";
+        ? "w-[min(72vw,22rem)] sm:w-[19rem] lg:w-[20rem]"
+        : "w-[min(84vw,28rem)] sm:w-[24rem] lg:w-[26rem]";
+
+  const railItems = [...images, ...images];
+  const durationSeconds =
+    columns === 2 ? Math.max(34, images.length * 6.4) : columns === 4 ? Math.max(36, images.length * 5.4) : Math.max(35, images.length * 5.8);
 
   return (
-    <div className="themed-scrollbar overflow-x-auto pb-3">
-      <div className="flex min-w-max gap-3 pr-3">
-        {images.map((asset, index) => {
+    <div className={`media-rail-mask w-full max-w-full overflow-hidden pb-2 ${className}`}>
+      <div className="media-rail-track flex w-max gap-3" style={{ animationDuration: `${durationSeconds}s` }}>
+        {railItems.map((asset, index) => {
           const parts = asset.alt.split("|").map((part) => part.trim());
           const title = parts[0] || "Project media";
           const note = parts[1] || "Captured from the live project build.";
@@ -186,21 +192,19 @@ function MediaGrid({
           return (
             <figure
               key={`${asset.src}-${index}`}
-              className={`game-media-item group ${widthClass} shrink-0 overflow-hidden rounded-lg border bg-bg-900/60 ${a.borderSubtle}`}
+              className={`game-media-item group ${widthClass} relative aspect-video shrink-0 overflow-hidden rounded-xl border bg-bg-900/45 ${a.borderSubtle}`}
             >
-              <div className="relative aspect-[16/9] overflow-hidden">
-                <Image
-                  src={asset.src}
-                  alt={title}
-                  fill
-                  sizes="(min-width:1280px) 24rem, (min-width:640px) 21rem, 80vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.04]"
-                />
-                <div className="pointer-events-none absolute inset-0 rounded-lg bg-linear-to-t from-bg-950/45 via-transparent to-transparent opacity-0 transition-opacity duration-300 group-hover:opacity-100" />
-              </div>
-              <figcaption className="px-3 py-2.5">
-                <p className="font-display text-xl leading-none text-mist-50">{title}</p>
-                <p className="mt-1 text-xs leading-relaxed text-mist-200/70">{note}</p>
+              <Image
+                src={asset.src}
+                alt={title}
+                fill
+                sizes="(min-width:1280px) 31rem, (min-width:640px) 24rem, 84vw"
+                className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+              />
+              <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-bg-950/82 via-bg-950/22 to-transparent" />
+              <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
+                <p className="font-display text-[1.12rem] leading-none text-mist-50">{title}</p>
+                <p className="mt-1 max-w-[95%] text-xs leading-relaxed text-mist-100/78">{note}</p>
               </figcaption>
             </figure>
           );
@@ -221,7 +225,7 @@ function VideoCard({
 }) {
   const a = accentMap[accent];
   return (
-    <article className={`game-media-item group overflow-hidden rounded-lg border bg-bg-900/50 ${a.borderSubtle}`}>
+    <article className={`game-media-item group overflow-hidden rounded-lg border bg-bg-900/48 ${a.borderSubtle}`}>
       <div className="relative aspect-video overflow-hidden">
         <video
           className="h-full w-full object-cover"
@@ -231,28 +235,92 @@ function VideoCard({
           poster={poster}
           src={clip.src}
         />
-      </div>
-      <div className="flex items-center gap-2 px-3 py-2.5">
-        <div className={`h-1.5 w-1.5 rounded-full ${accent === "gold" ? "bg-gold-300/80" : accent === "azure" ? "bg-azure-300/80" : "bg-emerald-300/80"}`} />
-        <p className="text-xs font-medium uppercase tracking-[0.14em] text-mist-200/80">{clip.title}</p>
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-bg-950/78 to-transparent px-3 py-2">
+          <p className="text-[0.66rem] font-medium uppercase tracking-[0.14em] text-mist-100/88">{clip.title}</p>
+        </div>
       </div>
     </article>
   );
 }
 
-function AudioCard({ track, accent }: { track: AudioTrack; accent: AccentColor }) {
+function FeatureImage({
+  image,
+  accent,
+  className,
+  sizes = "(min-width:1280px) 60vw, 94vw",
+}: {
+  image: MediaImage;
+  accent: AccentColor;
+  className?: string;
+  sizes?: string;
+}) {
   const a = accentMap[accent];
+  const parts = image.alt.split("|").map((part) => part.trim());
+  const title = parts[0] || "Project frame";
+  const note = parts[1] || "Key capture from production media.";
+
   return (
-    <div className={`rounded-lg border bg-bg-900/50 p-3 ${a.audioBorder}`}>
-      <div className="mb-2 flex items-center gap-2">
-        <svg className={`h-3.5 w-3.5 ${a.pillText}`} viewBox="0 0 24 24" fill="currentColor">
-          <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-        </svg>
-        <p className={`text-[0.68rem] font-semibold uppercase tracking-[0.14em] ${a.textMuted}`}>
-          {track.title}
-        </p>
-      </div>
-      <audio className="w-full" controls preload="none" src={track.src} />
+    <figure className={`game-media-item group relative overflow-hidden rounded-xl border bg-bg-900/45 ${a.borderSubtle} ${className ?? ""}`}>
+      <Image
+        src={image.src}
+        alt={title}
+        fill
+        sizes={sizes}
+        className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.02]"
+      />
+      <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-bg-950/80 via-bg-950/16 to-transparent" />
+      <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
+        <p className="font-display text-[1.1rem] leading-none text-mist-50">{title}</p>
+        <p className="mt-1 text-xs leading-relaxed text-mist-100/76">{note}</p>
+      </figcaption>
+    </figure>
+  );
+}
+
+function AudioDeck({
+  tracks,
+  accent,
+  columns = 1,
+  className = "",
+}: {
+  tracks: AudioTrack[];
+  accent: AccentColor;
+  columns?: 1 | 2 | 3;
+  className?: string;
+}) {
+  if (tracks.length === 0) {
+    return null;
+  }
+
+  const a = accentMap[accent];
+  const laneBorder =
+    accent === "gold" ? "border-gold-300/14" : accent === "azure" ? "border-azure-300/14" : "border-emerald-200/14";
+
+  const groupCount = Math.max(1, Math.min(columns, tracks.length));
+  const groupedTracks = Array.from({ length: groupCount }, (_, groupIndex) =>
+    tracks.filter((_, trackIndex) => trackIndex % groupCount === groupIndex),
+  );
+
+  return (
+    <div className={`grid gap-3 ${columns === 3 ? "xl:grid-cols-3" : columns === 2 ? "lg:grid-cols-2" : "grid-cols-1"} ${className}`}>
+      {groupedTracks.map((group, groupIndex) => (
+        <div key={`${accent}-deck-${groupIndex}`} className={`overflow-hidden rounded-xl border bg-bg-900/35 ${a.audioBorder}`}>
+          {group.map((track, laneIndex) => (
+            <div
+              key={track.src}
+              className={`grid gap-2 px-3 py-2.5 sm:grid-cols-[13rem_1fr] sm:items-center ${laneIndex === 0 ? "" : `border-t ${laneBorder}`}`}
+            >
+              <div className="flex items-center gap-2">
+                <svg className={`h-3.5 w-3.5 ${a.pillText}`} viewBox="0 0 24 24" fill="currentColor">
+                  <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
+                </svg>
+                <p className={`text-[0.68rem] font-semibold uppercase tracking-[0.14em] ${a.textMuted}`}>{track.title}</p>
+              </div>
+              <audio className="w-full" controls preload="none" src={track.src} />
+            </div>
+          ))}
+        </div>
+      ))}
     </div>
   );
 }
@@ -539,29 +607,18 @@ export default function GamesPage() {
                 </a>
               ))}
             </nav>
-            <div className="mt-8 grid gap-4 sm:grid-cols-2 xl:grid-cols-4">
+            <div className="mt-8 grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {mainGames.map((item) => (
                 <a
                   key={item.href}
                   href={item.href}
-                  className={`group overflow-hidden rounded-xl border bg-bg-900/40 transition-all duration-300 hover:-translate-y-0.5 hover:border-mist-100/30 ${accentMap[item.accent].borderSubtle}`}
+                  className={`group border-l-2 px-3 py-2 transition-all duration-300 hover:bg-bg-900/18 ${accentMap[item.accent].borderSubtle}`}
                 >
-                  <div className="relative aspect-[16/10] overflow-hidden">
-                    <Image
-                      src={item.image.src}
-                      alt={item.image.alt}
-                      fill
-                      sizes="(min-width:1280px) 22vw, (min-width:640px) 45vw, 94vw"
-                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    />
-                  </div>
-                  <div className="px-3.5 py-3.5">
-                    <p className={`text-[0.62rem] font-semibold uppercase tracking-[0.16em] ${accentMap[item.accent].textMuted}`}>
-                      {item.stage}
-                    </p>
-                    <p className="mt-1 font-display text-[1.55rem] leading-none text-mist-50">{item.title}</p>
-                    <p className="mt-1.5 text-xs leading-relaxed text-mist-200/70">{item.note}</p>
-                  </div>
+                  <p className={`text-[0.6rem] font-semibold uppercase tracking-[0.16em] ${accentMap[item.accent].textMuted}`}>
+                    {item.stage}
+                  </p>
+                  <p className="mt-1 font-display text-[1.32rem] leading-none text-mist-50">{item.title}</p>
+                  <p className="mt-1.5 text-xs leading-relaxed text-mist-200/70">{item.note}</p>
                 </a>
               ))}
             </div>
@@ -579,49 +636,51 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-6">
-            <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr]">
-              <div className="space-y-4">
-                <div className="relative overflow-hidden rounded-lg border border-gold-300/20 bg-bg-900/40">
-                  <div className="relative aspect-video">
-                    <video
-                      className="h-full w-full object-cover"
-                      controls
-                      preload="metadata"
-                      playsInline
-                      poster="/games/roempires/thumbnail.png"
-                      src="/games/roempires/trailer.mp4"
-                    />
-                  </div>
-                  <div className="px-3 py-2.5">
-                    <p className="text-xs font-medium uppercase tracking-[0.14em] text-gold-100/80">Main Trailer</p>
+          <div className="mt-6 space-y-5">
+            <div className="grid min-w-0 gap-4 xl:grid-cols-[1.22fr_0.78fr]">
+              <article className="min-w-0 overflow-hidden rounded-xl border border-gold-300/20 bg-bg-900/40">
+                <div className="relative aspect-video">
+                  <video
+                    className="h-full w-full object-cover"
+                    controls
+                    preload="metadata"
+                    playsInline
+                    poster="/games/roempires/thumbnail.png"
+                    src="/games/roempires/trailer.mp4"
+                  />
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-bg-950/80 to-transparent px-4 py-3">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-gold-100/84">Main Trailer</p>
                   </div>
                 </div>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {roEmpiresClips.map((clip, index) => (
-                    <VideoCard
-                      key={clip.src}
-                      clip={clip}
-                      poster={roEmpiresImages[Math.min(index + 2, roEmpiresImages.length - 1)].src}
-                      accent="gold"
-                    />
-                  ))}
-                </div>
-              </div>
+              </article>
 
-              <div className="space-y-4">
-                <MediaGrid images={roEmpiresImages.slice(0, 6)} accent="gold" columns={2} />
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {roEmpiresTracks.slice(0, 4).map((track) => (
-                    <AudioCard key={track.src} track={track} accent="gold" />
-                  ))}
-                </div>
+              <div className="grid min-w-0 gap-3 sm:grid-cols-2 xl:grid-cols-1">
+                <FeatureImage image={roEmpiresImages[1]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
+                <FeatureImage image={roEmpiresImages[2]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
+                <FeatureImage image={roEmpiresImages[3]} accent="gold" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
               </div>
             </div>
 
-            {roEmpiresImages.length > 6 && (
-              <MediaGrid images={roEmpiresImages.slice(6)} accent="gold" columns={4} />
-            )}
+            <section className="min-w-0 rounded-lg border border-gold-300/16 bg-bg-900/35 p-3">
+              <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
+                Development Roll
+              </p>
+              <MediaGrid images={roEmpiresImages.slice(0, 6)} accent="gold" columns={3} />
+            </section>
+
+            <div className="grid min-w-0 gap-4 lg:grid-cols-[1fr_1fr]">
+              <AudioDeck tracks={roEmpiresTracks} accent="gold" columns={2} />
+              <div className="grid gap-3 sm:grid-cols-2">
+                {roEmpiresClips.map((clip, index) => (
+                  <VideoCard
+                    key={clip.src}
+                    clip={clip}
+                    poster={roEmpiresImages[Math.min(index + 4, roEmpiresImages.length - 1)].src}
+                    accent="gold"
+                  />
+                ))}
+              </div>
+            </div>
           </div>
         </Container>
       </Section>
@@ -638,29 +697,42 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-6">
-            <div className="grid gap-4 xl:grid-cols-[0.92fr_1.08fr]">
-              <div className="space-y-4">
-                <figure className="game-media-item group relative aspect-16/10 overflow-hidden rounded-lg border border-emerald-200/18">
-                  <Image
-                    src={encavedImages[0].src}
-                    alt={encavedImages[0].alt}
-                    fill
-                    sizes="(min-width:1280px) 42vw, 94vw"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+          <div className="mt-6 space-y-5">
+            <div className="grid min-w-0 gap-4 xl:grid-cols-[1.3fr_0.7fr]">
+              <article className="min-w-0 overflow-hidden rounded-xl border border-emerald-200/22 bg-bg-900/40">
+                <div className="relative aspect-video">
+                  <video
+                    className="h-full w-full object-cover"
+                    controls
+                    preload="metadata"
+                    playsInline
+                    poster="/games/encaved/main-hero.png"
+                    src="/games/encaved/swinging-lights-intro.mp4"
                   />
-                </figure>
-                <div className="grid gap-3 sm:grid-cols-2">
-                  {encavedTracks.map((track) => (
-                    <AudioCard key={track.src} track={track} accent="emerald" />
-                  ))}
+                  <div className="pointer-events-none absolute inset-x-0 bottom-0 bg-linear-to-t from-bg-950/80 to-transparent px-4 py-3">
+                    <p className="text-[0.68rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/84">Main Prototype Trailer</p>
+                  </div>
                 </div>
-              </div>
+              </article>
 
-              <MediaGrid images={encavedImages.slice(1)} accent="emerald" columns={2} />
+              <div className="grid min-w-0 gap-3">
+                <FeatureImage image={encavedImages[0]} accent="emerald" className="aspect-video" sizes="(min-width:1280px) 28vw, 94vw" />
+                <FeatureImage image={encavedImages[6]} accent="emerald" className="aspect-video" sizes="(min-width:1280px) 28vw, 94vw" />
+              </div>
             </div>
 
-            <div className="grid gap-3 sm:grid-cols-3">
+            <div className="grid min-w-0 gap-4 xl:grid-cols-[0.55fr_1.45fr]">
+              <AudioDeck tracks={encavedTracks} accent="emerald" columns={1} className="min-w-0" />
+
+              <section className="min-w-0 rounded-lg border border-emerald-200/16 bg-bg-900/35 p-3">
+                <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/72">
+                  Environment + Gameplay Roll
+                </p>
+                <MediaGrid images={encavedImages.slice(1)} accent="emerald" columns={2} />
+              </section>
+            </div>
+
+            <div className="grid min-w-0 gap-3 md:grid-cols-3">
               {encavedPrototypeClips.map((clip, index) => (
                 <VideoCard
                   key={clip.src}
@@ -686,31 +758,19 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-6">
-            <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
-              <div className="space-y-4">
-                <figure className="game-media-item group relative aspect-video overflow-hidden rounded-lg border border-azure-300/16">
-                  <Image
-                    src={bossBattlesImages[0].src}
-                    alt={bossBattlesImages[0].alt}
-                    fill
-                    sizes="(min-width:1280px) 48vw, 94vw"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                  />
-                </figure>
-                <MediaGrid images={bossBattlesImages.slice(1, 7)} accent="azure" columns={3} />
-                <figure className="game-media-item group relative aspect-16/7 overflow-hidden rounded-lg border border-azure-300/14">
-                  <Image
-                    src={bossBattlesImages[7].src}
-                    alt={bossBattlesImages[7].alt}
-                    fill
-                    sizes="(min-width:1280px) 48vw, 94vw"
-                    className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                  />
-                </figure>
-              </div>
+          <div className="mt-6 space-y-5">
+            <FeatureImage image={bossBattlesImages[0]} accent="azure" className="aspect-[16/9]" sizes="(min-width:1280px) 92vw, 94vw" />
 
-              <div className="space-y-4">
+            <section className="min-w-0 rounded-lg border border-azure-300/16 bg-bg-900/35 p-3">
+              <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-azure-300/74">
+                Event Coverage Roll
+              </p>
+              <MediaGrid images={bossBattlesImages.slice(1, 7)} accent="azure" columns={3} />
+            </section>
+
+            <div className="grid min-w-0 gap-4 xl:grid-cols-[1.05fr_0.95fr]">
+              <FeatureImage image={bossBattlesImages[7]} accent="azure" className="aspect-[4/3] xl:aspect-[16/11]" sizes="(min-width:1280px) 52vw, 94vw" />
+              <div className="min-w-0 space-y-4">
                 <div className="grid gap-3 sm:grid-cols-2">
                   {bossBattlesClips.map((clip, index) => (
                     <VideoCard
@@ -721,11 +781,7 @@ export default function GamesPage() {
                     />
                   ))}
                 </div>
-                <div className="grid gap-3 sm:grid-cols-3">
-                  {bossBattlesTracks.map((track) => (
-                    <AudioCard key={track.src} track={track} accent="azure" />
-                  ))}
-                </div>
+                <AudioDeck tracks={bossBattlesTracks} accent="azure" columns={1} className="min-w-0" />
               </div>
             </div>
           </div>
@@ -744,21 +800,18 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-6">
-            <div className="grid gap-3 lg:grid-cols-[1.1fr_0.9fr]">
-              <figure className="game-media-item group relative aspect-video overflow-hidden rounded-lg border border-gold-300/16">
-                <Image
-                  src={escapeBrunoImages[0].src}
-                  alt={escapeBrunoImages[0].alt}
-                  fill
-                  sizes="(min-width:1024px) 56vw, 94vw"
-                  className="object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
-                />
-              </figure>
-              <MediaGrid images={escapeBrunoImages.slice(1)} accent="gold" columns={2} />
+          <div className="mt-6 space-y-5">
+            <div className="grid min-w-0 gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+              <FeatureImage image={escapeBrunoImages[0]} accent="gold" className="aspect-video min-w-0" sizes="(min-width:1024px) 56vw, 94vw" />
+              <section className="min-w-0 rounded-lg border border-gold-300/16 bg-bg-900/35 p-3">
+                <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
+                  Gameplay Route Roll
+                </p>
+                <MediaGrid images={escapeBrunoImages.slice(1)} accent="gold" columns={2} />
+              </section>
             </div>
 
-            <div>
+            <div className="rounded-lg border border-gold-300/16 bg-bg-900/32 p-3">
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold-100/70">
                 Creator Coverage
               </p>
@@ -769,7 +822,7 @@ export default function GamesPage() {
                     href={creator.href}
                     target="_blank"
                     rel="noreferrer noopener"
-                    className="group block overflow-hidden rounded-lg border border-gold-300/18 bg-bg-900/40 transition-all duration-300 hover:border-gold-300/36 hover:shadow-[0_0_30px_8px_rgba(222,186,120,0.06)]"
+                    className="group block overflow-hidden rounded-lg border border-gold-300/18 bg-bg-900/44 transition-all duration-300 hover:border-gold-300/36 hover:shadow-[0_0_30px_8px_rgba(222,186,120,0.06)]"
                   >
                     <div className="relative aspect-video overflow-hidden">
                       <Image
@@ -821,21 +874,30 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-6">
-            <div className="grid gap-4 xl:grid-cols-[0.86fr_1.14fr]">
-              <div className="space-y-4">
+          <div className="mt-6 space-y-5">
+            <div className="grid min-w-0 gap-4 xl:grid-cols-[0.92fr_1.08fr]">
+              <div className="min-w-0 space-y-4">
                 <VideoCard
                   clip={{ title: "Fence Teaser", src: "/games/evil-pets/fence-teaser.mp4" }}
                   poster="/games/evil-pets/thumbnail.png"
                   accent="moss"
                 />
-                <AudioCard
-                  track={{ title: "Intro Track", src: "/games/evil-pets/intro-perfect.mp3" }}
-                  accent="moss"
-                />
+                <div className="grid gap-3 sm:grid-cols-2">
+                  <AudioDeck
+                    tracks={[{ title: "Intro Track", src: "/games/evil-pets/intro-perfect.mp3" }]}
+                    accent="moss"
+                    columns={1}
+                  />
+                  <FeatureImage image={evilPetsImages[4]} accent="moss" className="aspect-video" sizes="(min-width:1280px) 30vw, 94vw" />
+                </div>
               </div>
 
-              <MediaGrid images={evilPetsImages} accent="moss" columns={3} />
+              <section className="min-w-0 rounded-lg border border-emerald-200/14 bg-bg-900/35 p-3">
+                <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/70">
+                  Environment Roll
+                </p>
+                <MediaGrid images={evilPetsImages} accent="moss" columns={3} />
+              </section>
             </div>
           </div>
         </Container>
@@ -853,8 +915,18 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6">
-            <MediaGrid images={turningRedImages} accent="gold" columns={4} />
+          <div className="mt-6 space-y-5">
+            <section className="min-w-0 rounded-lg border border-gold-300/16 bg-bg-900/35 p-3">
+              <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/74">
+                World Tour Roll
+              </p>
+              <MediaGrid images={turningRedImages} accent="gold" columns={4} />
+            </section>
+            <div className="grid min-w-0 gap-3 md:grid-cols-3">
+              <FeatureImage image={turningRedImages[0]} accent="gold" className="aspect-video" sizes="(min-width:768px) 32vw, 94vw" />
+              <FeatureImage image={turningRedImages[1]} accent="gold" className="aspect-video" sizes="(min-width:768px) 32vw, 94vw" />
+              <FeatureImage image={turningRedImages[2]} accent="gold" className="aspect-video" sizes="(min-width:768px) 32vw, 94vw" />
+            </div>
           </div>
         </Container>
       </Section>
@@ -871,8 +943,8 @@ export default function GamesPage() {
             </p>
           </GameHeroBanner>
 
-          <div className="mt-6 space-y-6">
-            <div className="grid gap-4 xl:grid-cols-2">
+          <div className="mt-6 space-y-5">
+            <div className="grid min-w-0 gap-4 xl:grid-cols-2">
               <VideoCard
                 clip={{ title: "Clip 1", src: "/games/raise-a-brainrot/clip-1.mp4" }}
                 poster="/games/raise-a-brainrot/thumbnail.png"
@@ -885,7 +957,12 @@ export default function GamesPage() {
               />
             </div>
 
-            <MediaGrid images={brainrotImages} accent="azure" columns={4} />
+            <section className="min-w-0 rounded-lg border border-azure-300/16 bg-bg-900/35 p-3">
+              <p className="mb-2 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-azure-300/74">
+                Progression + Promo Roll
+              </p>
+              <MediaGrid images={brainrotImages} accent="azure" columns={4} />
+            </section>
           </div>
         </Container>
       </Section>
