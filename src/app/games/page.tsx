@@ -1,402 +1,229 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 import { Container } from "@/components/ui/Container";
-import { Section } from "@/components/ui/Section";
-import { archiveHighlights } from "@/data/games";
-
-type AccentColor = "gold" | "emerald" | "azure" | "moss";
-
-const accent = {
-  gold: {
-    border: "border-gold-300/22",
-    pill: "bg-gold-300/12 border-gold-300/28 text-gold-300",
-    tag: "text-gold-100/72",
-    dot: "bg-gold-300/80",
-    divider: "border-gold-300/14",
-  },
-  emerald: {
-    border: "border-emerald-200/22",
-    pill: "bg-emerald-300/12 border-emerald-200/28 text-emerald-200",
-    tag: "text-emerald-200/72",
-    dot: "bg-emerald-300/80",
-    divider: "border-emerald-200/14",
-  },
-  azure: {
-    border: "border-azure-300/22",
-    pill: "bg-azure-300/12 border-azure-300/28 text-azure-300",
-    tag: "text-azure-300/72",
-    dot: "bg-azure-300/80",
-    divider: "border-azure-300/14",
-  },
-  moss: {
-    border: "border-emerald-200/18",
-    pill: "bg-emerald-300/10 border-emerald-200/22 text-emerald-200",
-    tag: "text-emerald-200/64",
-    dot: "bg-emerald-300/70",
-    divider: "border-emerald-200/12",
-  },
-} as const;
-
-type GalleryItem = string | { src: string; title: string; note: string };
-
-type GameSectionProps = {
-  id: string;
-  title: string;
-  subtitle: string;
-  description: string;
-  genres: readonly string[];
-  stage: string;
-  color: AccentColor;
-  heroImage: string;
-  gallery: GalleryItem[];
-  video?: { src: string; poster: string; label: string };
-  audio?: { src: string; label: string }[];
-  creatorCoverage?: { name: string; note: string; href: string }[];
-};
-
-function GameSection({
-  id,
-  title,
-  subtitle,
-  description,
-  genres,
-  stage,
-  color,
-  heroImage,
-  gallery,
-  video,
-  audio,
-  creatorCoverage,
-}: GameSectionProps) {
-  const a = accent[color];
-  return (
-    <section id={id} className="py-10 sm:py-14">
-      <Container className="max-w-[82rem]">
-        {/* Hero: image + info side by side */}
-        <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr] lg:gap-10">
-          <div className={`relative aspect-[16/10] overflow-hidden rounded-xl border ${a.border} bg-bg-900/50`}>
-            <Image src={heroImage} alt={`${title} key art`} fill sizes="(min-width:1024px) 56vw, 94vw" className="object-cover" />
-            <div className="absolute inset-0 bg-linear-to-t from-bg-950/50 via-transparent to-transparent" />
-          </div>
-
-          <div className="flex flex-col justify-center">
-            <div className="flex items-center gap-3">
-              <h2 className="font-display text-[clamp(2rem,5vw,3.6rem)] leading-[0.9] tracking-tight text-mist-50">
-                {title}
-              </h2>
-              <span className={`rounded-full border px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.16em] ${a.pill}`}>
-                {stage}
-              </span>
-            </div>
-            <p className={`mt-2 text-sm font-semibold uppercase tracking-[0.16em] ${a.tag}`}>{subtitle}</p>
-            <p className="mt-4 text-base leading-relaxed text-mist-200/80">{description}</p>
-            <div className="mt-4 flex flex-wrap gap-2">
-              {genres.map((genre) => (
-                <span key={genre} className={`inline-block rounded-full border px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.14em] ${a.pill}`}>
-                  {genre}
-                </span>
-              ))}
-            </div>
-
-            {creatorCoverage && creatorCoverage.length > 0 && (
-              <div className="mt-5">
-                <p className="mb-2 text-[0.65rem] font-semibold uppercase tracking-[0.18em] text-mist-300/60">Creator Coverage</p>
-                <div className="flex flex-wrap gap-x-4 gap-y-1.5">
-                  {creatorCoverage.map((c) => (
-                    <Link key={c.href} href={c.href} target="_blank" rel="noreferrer noopener" className="group text-sm">
-                      <span className="text-mist-100/90 transition-colors group-hover:text-emerald-200">{c.name}</span>
-                      <span className="ml-1.5 text-[0.6rem] uppercase tracking-wider text-mist-300/50">{c.note}</span>
-                    </Link>
-                  ))}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
-
-        {/* Gallery row */}
-        {gallery.length > 0 && (
-          <div className={`mt-5 grid gap-2.5 ${gallery.length <= 3 ? "grid-cols-2 sm:grid-cols-3" : "grid-cols-2 sm:grid-cols-3 lg:grid-cols-4"}`}>
-            {gallery.map((item, i) => {
-              const src = typeof item === "string" ? item : item.src;
-              const caption = typeof item === "string" ? null : item;
-              return (
-                <figure key={`${src}-${i}`} className={`group overflow-hidden rounded-lg border bg-bg-900/40 ${a.border}`}>
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <Image src={src} alt={caption ? caption.title : `${title} screenshot ${i + 1}`} fill sizes="(min-width:1024px) 22vw, 46vw" className="object-cover transition-transform duration-500 group-hover:scale-[1.04]" />
-                  </div>
-                  {caption && (
-                    <div className="px-3 py-2.5">
-                      <p className="text-sm font-semibold text-mist-50">{caption.title}</p>
-                      <p className="mt-0.5 text-[0.68rem] leading-snug text-mist-300/70">{caption.note}</p>
-                    </div>
-                  )}
-                </figure>
-              );
-            })}
-          </div>
-        )}
-
-        {/* Video + Audio row */}
-        {(video || (audio && audio.length > 0)) && (
-          <div className={`mt-5 grid gap-4 ${video && audio && audio.length > 0 ? "lg:grid-cols-[1.2fr_0.8fr]" : ""}`}>
-            {video && (
-              <div className={`overflow-hidden rounded-lg border bg-bg-900/40 ${a.border}`}>
-                <div className="relative aspect-video">
-                  <video className="h-full w-full object-cover" controls preload="metadata" playsInline poster={video.poster} src={video.src} />
-                </div>
-                <div className="flex items-center gap-2 px-3 py-2">
-                  <div className={`h-1.5 w-1.5 rounded-full ${a.dot}`} />
-                  <p className="text-xs font-medium uppercase tracking-[0.14em] text-mist-200/70">{video.label}</p>
-                </div>
-              </div>
-            )}
-            {audio && audio.length > 0 && (
-              <div className={`grid gap-2.5 ${audio.length > 3 ? "grid-cols-2" : "grid-cols-1"}`}>
-                {audio.map((track) => (
-                  <div key={track.src} className={`rounded-lg border bg-bg-900/40 p-3 ${a.border}`}>
-                    <div className="mb-2 flex items-center gap-2">
-                      <svg className={`h-3.5 w-3.5 ${a.tag}`} viewBox="0 0 24 24" fill="currentColor">
-                        <path d="M12 3v10.55c-.59-.34-1.27-.55-2-.55C7.79 13 6 14.79 6 17s1.79 4 4 4 4-1.79 4-4V7h4V3h-6z" />
-                      </svg>
-                      <p className={`text-[0.65rem] font-semibold uppercase tracking-[0.14em] ${a.tag}`}>{track.label}</p>
-                    </div>
-                    <audio className="w-full" controls preload="none" src={track.src} />
-                  </div>
-                ))}
-              </div>
-            )}
-          </div>
-        )}
-      </Container>
-    </section>
-  );
-}
-
-const gamesData: GameSectionProps[] = [
-  {
-    id: "roempires",
-    title: "RoEmpires",
-    subtitle: "Real-Time Strategy Builder",
-    description: "A real-time strategy kingdom builder where players construct villages, train troops, and attack enemy bases across a variety of single player and multiplayer modes. Players upgrade buildings, defend their base, and expand their empire through progression and strategic planning.",
-    genres: ["Strategy", "Building", "Action"],
-    stage: "Alpha",
-    color: "gold",
-    heroImage: "/games/roempires/thumbnail.png",
-    gallery: [
-      { src: "/games/roempires/loading-screen.png", title: "Civilizations Loading Screen", note: "Civilizations was the original name of RoEmpires." },
-      { src: "/games/roempires/gameplay-village.jpg", title: "Gameplay Picture", note: "This is a Player's Village." },
-      { src: "/games/roempires/banner-1.png", title: "RoEmpires Scientist Banner", note: "The Scientist is a part of RoEmpires' Lore!" },
-      { src: "/games/roempires/old-menu.png", title: "Civilizations Old Menu", note: "Build (Village), Train Troops, and Attack Others!" },
-      { src: "/games/roempires/currency-shop.png", title: "Old Currency Shop", note: "For an extra boost!" },
-      { src: "/games/roempires/currency-ui.png", title: "Currency UI", note: "Gold & Souls (Not Elixir)!" },
-      { src: "/games/roempires/icon.png", title: "ROBLOX GAME [Alpha]", note: "Play the Game on Roblox!" },
-      { src: "/games/roempires/roblox-page.png", title: "Roblox Game Page", note: "The official RoEmpires page on Roblox." },
-    ],
-    video: { src: "/games/roempires/trailer.mp4", poster: "/games/roempires/thumbnail.png", label: "Main Trailer" },
-    audio: [
-      { src: "/games/roempires/theme-main.mp3", label: "Main Theme" },
-      { src: "/games/roempires/theme-village.mp3", label: "Village Theme" },
-      { src: "/games/roempires/theme-attacking.mp3", label: "Attacking Theme" },
-      { src: "/games/roempires/theme-defending.mp3", label: "Defending Theme" },
-      { src: "/games/roempires/theme-codes.mp3", label: "Codes Theme" },
-      { src: "/games/roempires/theme-teaser.mp3", label: "Teaser Theme" },
-    ],
-  },
-  {
-    id: "encaved",
-    title: "Encaved",
-    subtitle: "Horror Survival Adventure",
-    description: "A horror adventure where players enter dangerous cave systems to mine resources, navigate minecart routes, and survive encounters with spiritual entities.",
-    genres: ["Horror", "Adventure", "Survival"],
-    stage: "In Development",
-    color: "emerald",
-    heroImage: "/games/encaved/hero.png",
-    gallery: [
-      "/games/encaved/cave-interior-mine.png",
-      "/games/encaved/mining-station-1.png",
-      "/games/encaved/ore-market.png",
-      "/games/encaved/lobby-entrance-4.png",
-    ],
-    video: { src: "/games/encaved/prototype-clip-1.mp4", poster: "/games/encaved/hero.png", label: "Prototype Gameplay" },
-    audio: [
-      { src: "/games/encaved/theme-encaved.mp3", label: "Encaved Theme" },
-      { src: "/games/encaved/theme-rushed.mp3", label: "Rushed" },
-    ],
-  },
-  {
-    id: "boss-battles",
-    title: "Boss Battles",
-    subtitle: "Dungeon Combat Co-op",
-    description: "A classic dungeon fighting game focused on sword upgrades, class builds, co-op boss fights, and reward progression.",
-    genres: ["Simulator", "Fighting", "Action"],
-    stage: "Released",
-    color: "azure",
-    heroImage: "/games/boss-battles/thumbnail.png",
-    gallery: [
-      "/games/boss-battles/lobby-shot.png",
-      "/games/boss-battles/portal-teleport.png",
-      "/games/boss-battles/chests-inventory.png",
-      "/games/boss-battles/fnaf-dungeon.png",
-    ],
-    video: { src: "/games/boss-battles/gameplay-clip-1.mp4", poster: "/games/boss-battles/thumbnail.png", label: "Gameplay Clip" },
-    audio: [
-      { src: "/games/boss-battles/music-noob-dungeon.mp3", label: "Noob Dungeon" },
-      { src: "/games/boss-battles/music-desert-dungeon.mp3", label: "Desert Dungeon" },
-    ],
-  },
-  {
-    id: "escape-bruno",
-    title: "Escape Bruno",
-    subtitle: "Obstacle Horror Run",
-    description: "An obstacle survival experience inspired by Disney's Encanto, where players outrun Bruno through trap-heavy maps with strong creator coverage.",
-    genres: ["Obby", "Horror", "Story"],
-    stage: "Live",
-    color: "gold",
-    heroImage: "/games/escape-bruno/encanto-shot-4.png",
-    gallery: [
-      "/games/escape-bruno/encanto-shot-3.png",
-      "/games/escape-bruno/encanto-shot-5.png",
-      "/games/escape-bruno/encanto-shot-6.png",
-      "/games/escape-bruno/encanto-shot-7.png",
-    ],
-    creatorCoverage: [
-      { name: "FGTeeV", note: "3.2M+ views", href: "https://www.youtube.com/watch?v=gJBWB2fpCQ8" },
-      { name: "LankyBox", note: "2.1M+ views", href: "https://www.youtube.com/watch?v=AocMjuPPjFE" },
-      { name: "DenisDaily", note: "9M+ subs", href: "https://www.youtube.com/watch?v=XxteSlNAd2s" },
-      { name: "GravyCatMan", note: "4M+ subs", href: "https://www.youtube.com/watch?v=M2YAK8UDoaA" },
-    ],
-  },
-  {
-    id: "evil-pets",
-    title: "Evil Pets",
-    subtitle: "Pet-Powered Tycoon",
-    description: "A pet tycoon game where players use pets to produce money and spend it to improve and build their own base.",
-    genres: ["Tycoon", "Strategy", "Action"],
-    stage: "Live",
-    color: "moss",
-    heroImage: "/games/evil-pets/thumbnail.png",
-    gallery: [
-      "/games/evil-pets/hq-main.png",
-      "/games/evil-pets/hq-12.png",
-      "/games/evil-pets/screenshot-33.png",
-    ],
-    video: { src: "/games/evil-pets/fence-teaser.mp4", poster: "/games/evil-pets/thumbnail.png", label: "Teaser" },
-    audio: [{ src: "/games/evil-pets/intro-perfect.mp3", label: "Intro Track" }],
-  },
-  {
-    id: "panda-tycoon",
-    title: "Panda Tycoon",
-    subtitle: "Themed Tycoon Roleplay",
-    description: "A game where players grow and manage red panda factories while exploring simulation and roleplay systems.",
-    genres: ["Tycoon", "Roleplay"],
-    stage: "Live",
-    color: "gold",
-    heroImage: "/games/turning-red-tycoon/shot-1.png",
-    gallery: [
-      "/games/turning-red-tycoon/shot-2.png",
-      "/games/turning-red-tycoon/shot-3.png",
-      "/games/turning-red-tycoon/shot-5.png",
-      "/games/turning-red-tycoon/roblox-shot-1.png",
-    ],
-  },
-  {
-    id: "raise-a-brainrot",
-    title: "Raise a Brainrot",
-    subtitle: "Meme Tycoon Challenge",
-    description: "A tycoon game where players build and expand operations using casual progression loops and meme-driven content.",
-    genres: ["Tycoon", "Casual"],
-    stage: "Live",
-    color: "azure",
-    heroImage: "/games/raise-a-brainrot/thumbnail.png",
-    gallery: [
-      "/games/raise-a-brainrot/thumbnail-2.png",
-      "/games/raise-a-brainrot/image-1.webp",
-      "/games/raise-a-brainrot/shop-ui.png",
-    ],
-    video: { src: "/games/raise-a-brainrot/clip-1.mp4", poster: "/games/raise-a-brainrot/thumbnail.png", label: "Gameplay Clip" },
-  },
-];
+import { games, archiveHighlights } from "@/data/games";
 
 export const metadata: Metadata = {
   title: "Games",
-  description: "ForestlyGames portfolio — real screenshots, gameplay, and audio from every title.",
+  description: "Explore every game built by ForestlyGames — from early prototypes to live titles.",
 };
 
 export default function GamesPage() {
+  const featuredGames = games.filter((g) => g.featured);
+  const otherGames = games.filter((g) => !g.featured);
+
   return (
     <>
-      {/* Page Header */}
-      <Section className="pb-4 pt-10 sm:pb-6 sm:pt-14">
-        <Container className="max-w-[82rem]">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/85">ForestlyGames</p>
-          <h1 className="mt-3 font-display text-[clamp(2.8rem,8vw,5.4rem)] leading-[0.88] tracking-tight text-mist-50">
-            Games
+      {/* ── Hero ── */}
+      <section className="relative overflow-hidden pb-6 pt-16 sm:pb-10 sm:pt-24">
+        <div
+          aria-hidden
+          className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_80%_50%_at_50%_-10%,rgba(95,202,148,0.14),transparent_70%)]"
+        />
+        <Container className="max-w-6xl text-center">
+          <h1 className="font-display text-[clamp(3rem,10vw,6.4rem)] leading-[0.88] tracking-tight text-mist-50">
+            OUR GAMES
           </h1>
-          <p className="mt-4 max-w-2xl text-base leading-relaxed text-mist-200/80 sm:text-lg">
-            Every game we&apos;ve built, from early prototypes to live titles. Real screenshots, real gameplay, real audio.
+          <p className="mx-auto mt-5 max-w-xl text-base leading-relaxed text-mist-200/70 sm:text-lg">
+            Every title we&apos;ve built — from early prototypes to live experiences.
           </p>
-          <nav className="mt-6 flex flex-wrap gap-2">
-            {gamesData.map((game) => (
-              <a
-                key={game.id}
-                href={`#${game.id}`}
-                className={`rounded-full border px-3.5 py-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] transition-all duration-200 hover:scale-[1.03] ${accent[game.color].pill}`}
-              >
-                {game.title}
-              </a>
-            ))}
-          </nav>
         </Container>
-      </Section>
+      </section>
 
-      {/* Game Sections */}
-      {gamesData.map((game, index) => (
-        <div key={game.id}>
-          {index > 0 && (
-            <Container className="max-w-[82rem]">
-              <div className={`h-px border-t ${accent[game.color].divider}`} />
-            </Container>
-          )}
-          <GameSection {...game} />
-        </div>
-      ))}
-
-      {/* Divider before archive */}
-      <Container className="max-w-[82rem]">
-        <div className="h-px border-t border-emerald-200/12" />
-      </Container>
-
-      {/* Legacy Archive */}
-      <Section className="pb-16 pt-10 sm:pb-20">
-        <Container className="max-w-[82rem]">
-          <p className="text-xs font-semibold uppercase tracking-[0.22em] text-emerald-200/80">Legacy Archive</p>
-          <p className="mt-2 text-sm text-mist-300/60">Older titles from our earlier catalog.</p>
-          <div className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {archiveHighlights.map((item) => (
-              <article key={item.title} className="group overflow-hidden rounded-lg border border-emerald-200/16 bg-bg-900/40">
-                <div className="relative aspect-[4/3] overflow-hidden">
-                  <Image
-                    src={item.image.src}
-                    alt={item.image.alt}
-                    fill
-                    sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 94vw"
-                    className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
-                    style={{ objectPosition: item.image.objectPosition }}
-                  />
-                  <div className="absolute inset-0 bg-linear-to-t from-bg-950/50 via-transparent to-transparent" />
+      {/* ── Featured Game Cards Grid ── */}
+      <section className="pb-10 pt-2 sm:pb-16">
+        <Container className="max-w-6xl">
+          <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {featuredGames.map((game, i) => (
+              <a
+                key={game.slug}
+                href={`#${game.slug}`}
+                className="group block"
+                style={{ animationDelay: `${i * 80}ms` }}
+              >
+                <div className="relative overflow-hidden rounded-xl border border-emerald-200/18 transition-all duration-300 group-hover:border-emerald-200/36 group-hover:shadow-[0_0_32px_rgba(95,202,148,0.08)]">
+                  <div className="relative aspect-[16/10]">
+                    <Image
+                      src={game.media.src}
+                      alt={game.media.alt}
+                      fill
+                      sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 94vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      style={{ objectPosition: game.media.objectPosition ?? "center center" }}
+                    />
+                  </div>
                 </div>
-                <div className="p-4">
-                  <p className="font-display text-xl text-mist-50">{item.title}</p>
-                  <p className="mt-1 text-[0.66rem] uppercase tracking-[0.14em] text-mist-300/70">{item.note}</p>
-                </div>
-              </article>
+                <h3 className="mt-3.5 font-display text-xl text-mist-50 transition-colors duration-200 group-hover:text-emerald-200">
+                  {game.title}
+                </h3>
+                <p className="mt-1 text-sm leading-relaxed text-mist-200/65">
+                  {game.shortDescription ?? game.description}
+                </p>
+              </a>
             ))}
           </div>
         </Container>
-      </Section>
+      </section>
+
+      {/* ── Divider ── */}
+      <Container className="max-w-6xl">
+        <div className="h-px bg-emerald-200/10" />
+      </Container>
+
+      {/* ── Spotlight Sections ── */}
+      {featuredGames.map((game, index) => (
+        <section
+          key={game.slug}
+          id={game.slug}
+          className="py-14 sm:py-20"
+        >
+          <Container className="max-w-6xl">
+            <div className={`grid items-center gap-8 lg:grid-cols-2 lg:gap-12 ${index % 2 === 1 ? "lg:[direction:rtl]" : ""}`}>
+              {/* Image */}
+              <div className="relative overflow-hidden rounded-xl border border-emerald-200/14 lg:[direction:ltr]">
+                <div className="relative aspect-[16/10]">
+                  <Image
+                    src={game.media.src}
+                    alt={game.media.alt}
+                    fill
+                    sizes="(min-width:1024px) 48vw, 94vw"
+                    className="object-cover"
+                    style={{ objectPosition: game.media.objectPosition ?? "center center" }}
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-bg-950/40 via-transparent to-transparent" />
+                </div>
+              </div>
+
+              {/* Info */}
+              <div className="lg:[direction:ltr]">
+                <div className="flex items-center gap-3">
+                  <span className="inline-block rounded-full border border-emerald-200/24 bg-emerald-300/10 px-3 py-1 text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-emerald-200">
+                    {game.stage}
+                  </span>
+                  <span className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-mist-300/50">
+                    {game.genre}
+                  </span>
+                </div>
+
+                <h2 className="mt-4 font-display text-[clamp(2rem,5vw,3.2rem)] leading-[0.92] tracking-tight text-mist-50">
+                  {game.title}
+                </h2>
+                <p className="mt-1 text-sm font-medium text-emerald-200/60">{game.subtitle}</p>
+
+                <p className="mt-5 text-base leading-relaxed text-mist-200/75">
+                  {game.description}
+                </p>
+
+                {game.mark && (
+                  <div className="mt-6 flex items-center gap-3">
+                    <div className="overflow-hidden rounded-lg border border-emerald-200/14 bg-bg-900/60 p-1">
+                      <Image
+                        src={game.mark.src}
+                        alt={game.mark.alt}
+                        width={40}
+                        height={40}
+                        className="h-9 w-9 object-cover"
+                      />
+                    </div>
+                    <span className="text-xs text-mist-300/50">by ForestlyGames</span>
+                  </div>
+                )}
+
+                <div className="mt-6">
+                  <span className="inline-flex items-center gap-2 rounded-lg bg-emerald-400/90 px-5 py-2.5 text-sm font-semibold text-bg-950 transition-all duration-200 hover:bg-emerald-300 hover:shadow-[0_0_20px_rgba(95,202,148,0.3)]">
+                    <svg className="h-4 w-4" viewBox="0 0 24 24" fill="currentColor">
+                      <path d="M8 5v14l11-7z" />
+                    </svg>
+                    Play on Roblox
+                  </span>
+                </div>
+              </div>
+            </div>
+          </Container>
+
+          {/* Section divider */}
+          {index < featuredGames.length - 1 && (
+            <Container className="mt-14 max-w-6xl sm:mt-20">
+              <div className="h-px bg-emerald-200/8" />
+            </Container>
+          )}
+        </section>
+      ))}
+
+      {/* ── More Games ── */}
+      {otherGames.length > 0 && (
+        <>
+          <Container className="max-w-6xl">
+            <div className="h-px bg-emerald-200/10" />
+          </Container>
+          <section className="py-14 sm:py-20">
+            <Container className="max-w-6xl">
+              <h2 className="text-center font-display text-[clamp(1.6rem,4vw,2.6rem)] tracking-tight text-mist-50">
+                More Games
+              </h2>
+              <p className="mx-auto mt-2 max-w-md text-center text-sm text-mist-300/55">
+                Additional titles from our catalog.
+              </p>
+              <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+                {otherGames.map((game) => (
+                  <div key={game.slug} className="group">
+                    <div className="relative overflow-hidden rounded-xl border border-emerald-200/14 transition-all duration-300 group-hover:border-emerald-200/30">
+                      <div className="relative aspect-[16/10]">
+                        <Image
+                          src={game.media.src}
+                          alt={game.media.alt}
+                          fill
+                          sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 94vw"
+                          className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                          style={{ objectPosition: game.media.objectPosition ?? "center center" }}
+                        />
+                      </div>
+                    </div>
+                    <h3 className="mt-3 font-display text-lg text-mist-50">{game.title}</h3>
+                    <p className="mt-1 text-sm leading-relaxed text-mist-200/60">{game.description}</p>
+                  </div>
+                ))}
+              </div>
+            </Container>
+          </section>
+        </>
+      )}
+
+      {/* ── Legacy Archive ── */}
+      <Container className="max-w-6xl">
+        <div className="h-px bg-emerald-200/10" />
+      </Container>
+      <section className="pb-20 pt-14 sm:pb-28 sm:pt-20">
+        <Container className="max-w-6xl">
+          <h2 className="text-center font-display text-[clamp(1.6rem,4vw,2.6rem)] tracking-tight text-mist-50">
+            Legacy Archive
+          </h2>
+          <p className="mx-auto mt-2 max-w-md text-center text-sm text-mist-300/55">
+            Older titles from our earlier catalog.
+          </p>
+          <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+            {archiveHighlights.map((item) => (
+              <div key={item.title} className="group">
+                <div className="relative overflow-hidden rounded-xl border border-emerald-200/12 transition-all duration-300 group-hover:border-emerald-200/26">
+                  <div className="relative aspect-[4/3]">
+                    <Image
+                      src={item.image.src}
+                      alt={item.image.alt}
+                      fill
+                      sizes="(min-width:1024px) 30vw, (min-width:640px) 45vw, 94vw"
+                      className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                      style={{ objectPosition: item.image.objectPosition }}
+                    />
+                  </div>
+                </div>
+                <h3 className="mt-3 font-display text-lg text-mist-50">{item.title}</h3>
+                <p className="mt-0.5 text-xs uppercase tracking-[0.14em] text-mist-300/50">{item.note}</p>
+              </div>
+            ))}
+          </div>
+        </Container>
+      </section>
     </>
   );
 }
