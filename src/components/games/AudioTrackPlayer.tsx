@@ -89,12 +89,10 @@ export function AudioTrackPlayer({
         ref={audioRef}
         src={src}
         preload="auto"
+        loop
         onPlay={() => setIsPlaying(true)}
         onPause={() => setIsPlaying(false)}
-        onEnded={() => {
-          setIsPlaying(false);
-          setPosition(0);
-        }}
+        onEnded={() => setPosition(0)}
         onLoadedMetadata={syncDuration}
         onDurationChange={syncDuration}
         onCanPlay={syncDuration}

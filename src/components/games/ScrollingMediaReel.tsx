@@ -3,10 +3,13 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import Image from "next/image";
 
-type MediaImage = {
-  src: string;
-  alt: string;
-};
+import { ImageLightbox, type MediaItem } from "@/components/games/ImageLightbox";
+
+function getMediaKind(src: string, kind?: "image" | "video"): "image" | "video" {
+  if (kind) return kind;
+  const ext = src.split(".").pop()?.toLowerCase();
+  return ext === "mp4" || ext === "webm" ? "video" : "image";
+}
 
 type AccentColor = "gold" | "emerald" | "azure" | "moss";
 
@@ -20,11 +23,18 @@ const borderByAccent: Record<AccentColor, string> = {
   moss: "border-emerald-200/16",
 };
 
+const hoverGlowByAccent: Record<AccentColor, string> = {
+  gold: "hover:shadow-[0_8px_28px_-6px_rgba(222,186,120,0.22)]",
+  emerald: "hover:shadow-[0_8px_28px_-6px_rgba(95,202,148,0.2)]",
+  azure: "hover:shadow-[0_8px_28px_-6px_rgba(121,201,255,0.22)]",
+  moss: "hover:shadow-[0_8px_28px_-6px_rgba(85,190,136,0.18)]",
+};
+
 export function ScrollingMediaReel({
   images,
   accent,
 }: {
-  images: MediaImage[];
+  images: MediaItem[];
   accent: AccentColor;
 }) {
   const scrollerRef = useRef<HTMLDivElement | null>(null);
@@ -124,29 +134,42 @@ export function ScrollingMediaReel({
         onBlurCapture={() => setIsPaused(false)}
       >
         <div className="flex w-max gap-4 pr-2">
-          {loopedImages.map((image, index) => {
-            const parts = image.alt.split("|").map((part) => part.trim());
+          {loopedImages.map((item, index) => {
+            const parts = item.alt.split("|").map((part) => part.trim());
             const title = parts[0] ?? "Project media";
             const note = parts[1] ?? "Captured from production footage.";
+            const isVideo = getMediaKind(item.src, item.kind) === "video";
 
             return (
-              <figure
-                key={`${image.src}-${index}`}
-                className={`games-frame group relative aspect-video w-[min(78vw,22rem)] shrink-0 overflow-hidden border bg-bg-900/30 sm:w-[17.5rem] lg:w-[18.5rem] ${borderByAccent[accent]}`}
-              >
-                <Image
-                  src={image.src}
-                  alt={title}
-                  fill
-                  sizes="(min-width:1280px) 23rem, (min-width:640px) 22rem, 84vw"
-                  className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
-                />
-                <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-bg-950/80 via-bg-950/18 to-transparent" />
-                <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
-                  <p className="font-display text-[0.94rem] leading-none text-mist-50">{title}</p>
-                  <p className="mt-1 text-xs leading-relaxed text-mist-100/78">{note}</p>
-                </figcaption>
-              </figure>
+              <ImageLightbox key={`${item.src}-${index}`} image={item}>
+                <figure
+                  className={`games-frame group relative aspect-video w-[min(78vw,22rem)] shrink-0 cursor-pointer overflow-hidden border bg-bg-900/30 transition-all duration-300 hover:-translate-y-0.5 sm:w-[17.5rem] lg:w-[18.5rem] ${borderByAccent[accent]} ${hoverGlowByAccent[accent]}`}
+                >
+                  {isVideo ? (
+                    <video
+                      src={item.src}
+                      autoPlay
+                      muted
+                      loop
+                      playsInline
+                      className="absolute inset-0 h-full w-full object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+                  ) : (
+                    <Image
+                      src={item.src}
+                      alt={title}
+                      fill
+                      sizes="(min-width:1280px) 23rem, (min-width:640px) 22rem, 84vw"
+                      className="object-cover transition-transform duration-700 ease-out group-hover:scale-[1.03]"
+                    />
+                  )}
+                  <div className="pointer-events-none absolute inset-0 bg-linear-to-t from-bg-950/80 via-bg-950/18 to-transparent" />
+                  <figcaption className="pointer-events-none absolute inset-x-0 bottom-0 p-3">
+                    <p className="font-display text-[0.94rem] leading-none text-mist-50">{title}</p>
+                    <p className="mt-1 text-xs leading-relaxed text-mist-100/78">{note}</p>
+                  </figcaption>
+                </figure>
+              </ImageLightbox>
             );
           })}
         </div>
