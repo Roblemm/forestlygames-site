@@ -93,16 +93,6 @@ export function HeroSection() {
                 className="absolute inset-0 h-full w-full object-cover"
                 src="/media/fg-showcase-260129-v003.mp4"
               />
-              <div
-                aria-hidden
-                data-hero-media-layer="far"
-                className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_20%_24%,rgba(137,234,183,0.24),transparent_46%),radial-gradient(circle_at_76%_74%,rgba(216,179,108,0.22),transparent_44%)]"
-              />
-              <div
-                aria-hidden
-                data-hero-media-layer="near"
-                className="pointer-events-none absolute inset-0 bg-[linear-gradient(90deg,transparent_0%,rgba(4,10,8,0.45)_52%,rgba(4,10,8,0.72)_100%)]"
-              />
               <div className="pointer-events-none absolute left-4 top-4 sm:left-5 sm:top-5">
                 <p className="rounded-md border border-mist-50/12 bg-bg-950/50 px-2.5 py-1 text-[0.65rem] font-semibold uppercase tracking-[0.2em] text-emerald-100/92 backdrop-blur-sm">
                   Studio Reel
