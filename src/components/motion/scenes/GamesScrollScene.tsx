@@ -35,7 +35,8 @@ export function GamesScrollScene({ children, className }: GamesScrollSceneProps)
           const isDesktop = Boolean(mq.conditions?.isDesktop);
           const reduce = Boolean(mq.conditions?.reduce);
 
-          if (reduce) {
+          // Only run scroll-linked animations on desktop and when motion is allowed
+          if (reduce || !isDesktop) {
             return;
           }
 

@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import Image from "next/image";
-import Link from "next/link";
 
 import { AudioTrackPlayer } from "@/components/games/AudioTrackPlayer";
 import { ImageLightbox } from "@/components/games/ImageLightbox";
@@ -31,7 +30,7 @@ type CreatorSpot = {
   name: string;
   note: string;
   href: string;
-  image: string;
+  videoId: string;
 };
 
 type AccentColor = "gold" | "emerald" | "azure" | "moss";
@@ -204,22 +203,17 @@ function AudioDeck({
   accent,
   columns = 1,
   className = "",
-  twoLine = false,
 }: {
   tracks: AudioTrack[];
   accent: AccentColor;
   columns?: 1 | 2 | 3;
   className?: string;
-  twoLine?: boolean;
 }) {
   if (tracks.length === 0) {
     return null;
   }
 
   const a = accentMap[accent];
-  const laneBorder =
-    accent === "gold" ? "border-gold-300/14" : accent === "azure" ? "border-azure-300/14" : "border-emerald-200/14";
-
   const groupCount = Math.max(1, Math.min(columns, tracks.length));
   const groupedTracks = Array.from({ length: groupCount }, (_, groupIndex) =>
     tracks.filter((_, trackIndex) => trackIndex % groupCount === groupIndex),
@@ -249,41 +243,18 @@ function AudioDeck({
     );
   };
 
-  if (twoLine) {
-    return (
-      <div className={`grid gap-3 ${columns === 3 ? "xl:grid-cols-3" : columns === 2 ? "lg:grid-cols-2" : "grid-cols-1"} ${className}`}>
-        {groupedTracks.map((group, groupIndex) => (
-          <div key={`${accent}-deck-${groupIndex}`} className="space-y-2.5">
-            {group.map((track) => (
-              <div
-                key={`${track.src}-${track.title}`}
-                className={`games-frame border bg-bg-900/12 px-3 py-2.5 ${a.audioBorder}`}
-              >
-                <div className="mb-2 flex items-center gap-2">
-                  <AudioThumb track={track} />
-                  <p className={`truncate text-[0.66rem] font-semibold uppercase tracking-[0.16em] ${a.textMuted}`}>{track.title}</p>
-                </div>
-                <AudioTrackPlayer src={track.src} accent={accent} label={track.title} durationSeconds={track.durationSeconds} />
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-    );
-  }
-
   return (
     <div className={`grid gap-3 ${columns === 3 ? "xl:grid-cols-3" : columns === 2 ? "lg:grid-cols-2" : "grid-cols-1"} ${className}`}>
       {groupedTracks.map((group, groupIndex) => (
-        <div key={`${accent}-deck-${groupIndex}`} className={`games-audio-sheet overflow-hidden border bg-bg-900/20 ${a.audioBorder}`}>
-          {group.map((track, laneIndex) => (
+        <div key={`${accent}-deck-${groupIndex}`} className="space-y-2.5">
+          {group.map((track) => (
             <div
               key={`${track.src}-${track.title}`}
-              className={`games-audio-lane grid gap-3 px-3 py-3 lg:grid-cols-[11.25rem_minmax(0,1fr)] lg:items-center ${laneIndex === 0 ? "" : `border-t ${laneBorder}`}`}
+              className={`games-frame border bg-bg-900/12 px-3 py-2.5 ${a.audioBorder}`}
             >
-              <div className="flex min-w-0 items-center gap-2.5">
+              <div className="mb-2 flex items-center gap-2">
                 <AudioThumb track={track} />
-                <p className={`truncate text-[0.68rem] font-semibold uppercase tracking-[0.14em] ${a.textMuted}`}>{track.title}</p>
+                <p className={`truncate text-[0.66rem] font-semibold uppercase tracking-[0.16em] ${a.textMuted}`}>{track.title}</p>
               </div>
               <AudioTrackPlayer src={track.src} accent={accent} label={track.title} durationSeconds={track.durationSeconds} />
             </div>
@@ -379,6 +350,36 @@ const encavedImages: MediaImage[] = [
   { src: "/games/encaved/lobby-entrance-4.png", alt: "Lobby Entrance | Main entry transition into the cave network." },
   { src: "/games/encaved/mining-station-house-2.png", alt: "Station Housing | Settlement extension around the station core." },
   { src: "/games/encaved/cave-wide.png", alt: "Cave Wide | Broader cave layout and lighting pass." },
+  { src: "/games/encaved/cave-entrance-1.png", alt: "Cave Entrance 1 | Additional cave entrance angle." },
+  { src: "/games/encaved/cave-entrance-2.png", alt: "Cave Entrance 2 | Alternate cave entrance pass." },
+  { src: "/games/encaved/mining-station-house.png", alt: "Station Housing 1 | Mining station house variant." },
+  { src: "/games/encaved/mining-station-ig-1.png", alt: "Mining Station IG 1 | In-game station environment pass." },
+  { src: "/games/encaved/mining-station-tunnel.png", alt: "Mining Station Tunnel | Tunnel connection near station." },
+  { src: "/games/encaved/mining-tunnel-entrance.png", alt: "Mining Tunnel Entrance | Entrance capture for deeper routes." },
+  { src: "/games/encaved/ores.png", alt: "Ores | Resource node and crystal signage capture." },
+  { src: "/games/encaved/lore-image.png", alt: "Lore Image | Story/lore UI capture." },
+  { src: "/games/encaved/upgrade-frame.png", alt: "Upgrade Frame | Upgrade UI frame capture." },
+  { src: "/games/encaved/face-image.png", alt: "Face Image | Red tunnel encounter frame." },
+  { src: "/games/encaved/glitched-eyes.png", alt: "Glitched Eyes | Horror visual effect frame." },
+  { src: "/games/encaved/grip.png", alt: "Grip | Character/pose capture." },
+  { src: "/games/encaved/emily.png", alt: "Emily | Character artwork frame." },
+  { src: "/games/encaved/emily-head.png", alt: "Emily Head | Character close-up frame." },
+  { src: "/games/encaved/john.png", alt: "John | Character artwork frame." },
+  { src: "/games/encaved/lil-vera.png", alt: "Lil Vera | Character artwork variant." },
+  { src: "/games/encaved/liora-moth.png", alt: "Liora Moth | Character concept frame." },
+  { src: "/games/encaved/liora-moth-2.png", alt: "Liora Moth 2 | Character concept frame." },
+  { src: "/games/encaved/skeleton-vera.png", alt: "Skeleton Vera | Character horror variant." },
+  { src: "/games/encaved/vera-jumpscare.png", alt: "Vera Jumpscare | Character jumpscare frame." },
+  { src: "/games/encaved/vera-stare.png", alt: "Vera Stare | Character stare frame." },
+  { src: "/games/encaved/vera-roblox-model.png", alt: "Vera Roblox Model | Model render frame." },
+  { src: "/games/encaved/thalorn-design.png", alt: "Thalorn Design | Character design frame." },
+  { src: "/games/encaved/thalorn-design-old.png", alt: "Thalorn Design Old | Earlier design frame." },
+  { src: "/games/encaved/thalorn-from-behind.png", alt: "Thalorn From Behind | Character turnaround frame." },
+  { src: "/games/encaved/thalorn-roblox-model.png", alt: "Thalorn Roblox Model | Model render frame." },
+  { src: "/games/encaved/thalorn-roblox-model-2.png", alt: "Thalorn Roblox Model 2 | Additional model render frame." },
+  { src: "/games/encaved/thalorn-roblox-model-b1.png", alt: "Thalorn Roblox Model B1 | Model variant frame." },
+  { src: "/games/encaved/thalorn-roblox-model-b2.png", alt: "Thalorn Roblox Model B2 | Model variant frame." },
+  { src: "/games/encaved/swinging-lights-intr.mp4", alt: "Swinging Lights Intro | Supplemental intro clip.", kind: "video" },
   { src: "/games/encaved/website-vid-1.mp4", alt: "Website Video 1 | Supplemental dev clip.", kind: "video" },
   { src: "/games/encaved/website-vid-2.mp4", alt: "Website Video 2 | Supplemental dev clip.", kind: "video" },
 ];
@@ -395,73 +396,52 @@ const encavedTracks: AudioTrack[] = [
 const bossBattlesImages: MediaImage[] = [
   { src: "/games/boss-battles/thumbnail.png", alt: "Boss Battles Main Art | Dungeon combat hero image from live build." },
   { src: "/games/boss-battles/noob-throw-og.png", alt: "Teleport Thumbnail | Event key art with encounter spotlighting." },
+  { src: "/games/boss-battles/noob-throw.png", alt: "Noob Throw Variant | Alternate key art variant." },
   { src: "/games/boss-battles/fnaf-dungeon.png", alt: "FNAF Fights Dungeon | Event dungeon with unique color and effects." },
+  { src: "/games/boss-battles/fnaf-dungeon-1.png", alt: "FNAF Dungeon 1 | Early dungeon layout pass." },
+  { src: "/games/boss-battles/fnaf-dungeon-2.png", alt: "FNAF Dungeon 2 | Additional dungeon angle." },
+  { src: "/games/boss-battles/fnaf-frights.png", alt: "FNAF Frights | Event promo frame." },
   { src: "/games/boss-battles/dungeon-portal-screenshot.png", alt: "Dungeon Portals | Multi-world gateway layout from gameplay." },
   { src: "/games/boss-battles/chests-inventory.png", alt: "Inventory + Chests | Loot and progression panel capture." },
   { src: "/games/boss-battles/missions-screenshot.png", alt: "Mission Board | Active objectives and route planning panel." },
   { src: "/games/boss-battles/lobby-shot.png", alt: "Lobby Shot | Session staging area before dungeon runs." },
+  { src: "/games/boss-battles/anyaa.png", alt: "Anyaa Artwork | Character concept art." },
+  { src: "/games/boss-battles/brunoo.png", alt: "Brunoo Artwork | Character concept art." },
+  { src: "/games/boss-battles/mirabel-real.png", alt: "Mirabel Real | Character render variant." },
+  { src: "/games/boss-battles/triple-offers.png", alt: "Triple Offers | In-game offers panel capture." },
+  { src: "/games/boss-battles/defeat-entombed.png", alt: "Defeat Entombed | Dungeon completion stamp." },
+  { src: "/games/boss-battles/defeat-nature.png", alt: "Defeat Nature | Dungeon completion stamp." },
+  { src: "/games/boss-battles/defeat-winter.png", alt: "Defeat Winter | Dungeon completion stamp." },
+  { src: "/games/boss-battles/boss-battle-vid.mp4", alt: "Boss Battle Vid | Gameplay clip from media folder.", kind: "video" },
+  { src: "/games/boss-battles/summoning.mp4", alt: "Summoning | Gameplay clip from media folder.", kind: "video" },
   { src: "/games/boss-battles/fnaf-hi.png", alt: "FNAF Event Art | Character-focused event visual treatment." },
 ];
 
 const bossBattlesTracks: AudioTrack[] = [
-  { title: "Boss Battles", src: "/games/boss-battles/music-noob-dungeon.mp3", durationSeconds: 128, icon: "/games/boss-battles/noob-throw-og.png" },
-  { title: "Sunflowers and Spiderwebs", src: "/games/boss-battles/music-desert-dungeon.mp3", durationSeconds: 326, icon: "/games/boss-battles/fnaf-dungeon.png" },
-  { title: "Warning--Strings Attached", src: "/games/boss-battles/music-fire-lava-dungeon.mp3", durationSeconds: 109, icon: "/games/boss-battles/dungeon-portal-screenshot.png" },
-  { title: "Interwebbed", src: "/games/boss-battles/music-noob-dungeon.mp3", durationSeconds: 109, icon: "/games/boss-battles/mirabel-hi.png" },
-  { title: "Entombed", src: "/games/boss-battles/music-desert-dungeon.mp3", durationSeconds: 109, icon: "/games/boss-battles/fire-icon-mirabel.png" },
-  { title: "Incoming!", src: "/games/boss-battles/music-fire-lava-dungeon.mp3", durationSeconds: 109, icon: "/games/boss-battles/portal-teleport.png" },
+  { title: "Boss Battles", src: "/games/boss-battles/boss-battles.mp3", durationSeconds: 128.03, icon: "/games/boss-battles/noob-throw-og.png" },
+  { title: "Sunflowers and Spiderwebs", src: "/games/boss-battles/sunflowers-and-spiderwebs.mp3", durationSeconds: 326.43, icon: "/games/boss-battles/fnaf-dungeon.png" },
+  { title: "Warning--Strings Attached", src: "/games/boss-battles/warning-strings-attached.mp3", durationSeconds: 108.83, icon: "/games/boss-battles/dungeon-portal-screenshot.png" },
+  { title: "Interwebbed", src: "/games/boss-battles/interwebbed.mp3", durationSeconds: 108.83, icon: "/games/boss-battles/mirabel-hi.png" },
+  { title: "Entombed", src: "/games/boss-battles/entombed.mp3", durationSeconds: 108.83, icon: "/games/boss-battles/fire-icon-mirabel.png" },
+  { title: "Incoming!", src: "/games/boss-battles/incoming.mp3", durationSeconds: 108.83, icon: "/games/boss-battles/portal-teleport.png" },
 ];
 
 const evilPetsTracks: AudioTrack[] = [
   { title: "Intro Track", src: "/games/evil-pets/intro-perfect.mp3", durationSeconds: 130.93, icon: "/games/evil-pets/logo.png" },
 ];
 
-const escapeBrunoImages: MediaImage[] = [
-  { src: "/games/escape-bruno/encanto-shot-1.png", alt: "Escape Bruno Hero | Main running sequence key frame." },
-  { src: "/games/escape-bruno/encanto-shot-3.png", alt: "Obstacle Route | Mid-run obstacle lane capture." },
-  { src: "/games/escape-bruno/encanto-shot-5.png", alt: "Encounter Peak | High tension pursuit frame." },
-  { src: "/games/escape-bruno/characters-menu.png", alt: "Characters Menu | Character selection and menu pass." },
-  { src: "/games/escape-bruno/chairs-scene.png", alt: "Chair Maze | Puzzle-like obstacle room transition." },
-  { src: "/games/escape-bruno/bruno.png", alt: "Bruno Artwork | Character-facing promotional key art." },
-];
+const escapeBrunoHeaderImage: MediaImage = {
+  src: "https://static.wixstatic.com/media/e4622a_6ab8435975154904a224919311260975~mv2.png/v1/fill/w_840,h_323,al_c,lg_1,q_85,enc_avif,quality_auto/e4622a_6ab8435975154904a224919311260975~mv2.png",
+  alt: "Escape Bruno Running Head | Game header.",
+};
 
 const creatorCoverage: CreatorSpot[] = [
-  {
-    name: "FGTeeV",
-    note: "3.2M+ coverage views",
-    href: "https://www.youtube.com/watch?v=gJBWB2fpCQ8",
-    image: "/games/escape-bruno/encanto-shot-2.png",
-  },
-  {
-    name: "LankyBox",
-    note: "2.1M+ coverage views",
-    href: "https://www.youtube.com/watch?v=AocMjuPPjFE",
-    image: "/games/escape-bruno/bruno.png",
-  },
-  {
-    name: "DenisDaily",
-    note: "9M+ subs reaction video",
-    href: "https://www.youtube.com/watch?v=XxteSlNAd2s",
-    image: "/games/escape-bruno/encanto-shot-6.png",
-  },
-  {
-    name: "Cherry Pop Productions",
-    note: "900K+ coverage views",
-    href: "https://www.youtube.com/watch?v=W7gjiPei6s0",
-    image: "/games/escape-bruno/bruno.png",
-  },
-  {
-    name: "GravyCatMan",
-    note: "4M+ subs reaction video",
-    href: "https://www.youtube.com/watch?v=M2YAK8UDoaA",
-    image: "/games/escape-bruno/encanto-shot-8.png",
-  },
-  {
-    name: "Brancoala Games",
-    note: "1.3M+ coverage views",
-    href: "https://www.youtube.com/watch?v=c8DUMxLkMFk",
-    image: "/games/escape-bruno/bruno.png",
-  },
+  { name: "FGTeeV", note: "3.2M+ views", href: "https://www.youtube.com/watch?v=gJBWB2fpCQ8", videoId: "gJBWB2fpCQ8" },
+  { name: "LankyBox", note: "2.1M+ views", href: "https://www.youtube.com/watch?v=AocMjuPPjFE", videoId: "AocMjuPPjFE" },
+  { name: "DenisDaily", note: "9M+ views", href: "https://www.youtube.com/watch?v=XxteSlNAd2s", videoId: "XxteSlNAd2s" },
+  { name: "Cherry Pop Productions", note: "900K+ views", href: "https://www.youtube.com/watch?v=W7gjiPei6s0", videoId: "W7gjiPei6s0" },
+  { name: "GravyCatMan", note: "4M+ views", href: "https://www.youtube.com/watch?v=M2YAK8UDoaA", videoId: "M2YAK8UDoaA" },
+  { name: "Brancoala Games", note: "1.3M+ views", href: "https://www.youtube.com/watch?v=c8DUMxLkMFk", videoId: "c8DUMxLkMFk" },
 ];
 
 const evilPetsImages: MediaImage[] = [
@@ -477,6 +457,11 @@ const evilPetsImages: MediaImage[] = [
   { src: "/games/evil-pets/shot-9.png", alt: "Capture Shot 9 | Gameplay environment pass." },
   { src: "/games/evil-pets/shot-1.png", alt: "Capture Shot 1 | Gameplay environment pass." },
   { src: "/games/evil-pets/screenshot-33.png", alt: "Hub Revisit | Additional angle from the main hall." },
+  { src: "/games/evil-pets/fence-teaser.mp4", alt: "Fence Teaser | Short social teaser clip.", kind: "video" },
+  { src: "/games/evil-pets/quick-draw.mp4", alt: "Quick Draw | Social gameplay clip.", kind: "video" },
+  { src: "/games/evil-pets/clip-inshot.mp4", alt: "InShot Clip | Social edit gameplay clip.", kind: "video" },
+  { src: "/games/evil-pets/clip-snaptik-1.mp4", alt: "SnapTik Clip 1 | Vertical social gameplay clip.", kind: "video" },
+  { src: "/games/evil-pets/clip-snaptik-2.mp4", alt: "SnapTik Clip 2 | Vertical social gameplay clip.", kind: "video" },
 ];
 
 const turningRedImages: MediaImage[] = [
@@ -542,7 +527,7 @@ const gameMeta = {
 
 export const metadata: Metadata = {
   title: "Games",
-  description: "ForestlyGames game sections with real project media and creator coverage.",
+  description: "ForestlyGames game sections with real project media and creator features.",
 };
 
 export default function GamesPage() {
@@ -573,10 +558,10 @@ export default function GamesPage() {
     },
     {
       href: "#escape-bruno",
-      title: "Escape Bruno",
+      title: "Escape Bruno Running Head",
       stage: "Released",
-      image: escapeBrunoImages[0],
-      note: "Creator-focused horror run with gameplay roll and high-view YouTube coverage.",
+      image: escapeBrunoHeaderImage,
+      note: "Creator-focused horror run with high-view YouTube features.",
       accent: "gold" as const,
     },
   ];
@@ -613,7 +598,7 @@ export default function GamesPage() {
                   { href: "#roempires", label: "RoEmpires", accent: "gold" as const },
                   { href: "#encaved", label: "Encaved", accent: "emerald" as const },
                   { href: "#boss-battles", label: "Boss Battles", accent: "azure" as const },
-                  { href: "#escape-bruno", label: "Escape Bruno", accent: "gold" as const },
+                  { href: "#escape-bruno", label: "Escape Bruno Running Head", accent: "gold" as const },
                   { href: "#evil-pets", label: "Evil Pets", accent: "emerald" as const },
                   { href: "#panda-tycoon", label: "Panda Tycoon", accent: "gold" as const },
                   { href: "#raise-a-brainrot", label: "Raise a Brainrot", accent: "azure" as const },
@@ -673,6 +658,7 @@ export default function GamesPage() {
                       muted
                       loop
                       playsInline
+                      preload="metadata"
                       className="h-full w-full object-cover"
                     />
                   ) : (
@@ -710,7 +696,6 @@ export default function GamesPage() {
                     controls
                     preload="metadata"
                     playsInline
-                    poster="/games/roempires/trailerpic.png"
                     src="/games/roempires/trailer.mp4"
                   />
                 </div>
@@ -828,7 +813,7 @@ export default function GamesPage() {
             </div>
 
             <div className="grid gap-5 xl:grid-cols-[0.34fr_0.8fr_0.34fr] xl:items-stretch">
-              <AudioDeck tracks={encavedTracks.slice(0, 3)} accent="emerald" columns={1} twoLine />
+              <AudioDeck tracks={encavedTracks.slice(0, 3)} accent="emerald" columns={1} />
 
               <div className="h-full min-h-0">
                 <ImageLightbox image={encavedImages[6]} triggerClassName="h-full block">
@@ -836,14 +821,14 @@ export default function GamesPage() {
                 </ImageLightbox>
               </div>
 
-              <AudioDeck tracks={encavedTracks.slice(3)} accent="emerald" columns={1} twoLine />
+              <AudioDeck tracks={encavedTracks.slice(3)} accent="emerald" columns={1} />
             </div>
 
             <section className="games-cut-panel border border-emerald-200/16 bg-bg-900/14 p-3">
               <p className="mb-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/76">
                 Scrolling Media Reel
               </p>
-              <ScrollingMediaReel images={encavedImages.slice(1)} accent="emerald" />
+              <ScrollingMediaReel images={encavedImages.slice(1)} accent="emerald" rows={2} />
             </section>
           </div>
         </Container>
@@ -885,7 +870,7 @@ export default function GamesPage() {
               <p className="mb-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-azure-300/76">
                 Scrolling Media Reel
               </p>
-              <ScrollingMediaReel images={bossBattlesImages.slice(1, 7)} accent="azure" />
+              <ScrollingMediaReel images={bossBattlesImages.slice(1)} accent="azure" />
             </section>
 
             <AudioDeck tracks={bossBattlesTracks} accent="azure" columns={2} />
@@ -904,64 +889,61 @@ export default function GamesPage() {
             <div className={`games-cut-panel border border-gold-300/20 bg-bg-900/16 px-4 py-4 sm:px-5 sm:py-5 ${accentMap.gold.glow}`}>
               <div className="grid gap-5 lg:grid-cols-[1.18fr_0.82fr] lg:items-start">
                 <div className="space-y-3 lg:pt-1">
-                  <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-gold-100/72">[ENCANTO] Released</p>
-                  <h2 data-games-scroll-heading className="font-display text-[clamp(1.9rem,4vw,3.1rem)] leading-[0.9] tracking-tight text-mist-50">Escape Bruno</h2>
+                  <p className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-gold-100/72">Released</p>
+                  <h2 data-games-scroll-heading className="font-display text-[clamp(1.9rem,4vw,3.1rem)] leading-[0.9] tracking-tight text-mist-50">Escape Bruno Running Head</h2>
                   <GenrePills genres={gameMeta.escapeBruno.genres} accent="gold" />
                   <p className="max-w-md text-sm leading-relaxed text-mist-200/82 sm:text-base">
                     {gameMeta.escapeBruno.description}
                   </p>
                 </div>
-                <ImageLightbox image={escapeBrunoImages[0]}>
-                <figure data-games-scroll-hero className={`games-frame relative aspect-[16/9] overflow-hidden border border-gold-300/24 lg:mx-auto lg:w-[20rem] cursor-pointer ${accentMap.gold.glow}`}>
+                <figure data-games-scroll-hero className={`games-frame overflow-hidden border border-gold-300/24 lg:mx-auto lg:max-w-xl ${accentMap.gold.glow}`}>
                   <Image
-                    src={escapeBrunoImages[0].src}
-                    alt={escapeBrunoImages[0].alt}
-                    fill
-                    sizes="(min-width:1024px) 20rem, 94vw"
-                    className="object-cover"
+                    src={escapeBrunoHeaderImage.src}
+                    alt={escapeBrunoHeaderImage.alt}
+                    width={1680}
+                    height={646}
+                    sizes="(min-width:1024px) 36rem, 94vw"
+                    className="h-auto w-full object-contain"
                   />
                 </figure>
-              </ImageLightbox>
               </div>
             </div>
 
-            <section className="games-cut-panel border border-gold-300/16 bg-bg-900/14 p-3">
-              <p className="mb-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-gold-100/76">
-                Scrolling Media Reel
-              </p>
-              <ScrollingMediaReel images={escapeBrunoImages.slice(1)} accent="gold" />
-            </section>
-
             <div className="games-cut-panel border border-gold-300/16 bg-bg-900/14 p-4">
               <p className="mb-4 text-xs font-semibold uppercase tracking-[0.2em] text-gold-100/70">
-                Creator Coverage
+                Views
               </p>
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {creatorCoverage.map((creator) => (
-                  <Link
-                    key={creator.href}
-                    href={creator.href}
-                    target="_blank"
-                    rel="noreferrer noopener"
-                    className="games-frame group block overflow-hidden border border-gold-300/18 bg-bg-900/24 transition-all duration-300 hover:border-gold-300/36 hover:shadow-[0_0_30px_8px_rgba(222,186,120,0.06)]"
+                  <article
+                    key={creator.videoId}
+                    className="games-frame overflow-hidden border border-gold-300/18 bg-bg-900/24"
                   >
-                    <div className="relative aspect-video overflow-hidden">
-                      <Image
-                        src={creator.image}
-                        alt={`${creator.name} thumbnail`}
-                        fill
-                        sizes="400px"
-                        className="object-cover transition-transform duration-500 group-hover:scale-[1.04]"
+                    <div className="relative aspect-video">
+                      <iframe
+                        className="absolute inset-0 h-full w-full"
+                        src={`https://www.youtube-nocookie.com/embed/${creator.videoId}`}
+                        title={`${creator.name} — Escape Bruno Running Head`}
+                        loading="lazy"
+                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                        referrerPolicy="strict-origin-when-cross-origin"
+                        allowFullScreen
                       />
-                      <div className="absolute inset-0 bg-linear-to-t from-bg-950/60 via-transparent to-transparent" />
                     </div>
                     <div className="p-3.5">
-                      <p className="font-display text-xl leading-none text-mist-50">{creator.name}</p>
+                      <a
+                        href={creator.href}
+                        target="_blank"
+                        rel="noreferrer noopener"
+                        className="font-display text-xl leading-none text-mist-50 hover:text-gold-200"
+                      >
+                        {creator.name}
+                      </a>
                       <p className="mt-1.5 text-[0.65rem] font-semibold uppercase tracking-[0.14em] text-gold-300/80">
                         {creator.note}
                       </p>
                     </div>
-                  </Link>
+                  </article>
                 ))}
               </div>
             </div>
@@ -1016,21 +998,7 @@ export default function GamesPage() {
               </div>
             </div>
 
-            <div className="grid gap-4 lg:grid-cols-[1.02fr_0.65fr] lg:items-start">
-              <VideoCard
-                clip={{ title: "Fence Teaser", src: "/games/evil-pets/fence-teaser.mp4" }}
-                poster="/games/evil-pets/thumbnail.png"
-                accent="moss"
-              />
-              <div className="space-y-4">
-                <AudioDeck tracks={evilPetsTracks} accent="moss" columns={1} />
-                <VideoCard
-                  clip={{ title: "Quick Draw", src: "/games/evil-pets/quick-draw.mp4" }}
-                  poster="/games/evil-pets/hq-main.png"
-                  accent="moss"
-                />
-              </div>
-            </div>
+            <AudioDeck tracks={evilPetsTracks} accent="moss" columns={1} />
 
             <section className="games-cut-panel border border-emerald-200/16 bg-bg-900/14 p-3">
               <p className="mb-3 text-[0.64rem] font-semibold uppercase tracking-[0.16em] text-emerald-200/76">

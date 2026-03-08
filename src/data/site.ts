@@ -3,7 +3,7 @@ import type { StudioPillar, Testimonial } from "@/types/site";
 export const siteConfig = {
   name: "ForestlyGames",
   description:
-    "ForestlyGames is a remote Roblox game studio focused on building, testing, and shipping games quickly.",
+    "ForestlyGames is a remote game development studio focused on building, testing, and shipping games quickly.",
   ctaLabel: "Start a Conversation",
   ctaHref: "/contact",
 } as const;
@@ -11,23 +11,23 @@ export const siteConfig = {
 export const heroProofChips: string[] = ["54M+ game visits", "6.3M+ hours played", "24M+ YouTube views"];
 
 export const studioNarrative: string[] = [
-  "ForestlyGames is a remote Roblox game studio focused on building, testing, and shipping games quickly.",
-  "We work through fast prototyping and short iteration cycles. Every cycle sharpens our execution.",
-  "Communication, initiative, and reliability keep projects moving. We are building with developers, collaborators, and investors who want to help ship more games.",
+  "ForestlyGames is a remote game development studio focused on building, testing, and shipping games quickly.",
+  "We work through fast prototyping and short iteration cycles. Ideas are tested quickly; not every prototype becomes a full game. Progress matters more than big unfinished ideas—a working feature beats a perfect plan.",
+  "We value communication over silence, speed over perfection, and initiative over waiting. You're not expected to know everything. Stay visible, communicate your work, and take initiative. Visibility and reliability matter more than raw hours.",
 ];
 
 export const studioPillars: StudioPillar[] = [
   {
-    title: "Ship Playable Builds Fast",
-    description: "A working feature in players' hands beats a perfect plan that never ships.",
+    title: "Communication over silence",
+    description: "Stay visible and share progress and blockers. Work lives in the right channels; when in doubt, ask. DevLogs and clear communication keep projects moving.",
   },
   {
-    title: "Iterate in Short Cycles",
-    description: "Ideas are tested quickly, measured, and either improved or replaced without wasting time.",
+    title: "Speed over perfection",
+    description: "We ship through fast prototyping and short iteration cycles. Ideas are tested quickly; a working feature beats a perfect plan. Progress matters more than big unfinished ideas.",
   },
   {
-    title: "Build With Accountability",
-    description: "Visible progress, clear communication, and consistent execution are the standard for every project.",
+    title: "Initiative over waiting",
+    description: "You're not expected to know everything. Take initiative, communicate early, stay consistent. Visibility and reliability matter more than raw hours.",
   },
 ];
 

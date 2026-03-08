@@ -14,6 +14,7 @@ export interface ContactMethod {
   href: string;
   action: string;
   detail: string;
+  iconSrc?: string;
 }
 
 export interface StudioPillar {

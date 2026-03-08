@@ -2,15 +2,17 @@ import type { ContactMethod } from "@/types/site";
 
 export const contactMethods: ContactMethod[] = [
   {
-    label: "Studio Email",
-    href: "mailto:hello@forestlygames.com",
-    action: "Email ForestlyGames",
-    detail: "Best for collaboration, hiring interest, and partner conversations.",
+    label: "ForestlyDevs",
+    href: "https://discord.gg/zXSvSjzpzk",
+    action: "Join ForestlyDevs",
+    detail: "Apply to the team, contact us for opportunities, and discuss collaboration in our developer server.",
+    iconSrc: "/brand/forestlydevs-discord-large.png",
   },
   {
-    label: "Project Inquiries",
-    href: "mailto:projects@forestlygames.com",
-    action: "Send Project Inquiry",
-    detail: "Share game prototypes, co-dev opportunities, or technical proposals.",
+    label: "ForestlyGames",
+    href: "https://discord.gg/emnSCY5wMv",
+    action: "Join ForestlyGames",
+    detail: "General community server for players, updates, events, and game discussions.",
+    iconSrc: "/brand/forestlygames-discord.png",
   },
 ];

@@ -66,7 +66,7 @@ export const games: Game[] = [
   },
   {
     slug: "escape-bruno",
-    title: "Escape Bruno",
+    title: "Escape Bruno Running Head",
     subtitle: "Obstacle Horror Run",
     description:
       "An obby game where players must outrun Bruno while navigating various obstacle filled maps.",
